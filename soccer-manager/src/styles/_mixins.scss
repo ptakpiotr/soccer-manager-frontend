@@ -1,0 +1,19 @@
+@use "./variables" as v;
+
+@mixin _responsive-view($mw) {
+  @media (max-width: $mw) {
+    @content;
+  }
+}
+
+@mixin mobile-view() {
+  @include _responsive-view(v.$mobile-view-width) {
+    @content;
+  }
+}
+
+@mixin tablet-view() {
+  @include _responsive-view(v.$tablet-view-width) {
+    @content;
+  }
+}

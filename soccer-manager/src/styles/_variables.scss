@@ -1,0 +1,14 @@
+$mobile-view-width: 368px;
+$tablet-view-width: 680px;
+
+$color-main: #228b22;
+$color-success: #355e3b;
+$color-text-light: #fefefa;
+$color-text-dark: #1a1110;
+
+:export {
+  colorMain: $color-main;
+  colorSuccess: $color-success;
+  colorTextLight: $color-text-light;
+  colorTextDark: $color-text-dark;
+}

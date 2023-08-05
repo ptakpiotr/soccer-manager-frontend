@@ -1,0 +1,33 @@
+@use "_mixins" as m;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+body:has(.dark-mode) {
+  background-color: #001000;
+}
+
+.container {
+  display: flex;
+}
+
+main {
+  margin-top: 0.75rem;
+}
+
+.disabled-player-view {
+  text-decoration: line-through;
+}
+
+@include m.mobile-view {
+}
+
+@include m.tablet-view {
+  .responsive-player-view {
+    img {
+      width: 25px !important;
+    }
+  }
+}
