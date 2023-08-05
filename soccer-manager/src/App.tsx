@@ -9,6 +9,8 @@ import Settings from "./pages/Settings";
 import { IPlayerSquadInfo, PositionType } from "./Types";
 import BottomMenu from "./components/BottomMenu";
 import Calendar from "./pages/Calendar";
+import Table from "./pages/Table";
+import Team from "./pages/Team";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -293,8 +295,10 @@ function App() {
               <Header />
               <Routes>
                 <Route path="/" Component={Home} />
+                <Route path="/team" Component={Team} />
                 <Route path="/tactics" Component={Tactics} />
                 <Route path="/calendar" Component={Calendar} />
+                <Route path="/table" Component={Table} />
                 <Route path="/settings" Component={Settings} />
               </Routes>
               <BottomMenu />

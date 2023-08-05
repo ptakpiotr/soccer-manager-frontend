@@ -1,4 +1,4 @@
-import { MdCalendarMonth, MdSettings, MdTableBar } from "react-icons/md";
+import { MdCalendarMonth, MdPeople, MdSettings, MdTableBar, MdTableRows, MdTableView } from "react-icons/md";
 import { PositionType, TrainingType, ViewVariant } from "./Types";
 
 export default {
@@ -69,6 +69,11 @@ export default {
   },
   navigation: [
     {
+      itemText: "Team",
+      itemIcon: MdPeople,
+      url: "/team",
+    },
+    {
       itemText: "Tactics",
       itemIcon: MdTableBar,
       url: "/tactics",
@@ -77,6 +82,11 @@ export default {
       itemText: "Calendar",
       itemIcon: MdCalendarMonth,
       url: "/calendar",
+    },
+    {
+      itemText: "Table",
+      itemIcon: MdTableView,
+      url: "/table",
     },
     {
       itemText: "Settings",

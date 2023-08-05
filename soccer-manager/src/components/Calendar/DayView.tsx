@@ -29,7 +29,10 @@ function DayView({ day }: IProps) {
           variant="outlined"
         >
           <CardContent>
-            <TrainingEventView trainingType={TrainingType.GOALKEEPER} />
+            <TrainingEventView
+              trainingType={TrainingType.GOALKEEPER}
+              day={day}
+            />
           </CardContent>
         </Card>
       </ButtonBase>

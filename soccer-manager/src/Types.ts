@@ -52,6 +52,24 @@ export interface ITrainingCalendarInfo {
   trainingType: TrainingType;
 }
 
+export interface ITableTeamInfo {
+  id: number;
+  name: string;
+  points: number;
+  wins: number;
+  draws: number;
+  lost: number;
+  form?: GameResultType[];
+  teamColor: string;
+}
+
+export interface IFinancePerformance {
+  monthlyPerformance: {
+    month: number;
+    money: number;
+  }[];
+}
+
 export enum PositionType {
   GOALKEEPER,
   DEFENDER,
@@ -77,6 +95,12 @@ export enum TrainingType {
   MIDFIELDER,
   FORWARD,
   REST,
+}
+
+export enum GameResultType {
+  WIN,
+  DRAW,
+  LOST,
 }
 
 export type PlayerRating = InferType<typeof playerRatingSchema>;
