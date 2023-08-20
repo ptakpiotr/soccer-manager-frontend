@@ -1,0 +1,21 @@
+@use "../../styles/variables" as v;
+
+.soccer-logo-obj input {
+  min-width: 4.5rem;
+}
+
+.soccer-logo-bg {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  .soccer-logo-name{
+    position: absolute;
+    margin-bottom:1rem;
+    color: v.$color-text-light;
+  }
+}

@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import "./soccer_kit_designer.scss";
 import { ISoccerShirt, SoccerShirtType } from "../../Types";
-import StyleTeamAttribute from "./StyleTeamAtrribute";
+import KitDesignerPanel from "./KitDesignerPanel";
 import { SelectChangeEvent } from "@mui/material";
 
 const defaultKitSetup = {
@@ -89,7 +89,7 @@ function SoccerKitDesinger() {
           </div>
         </div>
         {
-          <StyleTeamAttribute
+          <KitDesignerPanel
             kitSetup={kitSetup}
             handleMainColorChange={handleMainColorChange}
             handleSecondaryColorChange={handleSecondaryColorChange}

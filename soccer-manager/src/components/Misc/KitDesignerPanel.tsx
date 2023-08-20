@@ -27,7 +27,7 @@ interface IProps {
   handleRestore: () => void;
 }
 
-function StyleTeamAttribute({
+function KitDesignerPanel({
   kitSetup,
   handleMainColorChange,
   handleSecondaryColorChange,
@@ -88,4 +88,4 @@ function StyleTeamAttribute({
   );
 }
 
-export default StyleTeamAttribute;
+export default KitDesignerPanel;

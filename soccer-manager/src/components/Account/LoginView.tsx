@@ -6,54 +6,55 @@ import {
   Typography,
   Grid,
   Button,
+  Link,
 } from "@mui/material";
-import { RegisterType } from "../../Types";
-import { registerSchema } from "../../Validation";
+import { LoginType } from "../../Types";
+import { loginSchema } from "../../Validation";
 import { ValidationError } from "yup";
 import ValidationErrorAlert from "../ValidationErrorAlert";
+import { useNavigate } from "react-router-dom";
 
-//TODO: hiding nice when all valid
-function RegisterView() {
-  const [registerData, setRegisterData] = useState<Partial<RegisterType>>({});
-  const [isRegisterEnabled, setIsRegisterEnabled] = useState<boolean>(true);
+function LoginView() {
+  const [loginData, setLoginData] = useState<Partial<LoginType>>({});
+  const [isLoginEnabled, setIsLoginEnabled] = useState<boolean>(true);
   const [errors, setErrors] = useState<string[]>();
-  const [isAllValid, setIsAllValid] = useState<boolean>(false);
 
-  const enableRegisterButton = () => {
-    setIsRegisterEnabled(true);
+  const navigate = useNavigate();
+
+  const enableLoginButton = () => {
+    setIsLoginEnabled(true);
     setErrors([]);
   };
 
-  const setRegisterDataOnInputChange = (
+  const setLoginDataOnInputChange = (
     e: ChangeEvent<HTMLInputElement>,
-    registerTypeKey: keyof RegisterType
+    registerTypeKey: keyof LoginType
   ) => {
-    setRegisterData((prev) => ({
+    setLoginData((prev) => ({
       ...prev,
       [registerTypeKey]: e.target.value,
     }));
   };
 
   const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegisterDataOnInputChange(e, "email");
+    setLoginDataOnInputChange(e, "email");
   };
 
   const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegisterDataOnInputChange(e, "password");
+    setLoginDataOnInputChange(e, "password");
   };
 
-  const onConfirmedPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegisterDataOnInputChange(e, "confirmedPassword");
+  const handleLinkClick = (address: string) => {
+    navigate(address);
   };
 
   const handleClick = async () => {
     try {
-      const valid = await registerSchema.validate(registerData);
-      setIsAllValid(true);
+      const valid = await loginSchema.validate(loginData);
       //TODO: make call
     } catch (ex) {
       if (ex instanceof ValidationError) {
-        setIsRegisterEnabled(false);
+        setIsLoginEnabled(false);
         setErrors(ex.errors);
       }
     }
@@ -61,12 +62,12 @@ function RegisterView() {
 
   return (
     <Grid container flexDirection="column" rowGap="1rem" maxWidth="768px">
-      <Typography variant="h6">Register</Typography>
+      <Typography variant="h6">Login</Typography>
       <FormControl>
         <InputLabel>Email</InputLabel>
         <FilledInput
           type="email"
-          value={registerData.email}
+          value={loginData.email}
           onChange={onEmailChange}
           required
         ></FilledInput>
@@ -75,31 +76,37 @@ function RegisterView() {
         <InputLabel>Password</InputLabel>
         <FilledInput
           type="password"
-          value={registerData.password}
+          value={loginData.password}
           onChange={onPasswordChange}
           required
         ></FilledInput>
       </FormControl>
-      <FormControl>
-        <InputLabel>Confirm password</InputLabel>
-        <FilledInput
-          type="password"
-          value={registerData.confirmedPassword}
-          onChange={onConfirmedPasswordChange}
-          required
-        ></FilledInput>
-      </FormControl>
+
       <Button
         variant="contained"
         onClick={handleClick}
-        disabled={!isRegisterEnabled}
+        disabled={!isLoginEnabled}
       >
-        Register
+        Login
       </Button>
-      {!isRegisterEnabled && errors ? (
+      <Link
+        onClick={() => {
+          handleLinkClick("/register");
+        }}
+      >
+        Click here to register
+      </Link>
+      <Link
+        onClick={() => {
+          handleLinkClick("/forgot-password");
+        }}
+      >
+        Forgot password
+      </Link>
+      {!isLoginEnabled && errors ? (
         <ValidationErrorAlert
           errors={errors}
-          enableButton={enableRegisterButton}
+          enableButton={enableLoginButton}
         />
       ) : (
         <></>
@@ -108,4 +115,4 @@ function RegisterView() {
   );
 }
 
-export default RegisterView;
+export default LoginView;

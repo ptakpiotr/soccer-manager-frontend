@@ -1,5 +1,12 @@
-import { MdCalendarMonth, MdPeople, MdSettings, MdTableBar, MdTableView } from "react-icons/md";
-import { PositionType, TrainingType, ViewVariant } from "./Types";
+import {
+  MdCalendarMonth,
+  MdPeople,
+  MdSettings,
+  MdTableBar,
+  MdTableView,
+} from "react-icons/md";
+import { GiCastle, GiChicken, GiFalconMoon, GiFlamer, GiHorseHead } from "react-icons/gi";
+import { PositionType, TrainingType, ViewVariant, IconImage } from "./Types";
 
 export default {
   functions: {
@@ -94,4 +101,31 @@ export default {
       url: "/settings",
     },
   ],
+  availableLogoIcons: [
+    {
+      id: "gi-falcon",
+      iconName: "falcon",
+      icon: GiFalconMoon,
+    },
+    {
+      id: "gi-castle-1",
+      iconName: "castle",
+      icon: GiCastle,
+    },
+    {
+      id: "gi-horse",
+      iconName: "horse",
+      icon: GiHorseHead,
+    },
+    {
+      id: "gi-flamer",
+      iconName: "flamer",
+      icon: GiFlamer,
+    },
+    {
+      id: "gi-chicken",
+      iconName: "chicken",
+      icon: GiChicken,
+    },
+  ] as IconImage[],
 };

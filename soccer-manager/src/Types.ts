@@ -1,7 +1,12 @@
 import { InferType } from "yup";
-import { eventSchema, playerRatingSchema } from "./Validation";
+import {
+  eventSchema,
+  loginSchema,
+  playerRatingSchema,
+  registerSchema,
+} from "./Validation";
 import { PaletteMode } from "@mui/material";
-
+import { IconType } from "react-icons";
 export interface IUserSettings {
   mode: PaletteMode;
   bottomMenu: boolean;
@@ -70,16 +75,33 @@ export interface IFinancePerformance {
   }[];
 }
 
-export interface ISoccerShirt {
+export interface ITeamAttribute {
   mainColor: string;
   secondaryColor: string;
+}
+
+export interface ISoccerShirt extends ITeamAttribute {
   type: SoccerShirtType;
+}
+
+export interface ISoccerLogo extends ITeamAttribute {
+  name: string;
+  type: SoccerLogoType;
+  iconId: string;
 }
 
 export enum SoccerShirtType {
   PLAIN = "Plain",
   STRIPES_SIMPLE = "Simple stripes",
   STRIPES_45 = "Stripes 45",
+}
+
+export type SoccerLogoType = SoccerShirtType;
+
+export interface IconImage {
+  id: string;
+  iconName: string;
+  icon: IconType;
 }
 
 export enum PositionType {
@@ -117,3 +139,5 @@ export enum GameResultType {
 
 export type PlayerRating = InferType<typeof playerRatingSchema>;
 export type CalendarEvent = InferType<typeof eventSchema>;
+export type RegisterType = InferType<typeof registerSchema>;
+export type LoginType = InferType<typeof loginSchema>;

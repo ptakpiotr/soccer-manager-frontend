@@ -43,6 +43,10 @@ main {
   max-height: 300px;
 }
 
+.app-single-icon:hover {
+  cursor: pointer;
+}
+
 @include m.mobile-view {
 }
 

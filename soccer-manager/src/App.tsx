@@ -12,6 +12,8 @@ import Calendar from "./pages/Calendar";
 import Table from "./pages/Table";
 import Team from "./pages/Team";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -269,6 +271,17 @@ function App() {
           },
           mode,
         },
+        components: {
+          MuiLink: {
+            styleOverrides: {
+              root: {
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              },
+            },
+          },
+        },
       }),
     [mode]
   );
@@ -302,6 +315,8 @@ function App() {
                 <Route path="/table" Component={Table} />
                 <Route path="/settings" Component={Settings} />
                 <Route path="/register" Component={Register} />
+                <Route path="/login" Component={Login} />
+                <Route path="/forgot-password" Component={ForgotPassword} />
               </Routes>
               <BottomMenu />
             </BrowserRouter>
