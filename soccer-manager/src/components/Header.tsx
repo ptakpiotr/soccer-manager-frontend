@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { AppBar, IconButton, Toolbar, Typography, Grid } from "@mui/material";
-import { MdMenu, MdPersonOutline } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import SidebarMenu from "./SidebarMenu";
 import { UserSettingsContext } from "../context";
+import AccountMenu from "./Account/AccountMenu";
 
 function Header() {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
@@ -29,9 +30,7 @@ function Header() {
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton>
-                <MdPersonOutline color={"#fefefa"} />
-              </IconButton>
+              <AccountMenu />
             </Grid>
           </Grid>
         </Toolbar>
