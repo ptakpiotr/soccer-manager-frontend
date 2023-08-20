@@ -94,6 +94,8 @@ export enum SoccerShirtType {
   PLAIN = "Plain",
   STRIPES_SIMPLE = "Simple stripes",
   STRIPES_45 = "Stripes 45",
+  STRIPES_180 = "Stripes 180",
+  CIRCLE = "Circle",
 }
 
 export type SoccerLogoType = SoccerShirtType;

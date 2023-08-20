@@ -1,30 +1,28 @@
 import RegisterView from "../components/Account/RegisterView";
 import SoccerKitDesinger from "../components/misc/SoccerKitDesinger";
 import SoccerLogoDesigner from "../components/misc/SoccerLogoDesigner";
-import { Grid, Typography } from "@mui/material";
 
 function Register() {
   return (
     <main>
-      <Grid container flexDirection={"row"}>
-        <Grid container columnGap="3rem">
-          <Grid flex={1}item>
+      <div className="register-page-container">
+        <div className="first-row-container">
+          <div className="register-view-container">
             <RegisterView />
-          </Grid>
-          <Grid item>
+          </div>
+          <div className="soccer-logo-designer-container">
             <SoccerLogoDesigner />
-          </Grid>
-        </Grid>
-        <Grid container flex={1} columnGap="3rem">
-          <Grid item>
+          </div>
+        </div>
+        <div className="second-row-container">
+          <div className="soccer-kit-designer-container">
             <SoccerKitDesinger />
-          </Grid>
-          <Grid item>
+          </div>
+          <div className="soccer-kit-designer-container">
             <SoccerKitDesinger />
-          </Grid>
-        </Grid>
-        
-      </Grid>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

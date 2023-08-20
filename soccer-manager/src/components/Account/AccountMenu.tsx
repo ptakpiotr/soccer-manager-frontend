@@ -1,6 +1,6 @@
 import { IconButton, Menu, Tooltip } from "@mui/material";
 import { useRef, useState } from "react";
-import { MdPersonOutline, MdAppRegistration, MdLogin } from "react-icons/md";
+import { MdPersonOutline, MdAppRegistration, MdLogin, MdSettings } from "react-icons/md";
 import AccountMenuItem from "./AccountMenuItem";
 
 function AccountMenu() {
@@ -37,6 +37,12 @@ function AccountMenu() {
           address="/login"
           name="Login"
           icon={MdLogin}
+          closeMenu={handleMenuClose}
+        />
+        <AccountMenuItem
+          address="/settings"
+          name="Settings"
+          icon={MdSettings}
           closeMenu={handleMenuClose}
         />
       </Menu>

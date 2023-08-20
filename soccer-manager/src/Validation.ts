@@ -20,10 +20,11 @@ export const registerSchema = object({
     .email("Must be valid email")
     .required("Email address is required"),
   password: string().min(8).required("Password must be min 8 characters long"),
-  confirmedPassword: string().oneOf(
-    [ref("email")],
-    "Password values must match"
-  ),
+  confirmedPassword: string()
+  //.oneOf(
+    // [ref("email")],
+    // "Password values must match"
+  // ),
 });
 
 export const loginSchema = object({

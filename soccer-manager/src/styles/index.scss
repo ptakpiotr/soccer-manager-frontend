@@ -2,6 +2,12 @@
 @use "_variables" as v;
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
+%row-container-placeholder {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2rem;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
 }
@@ -47,7 +53,39 @@ main {
   cursor: pointer;
 }
 
+.register-page-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+  .first-row-container {
+    @extend %row-container-placeholder;
+  }
+
+  .second-row-container {
+    @extend %row-container-placeholder;
+  }
+
+  .register-view-container {
+    flex: 1;
+
+    &:has(.valid-registration) {
+      display: none;
+    }
+  }
+}
+
 @include m.mobile-view {
+  .first-row-container,
+  .second-row-container {
+    flex-direction: column !important;
+    row-gap: 2rem;
+    
+    .soccer-logo-designer-container,
+    .soccer-kit-designer-container {
+      align-self: center;
+    }
+  }
 }
 
 @include m.tablet-view {

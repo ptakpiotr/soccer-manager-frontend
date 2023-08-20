@@ -60,7 +60,13 @@ function RegisterView() {
   };
 
   return (
-    <Grid container flexDirection="column" rowGap="1rem" maxWidth="768px">
+    <Grid
+      container
+      flexDirection="column"
+      rowGap="1rem"
+      maxWidth="768px"
+      className={isAllValid ? "valid-registration" : ""}
+    >
       <Typography variant="h6">Register</Typography>
       <FormControl>
         <InputLabel>Email</InputLabel>
