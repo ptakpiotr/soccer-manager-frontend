@@ -1,4 +1,4 @@
-import { MdCalendarMonth, MdPeople, MdSettings, MdTableBar, MdTableRows, MdTableView } from "react-icons/md";
+import { MdCalendarMonth, MdPeople, MdSettings, MdTableBar, MdTableView } from "react-icons/md";
 import { PositionType, TrainingType, ViewVariant } from "./Types";
 
 export default {

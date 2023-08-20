@@ -1,4 +1,3 @@
-import React from "react";
 import TableView from "../components/Table/TableView";
 
 function Table() {

@@ -1,0 +1,46 @@
+.soccer-kit-obj input {
+  min-width: 4.5rem;
+}
+
+.soccer-kit-creator {
+  width: fit-content;
+}
+.soccer-kit-shirt {
+  margin: 1rem;
+  padding: 0.5rem;
+  /*triangle creatino from here: https://code-boxx.com/create-triangles-html-css/#:~:text=The%20common%20ways%20to%20create%20triangles%20in%20HTML,100%25%2C%20100%25%20100%25%29%3B%203%20Using%20images.%20%3Cimg%20src%3D%22triangle.jpg%22%3E*/
+  .soccer-kit-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 30px solid white;
+    margin-left: 60px;
+  }
+  .soccer-kit-sleeve {
+    position: relative;
+    display: inline-block;
+    z-index: -1;
+    width: 50px;
+    height: 60px;
+    background-color: black;
+    transform: rotate(45deg);
+    top: 8px;
+    left: -30px;
+
+    &:last-of-type {
+      transform: rotate(-45deg);
+      left: 50px;
+    }
+  }
+  .soccer-kit-plain {
+    width: 120px;
+    height: 160px;
+    margin-left: 20px;
+    background: linear-gradient(90deg, white 50%, black 50%);
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+  }
+}

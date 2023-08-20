@@ -70,6 +70,18 @@ export interface IFinancePerformance {
   }[];
 }
 
+export interface ISoccerShirt {
+  mainColor: string;
+  secondaryColor: string;
+  type: SoccerShirtType;
+}
+
+export enum SoccerShirtType {
+  PLAIN = "Plain",
+  STRIPES_SIMPLE = "Simple stripes",
+  STRIPES_45 = "Stripes 45",
+}
+
 export enum PositionType {
   GOALKEEPER,
   DEFENDER,

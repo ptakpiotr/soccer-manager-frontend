@@ -15,7 +15,8 @@ interface IProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const events = Object.keys(EventType)
+//Mapping inspired here: https://stackoverflow.com/questions/41308123/map-typescript-enum
+const events = (Object.keys(EventType) as Array<keyof EventType>)
   .map((k) => {
     const numK = Number(k);
     if (numK || numK === 0) {
@@ -31,7 +32,7 @@ const events = Object.keys(EventType)
 }[];
 
 function EventModal({ isOpen, setOpen }: IProps) {
-  const [event, setEvent] = useState<CalendarEvent>();
+  const [__, _] = useState<CalendarEvent>();
   const [eventType, setEventType] = useState<EventType>(EventType.TRAINING);
 
   const handleEventTypeChange = (e: SelectChangeEvent<number>) => {

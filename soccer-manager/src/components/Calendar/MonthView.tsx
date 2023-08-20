@@ -1,12 +1,11 @@
 import Enumerable from "linq";
-import React from "react";
-import DayView from "./DayView";
 import { Grid } from "@mui/material";
+import DayView from "./DayView";
 
-interface IProps {
-  year: number;
-  month: number;
-}
+// interface IProps {
+//   year: number;
+//   month: number;
+// }
 
 function MonthView() {
   return (

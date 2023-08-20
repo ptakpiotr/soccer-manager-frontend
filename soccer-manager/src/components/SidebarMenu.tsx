@@ -1,7 +1,6 @@
 import { Drawer, MenuList } from "@mui/material";
 import React from "react";
 import MenuOption from "./MenuOption";
-import { MdSettings, MdTableBar } from "react-icons/md";
 import Globals from "../Globals";
 
 interface IProps {

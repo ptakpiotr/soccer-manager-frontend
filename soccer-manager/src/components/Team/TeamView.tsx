@@ -1,10 +1,7 @@
 import {
   Card,
-  CardActionArea,
   CardContent,
-  CardHeader,
   Grid,
-  Typography,
 } from "@mui/material";
 import MiniTableView from "../Table/MiniTableView";
 import FinancePerformance from "./FinancePerformance";

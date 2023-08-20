@@ -1,4 +1,3 @@
-import React from "react";
 import MonthButton from "./MonthButton";
 import { MdArrowBack } from "react-icons/md";
 

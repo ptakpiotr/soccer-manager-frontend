@@ -1,4 +1,3 @@
-import React from "react";
 import { GameResultType } from "../../Types";
 import { Badge, Box } from "@mui/material";
 

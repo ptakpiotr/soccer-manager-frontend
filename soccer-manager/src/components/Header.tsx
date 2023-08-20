@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AppBar, IconButton, Toolbar, Typography, Grid } from "@mui/material";
 import { MdMenu, MdPersonOutline } from "react-icons/md";
 import SidebarMenu from "./SidebarMenu";

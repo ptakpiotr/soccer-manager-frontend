@@ -11,6 +11,7 @@ import BottomMenu from "./components/BottomMenu";
 import Calendar from "./pages/Calendar";
 import Table from "./pages/Table";
 import Team from "./pages/Team";
+import Register from "./pages/Register";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -300,6 +301,7 @@ function App() {
                 <Route path="/calendar" Component={Calendar} />
                 <Route path="/table" Component={Table} />
                 <Route path="/settings" Component={Settings} />
+                <Route path="/register" Component={Register} />
               </Routes>
               <BottomMenu />
             </BrowserRouter>
