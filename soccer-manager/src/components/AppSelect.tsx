@@ -5,14 +5,16 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  SelectProps,
 } from "@mui/material";
 
-interface IProps<T> {
+export interface IProps<T> {
   value: T;
   elementName: string;
   label: string;
   handleChange: (event: SelectChangeEvent<T>, child: React.ReactNode) => void;
   elements: { value: T; desc?: string }[];
+  style?: SelectProps["style"];
 }
 
 function AppSelect<T>({
@@ -21,6 +23,7 @@ function AppSelect<T>({
   label,
   handleChange,
   elements,
+  style,
 }: IProps<T>) {
   return (
     <FormControl fullWidth>
@@ -32,6 +35,7 @@ function AppSelect<T>({
         label={label}
         variant="filled"
         onChange={handleChange}
+        style={style}
       >
         {elements.map((e) => (
           <MenuItem

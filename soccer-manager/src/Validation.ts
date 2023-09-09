@@ -12,7 +12,8 @@ export const eventSchema = object({
   year: number().moreThan(1900).lessThan(2100).required(),
   month: number().moreThan(0).lessThan(13).required(),
   day: number().moreThan(0).lessThan(32).required(),
-  past: boolean(),
+  notEditable: boolean(),
+  description: string(),
 });
 
 export const registerSchema = object({
@@ -20,11 +21,10 @@ export const registerSchema = object({
     .email("Must be valid email")
     .required("Email address is required"),
   password: string().min(8).required("Password must be min 8 characters long"),
-  confirmedPassword: string()
-  //.oneOf(
-    // [ref("email")],
-    // "Password values must match"
-  // ),
+  confirmedPassword: string().oneOf(
+    [ref("email")],
+    "Password values must match"
+  ),
 });
 
 export const loginSchema = object({

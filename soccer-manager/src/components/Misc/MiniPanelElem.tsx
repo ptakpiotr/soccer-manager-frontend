@@ -5,20 +5,28 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   imageSrc: string;
   desc: string;
+  url: string;
 }
 
-function MiniPanelElem({ imageSrc, desc }: IProps) {
+function MiniPanelElem({ imageSrc, desc, url }: IProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(url);
+  };
+
   return (
     <Card
       sx={{
         margin: "1rem",
       }}
     >
-      <CardActionArea>
+      <CardActionArea onClick={handleClick}>
         <CardMedia
           image={imageSrc}
           sx={{

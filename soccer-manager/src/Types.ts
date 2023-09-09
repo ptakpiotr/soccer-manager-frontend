@@ -47,13 +47,15 @@ export interface IPlayerSquadInfo extends ITacticsPlayerViewProps {
 }
 
 export interface IMatchCalendarInfo {
+  id?: number;
   rivalTeamId: number;
-  ground: "home" | "away";
+  ground: GroundType;
   homeScore?: number;
   awayScore?: number;
 }
 
 export interface ITrainingCalendarInfo {
+  id?: number;
   trainingType: TrainingType;
 }
 
@@ -120,6 +122,7 @@ export enum ViewVariant {
 }
 
 export enum EventType {
+  NONE,
   MATCH,
   TRAINING,
 }
@@ -138,6 +141,28 @@ export enum GameResultType {
   DRAW,
   LOST,
 }
+
+export enum GroundType{
+  NEUTRAL,
+  HOME, 
+  AWAY
+}
+
+export enum Months {
+  JANUARY = 1,
+  FEBRUARY,
+  MARCH,
+  APRIL,
+  MAY,
+  JUNE,
+  JULY,
+  AUGUST,
+  SEPTEMBER,
+  OCTOBER,
+  NOVEMBER,
+  DECEMBER,
+}
+
 
 export type PlayerRating = InferType<typeof playerRatingSchema>;
 export type CalendarEvent = InferType<typeof eventSchema>;
