@@ -1,11 +1,6 @@
-import {
-  Button,
-  Dialog,
-  Grid,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Button, Dialog, Grid, SelectChangeEvent } from "@mui/material";
 import React, { useState } from "react";
-import { CalendarEvent, GroundType, IMatchCalendarInfo } from "../../Types";
+import { CalendarEvent, GroundType, IMatchCalendarInfo, MatchType } from "../../Types";
 import { MdEventBusy } from "react-icons/md";
 import AppSelectField from "../AppSelectField";
 
@@ -13,7 +8,7 @@ interface IProps {
   calendarEventDetails: Partial<CalendarEvent>;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<[boolean, boolean]>>;
-  setCalendarEventDetails: React.Dispatch<
+  setCalendarEventDetails?: React.Dispatch<
     React.SetStateAction<Partial<CalendarEvent>>
   >;
 }
@@ -26,6 +21,21 @@ const groundTypes = (Object.keys(GroundType) as Array<keyof GroundType>)
       return {
         value: numK,
         desc: GroundType[numK],
+      };
+    }
+  })
+  .filter((k) => k) as {
+  value: number;
+  desc: string;
+}[];
+
+const matchTypes = (Object.keys(MatchType) as Array<keyof MatchType>)
+  .map((k) => {
+    const numK = Number(k);
+    if (numK || numK === 0) {
+      return {
+        value: numK,
+        desc: MatchType[numK],
       };
     }
   })
@@ -78,16 +88,29 @@ function MatchModal({
     });
   };
 
-  const handleAddSecondStep = () => {
-    setCalendarEventDetails((prev) => {
+  const handleMatchTypeChange = (e: SelectChangeEvent<number>) => {
+    setMatchCalendarInfo((prev) => {
       let newEventDetails = {
         ...prev,
       };
 
-      newEventDetails.eventDetails = matchCalendarInfo;
-
+      newEventDetails.type = e.target.value as MatchType;
       return newEventDetails;
     });
+  };
+
+  const handleAddSecondStep = () => {
+    if (setCalendarEventDetails) {
+      setCalendarEventDetails((prev) => {
+        let newEventDetails = {
+          ...prev,
+        };
+
+        newEventDetails.eventDetails = matchCalendarInfo;
+
+        return newEventDetails;
+      });
+    }
 
     setOpen([false, false]);
   };
@@ -117,6 +140,15 @@ function MatchModal({
           handleChange={handleGroundTypeChange}
           isNotEditable={calendarEventDetails.notEditable}
           notEditableValue={GroundType[matchCalendarInfo?.ground]}
+        />
+        <AppSelectField
+          elementName="match-type"
+          label="Match type"
+          value={matchCalendarInfo?.type ?? MatchType.FRIENDLY}
+          elements={matchTypes}
+          handleChange={handleMatchTypeChange}
+          isNotEditable={calendarEventDetails.notEditable}
+          notEditableValue={MatchType[matchCalendarInfo?.type]}
         />
         {!calendarEventDetails.notEditable ? (
           <Button

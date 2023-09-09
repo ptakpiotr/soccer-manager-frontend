@@ -4,9 +4,10 @@ import {
   MdSettings,
   MdTableBar,
   MdTableView,
+  MdSchool
 } from "react-icons/md";
 import { GiCastle, GiChicken, GiFalconMoon, GiFlamer, GiHorseHead } from "react-icons/gi";
-import { PositionType, TrainingType, ViewVariant, IconImage } from "./Types";
+import { PositionType, TrainingType, ViewVariant, IconImage, GroundType } from "./Types";
 
 export default {
   functions: {
@@ -73,6 +74,16 @@ export default {
 
       return color;
     },
+    mapGroundTypeToColor(groundType: GroundType){
+      switch(groundType){
+        case GroundType.HOME:
+          return "#F24C00";
+        case GroundType.AWAY:
+          return "#485696";
+        default:
+          return "#9D514B";
+      }
+    }
   },
   navigation: [
     {
@@ -94,6 +105,11 @@ export default {
       itemText: "Table",
       itemIcon: MdTableView,
       url: "/table",
+    },
+    {
+      itemText: "Academy",
+      itemIcon: MdSchool,
+      url: "/academy",
     },
     {
       itemText: "Settings",

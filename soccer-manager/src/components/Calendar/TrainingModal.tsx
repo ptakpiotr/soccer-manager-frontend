@@ -19,7 +19,7 @@ interface IProps {
   calendarEventDetails: Partial<CalendarEvent>;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<[boolean, boolean]>>;
-  setCalendarEventDetails: React.Dispatch<
+  setCalendarEventDetails?: React.Dispatch<
     React.SetStateAction<Partial<CalendarEvent>>
   >;
   availableTrainingEntities?: Record<TrainingType, number>;
@@ -65,15 +65,17 @@ function TrainingModal({
   };
 
   const handleAddSecondStep = () => {
-    setCalendarEventDetails((prev) => {
-      let newEventDetails = {
-        ...prev,
-      };
+    if (setCalendarEventDetails) {
+      setCalendarEventDetails((prev) => {
+        let newEventDetails = {
+          ...prev,
+        };
 
-      newEventDetails.eventDetails = trainingCalendarInfo;
+        newEventDetails.eventDetails = trainingCalendarInfo;
 
-      return newEventDetails;
-    });
+        return newEventDetails;
+      });
+    }
 
     setOpen([false, false]);
   };

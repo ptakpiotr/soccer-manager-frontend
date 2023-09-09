@@ -9,6 +9,7 @@ export interface IProps {
   variant?: ViewVariant;
   yellowCard?: boolean;
   suspended?: boolean;
+  disableRipple?: boolean;
 }
 
 function FormationPlayerView({
@@ -17,6 +18,7 @@ function FormationPlayerView({
   image,
   yellowCard,
   suspended,
+  disableRipple,
   variant = ViewVariant.STANDARD,
 }: IProps) {
   const borderColor = Globals.functions.mapCardColorToBorderColor(
@@ -36,6 +38,7 @@ function FormationPlayerView({
         className={`${
           variant != ViewVariant.SMALL ? "responsive-player-view" : ""
         }`}
+        disableRipple={disableRipple}
       >
         <img
           src={image}

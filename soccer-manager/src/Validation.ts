@@ -1,5 +1,5 @@
 import { object, number, mixed, string, boolean, ref } from "yup";
-import { EventType, IMatchCalendarInfo, ITrainingCalendarInfo } from "./Types";
+import { EventType, IMatchCalendarInfo, ITrainingCalendarInfo, MatchType } from "./Types";
 
 export const playerRatingSchema = object({
   rating: number().min(0).max(5).required(),

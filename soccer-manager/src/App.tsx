@@ -14,6 +14,7 @@ import Team from "./pages/Team";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
+import Academy from "./pages/Academy";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -313,6 +314,7 @@ function App() {
                 <Route path="/tactics" Component={Tactics} />
                 <Route path="/calendar" Component={Calendar} />
                 <Route path="/table" Component={Table} />
+                <Route path="/academy" Component={Academy} />
                 <Route path="/settings" Component={Settings} />
                 <Route path="/register" Component={Register} />
                 <Route path="/login" Component={Login} />

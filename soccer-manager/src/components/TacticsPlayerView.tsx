@@ -14,7 +14,9 @@ import Globals from "../Globals";
 import { MdLocalHospital } from "react-icons/md";
 import PlayerCondition from "./PlayerCondition";
 
-type Props = ITacticsPlayerViewProps;
+type Props = ITacticsPlayerViewProps & {
+  disableRipple?: boolean;
+};
 
 function TacticsPlayerView({
   positionType,
@@ -26,6 +28,7 @@ function TacticsPlayerView({
   yellowCard,
   suspended,
   condition,
+  disableRipple,
 }: Props) {
   return (
     <ListItem>
@@ -44,10 +47,11 @@ function TacticsPlayerView({
             variant={ViewVariant.SMALL}
             yellowCard={yellowCard}
             suspended={suspended}
+            disableRipple={disableRipple}
           />
         </Badge>
       </ListItemAvatar>
-      <ListItemButton>
+      <ListItemButton disableRipple={disableRipple}>
         <Grid container direction={"column"}>
           <Grid container direction={"column"}>
             <Grid item>{playerName}</Grid>

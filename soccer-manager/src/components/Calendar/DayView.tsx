@@ -1,38 +1,60 @@
 import { Card, Grid, ButtonBase, CardContent } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import TrainingEventView from "./TrainingEventView";
-import { TrainingType } from "../../Types";
+import {
+  CalendarEvent,
+  EventType,
+  GroundType,
+  IMatchCalendarInfo,
+  ITrainingCalendarInfo,
+  MatchType,
+  TrainingType,
+} from "../../Types";
+import MatchEventView from "./MatchEventView";
 
 interface IProps {
   day: number;
 }
 
 function DayView({ day }: IProps) {
-  const [isActive, setIsActive] = useState<boolean>(true);
-
-  useEffect(() => {
+  const isOutdated = useMemo(() => {
     const today = new Date();
 
     if (day < today.getUTCDay()) {
-      setIsActive(false);
+      return true;
     }
   }, [day]);
 
+  const calendarEventDetails: CalendarEvent = {
+    id: "123",
+    day,
+    eventDetails: {
+      ground: GroundType.HOME,
+      type: MatchType.FRIENDLY,
+      rivalTeamId: 1,
+      awayScore: 2,
+      homeScore: 3,
+    } as IMatchCalendarInfo,
+    eventType: EventType.MATCH,
+    month: 8,
+    year: 2023,
+    description: "test",
+    notEditable: isOutdated,
+  };
+
   return (
     <Grid item>
-      <ButtonBase disableRipple={!isActive}>
+      <ButtonBase>
         <Card
           sx={{
             width: "200px",
             height: "200px",
+            borderColor: isOutdated ? "darkslategray" : "",
           }}
           variant="outlined"
         >
           <CardContent>
-            <TrainingEventView
-              trainingType={TrainingType.GOALKEEPER}
-              day={day}
-            />
+            <MatchEventView eventData={calendarEventDetails} />
           </CardContent>
         </Card>
       </ButtonBase>
