@@ -3,6 +3,8 @@ import { Grid, TextField } from "@mui/material";
 import RateStars from "./RateStars";
 function RateGame() {
   const [opinion, setOpinion] = useState<string>("");
+  const [rating, setRating] = useState<number>(1);
+
   return (
     <Grid container flexDirection={"row"}>
       <Grid item xs={5}>
@@ -17,7 +19,7 @@ function RateGame() {
         />
       </Grid>
       <Grid item xs={6}>
-        <RateStars />
+        <RateStars value={rating} setValue={setRating} />
       </Grid>
     </Grid>
   );

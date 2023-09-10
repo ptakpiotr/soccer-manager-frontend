@@ -92,6 +92,20 @@ export interface ISoccerLogo extends ITeamAttribute {
   iconId: string;
 }
 
+export interface IStadiumSettings {
+  stadiumName: string;
+  capacity: number;
+  seatQuality: number;
+  fansExtrasQuality: number;
+}
+
+export interface IAcademySettings {
+  secondTeamName: string;
+  capacity: number;
+  managerQuality: number;
+  facilitiesQuality: number;
+}
+
 export enum SoccerShirtType {
   PLAIN = "Plain",
   STRIPES_SIMPLE = "Simple stripes",

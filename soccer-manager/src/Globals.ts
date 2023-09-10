@@ -4,7 +4,8 @@ import {
   MdSettings,
   MdTableBar,
   MdTableView,
-  MdSchool
+  MdSchool,
+  MdBuild
 } from "react-icons/md";
 import { GiCastle, GiChicken, GiFalconMoon, GiFlamer, GiHorseHead } from "react-icons/gi";
 import { PositionType, TrainingType, ViewVariant, IconImage, GroundType } from "./Types";
@@ -110,6 +111,11 @@ export default {
       itemText: "Academy",
       itemIcon: MdSchool,
       url: "/academy",
+    },
+    {
+      itemText: "Facilities",
+      itemIcon: MdBuild,
+      url: "/facilities",
     },
     {
       itemText: "Settings",
