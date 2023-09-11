@@ -5,7 +5,8 @@ import {
   MdTableBar,
   MdTableView,
   MdSchool,
-  MdBuild
+  MdBuild,
+  MdTransferWithinAStation
 } from "react-icons/md";
 import { GiCastle, GiChicken, GiFalconMoon, GiFlamer, GiHorseHead } from "react-icons/gi";
 import { PositionType, TrainingType, ViewVariant, IconImage, GroundType } from "./Types";
@@ -122,7 +123,12 @@ export default {
       itemIcon: MdSettings,
       url: "/settings",
     },
-  ],
+    {
+      itemText: "Transfers",
+      itemIcon: MdTransferWithinAStation,
+      url: "/transfers",
+    },
+  ] as const,
   availableLogoIcons: [
     {
       id: "gi-falcon",
