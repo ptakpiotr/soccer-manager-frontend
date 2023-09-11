@@ -4,7 +4,7 @@ import AcademyFacility from "./AcademyFacility";
 
 function FacilitiesView() {
   return (
-    <Grid container>
+    <Grid container flexDirection="row">
       <StadiumFacility />
       <AcademyFacility />
     </Grid>

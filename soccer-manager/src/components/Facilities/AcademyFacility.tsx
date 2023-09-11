@@ -26,13 +26,13 @@ function AcademyFacility() {
       <Card
         sx={{
           minWidth: "200px",
-          maxWidth: "300px",
+          maxWidth: "400px",
           minHeight: "fit-content",
         }}
       >
         <CardMedia>
           <img
-            src="https://images.unsplash.com/photo-1507226353400-5ec8e43add88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
             loading="lazy"
           />
         </CardMedia>
@@ -62,6 +62,18 @@ function AcademyFacility() {
               setAcademySettings((prev) => {
                 let newSettings = { ...prev };
                 newSettings.managerQuality = v;
+
+                return newSettings;
+              });
+            }}
+          />
+          Facilities quality:{" "}
+          <RateStars
+            value={academySettings.facilitiesQuality}
+            setValue={(v) => {
+              setAcademySettings((prev) => {
+                let newSettings = { ...prev };
+                newSettings.facilitiesQuality = v;
 
                 return newSettings;
               });

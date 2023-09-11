@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ITactics, IUserSettings } from "./Types.ts";
+import { IContextMenu, ITactics, IUserSettings } from "./Types.ts";
 
 const userSettingsInitialValue: Partial<IUserSettings> = {
   mode: "light",
@@ -8,9 +8,17 @@ const userSettingsInitialValue: Partial<IUserSettings> = {
 
 const tacticsInitialValue: Partial<ITactics> = {};
 
+const contextMenuInitialValue: Partial<IContextMenu> = {
+  settings: [],
+};
+
 export const UserSettingsContext = createContext<Partial<IUserSettings>>(
   userSettingsInitialValue
 );
 
 export const TacticsContext =
   createContext<Partial<ITactics>>(tacticsInitialValue);
+
+export const ContextMenuContext = createContext<Partial<IContextMenu>>(
+  contextMenuInitialValue
+);

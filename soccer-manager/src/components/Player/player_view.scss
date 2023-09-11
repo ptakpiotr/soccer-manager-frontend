@@ -1,0 +1,54 @@
+.player-view-img {
+  max-width: 200px;
+}
+
+.short-player-info-number {
+  color: darkslateblue;
+  padding: 1rem;
+  letter-spacing: 0.2rem;
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.player-soccer-team-logo {
+  width: 50px;
+  height: 50px;
+
+  .soccer-logo-icon svg {
+    font-size: 1.5rem !important;
+  }
+  .soccer-logo-name {
+    display: none;
+  }
+}
+
+.player-info-list {
+  .player-info-list-item {
+    width: 200px;
+  }
+
+  .player-info-list-item:nth-of-type(2n) {
+    background-color: navajowhite;
+  }
+}
+
+.player-history-list {
+  .player-history-list-item {
+    width: 400px;
+  }
+
+  .player-history-list-item:nth-of-type(2n) {
+    background-color: yellowgreen;
+  }
+}
+
+.player-contract-list {
+  .player-contract-list-item {
+    width: 200px;
+  }
+
+  .player-contract-list-item:nth-of-type(2n) {
+    background-color: skyblue;
+  }
+}
+

@@ -7,11 +7,65 @@ import {
 } from "./Validation";
 import { PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
+import { ItemParams } from "react-contexify";
+
 export interface IUserSettings {
   mode: PaletteMode;
   bottomMenu: boolean;
   setMode: React.Dispatch<React.SetStateAction<PaletteMode>>;
   enableBottomMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface ITeamHistoryInfo {
+  id: string;
+  teamId: string;
+  teamName: string;
+  from: Date;
+  to?: Date;
+}
+
+export interface IContractInfo {
+  id: string;
+  playerId: string;
+  marketValue: number;
+  wage: number;
+  to: Date;
+}
+
+export interface IShortTeamInfo {
+  teamId: string;
+  teamLogo: ISoccerLogo;
+}
+
+export interface IPlayerAdditionalInfo {
+  isBenched?: boolean;
+  injuredTill?: Date;
+  suspended?: boolean;
+  yellowCard?: boolean;
+  age: number;
+  teamHistory: ITeamHistoryInfo[];
+}
+
+export interface IPlayerInfo extends IPlayerAdditionalInfo {
+  id: string;
+  playerName: string;
+  playerRating: PlayerRating;
+  potentialRating: PlayerRating;
+  positionType: PositionType;
+  playerNumber: number;
+  image: string;
+  condition: number;
+  countryCode: string;
+  foot: "L" | "R";
+  currentTeamData: IShortTeamInfo;
+}
+
+export interface IPlayerTableInfo {
+  positionType: PositionType;
+  playerRating: PlayerRating;
+  potentialRating: PlayerRating;
+  foot: "L" | "R";
+  condition: number;
 }
 
 export interface ITactics {
@@ -104,6 +158,18 @@ export interface IAcademySettings {
   capacity: number;
   managerQuality: number;
   facilitiesQuality: number;
+}
+
+export interface IContextMenuSetting {
+  readonly settingId: string;
+  readonly settingDesc: string;
+  readonly icon: IconType;
+  readonly settingItemHandler: (args: ItemParams<any, any>) => void;
+}
+
+export interface IContextMenu {
+  settings: IContextMenuSetting[];
+  setSettings: React.Dispatch<React.SetStateAction<IContextMenuSetting[]>>;
 }
 
 export enum SoccerShirtType {

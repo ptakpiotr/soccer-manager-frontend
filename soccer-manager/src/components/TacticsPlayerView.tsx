@@ -42,6 +42,7 @@ function TacticsPlayerView({
           }}
         >
           <FormationPlayerView
+            id={"123"}
             image={image}
             positionType={positionType}
             variant={ViewVariant.SMALL}
