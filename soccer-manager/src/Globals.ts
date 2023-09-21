@@ -7,6 +7,7 @@ import {
   MdSchool,
   MdBuild,
   MdTransferWithinAStation,
+  MdOutlineMoney,
 } from "react-icons/md";
 import {
   GiCastle,
@@ -140,6 +141,11 @@ export default {
       itemText: "Transfers",
       itemIcon: MdTransferWithinAStation,
       url: "/transfers",
+    },
+    {
+      itemText: "Budget",
+      itemIcon: MdOutlineMoney,
+      url: "/budget",
     },
   ] as const,
   availableLogoIcons: [

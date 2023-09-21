@@ -23,6 +23,7 @@ import Facilities from "./pages/Facilities";
 import AppContextMenu from "./components/misc/AppContextMenu";
 import Player from "./pages/Player";
 import Transfers from "./pages/Transfers";
+import Budget from "./pages/Budget";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -334,6 +335,7 @@ function App() {
                     <Route path="/facilities" Component={Facilities} />
                     <Route path="/player/:id" Component={Player} />
                     <Route path="/transfers" Component={Transfers} />
+                    <Route path="/budget" Component={Budget} />
                     <Route path="/settings" Component={Settings} />
                     <Route path="/register" Component={Register} />
                     <Route path="/login" Component={Login} />
