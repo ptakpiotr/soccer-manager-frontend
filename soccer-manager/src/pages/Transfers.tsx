@@ -1,5 +1,9 @@
+import TransfersView from "../components/Transfers/TransfersView";
+
 function Transfers() {
-  return <main>Transfers</main>;
+  return <main>
+    <TransfersView />
+  </main>;
 }
 
 export default Transfers;

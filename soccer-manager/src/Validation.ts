@@ -1,5 +1,5 @@
 import { object, number, mixed, string, boolean, ref } from "yup";
-import { EventType, IMatchCalendarInfo, ITrainingCalendarInfo, MatchType } from "./Types";
+import { EventType, IMatchCalendarInfo, IShortTeamInfo, ITrainingCalendarInfo, MatchType, PlayerRating } from "./Types";
 
 export const playerRatingSchema = object({
   rating: number().min(0).max(5).required(),
@@ -30,4 +30,15 @@ export const registerSchema = object({
 export const loginSchema = object({
   email: string().email().required("Email address is required"),
   password: string().required("Password is required"),
+});
+
+export const playerTransferSchema = object({
+  id: string().required(),
+  name: string().required(),
+  age: number().required().lessThan(50).moreThan(10),
+  rating: mixed<PlayerRating>().required(),
+  potentialRating: mixed<PlayerRating>().required(),
+  marketValue: number().required(),
+  wage: number().required(),
+  teamInfo: mixed<IShortTeamInfo>()
 });

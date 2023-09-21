@@ -172,7 +172,7 @@ function TableView() {
   const [teams, setTeams] = useState<ITableTeamInfo[]>(teamsInfo);
   const [orderBy, setOrderBy] = useState<keyof ITableTeamInfo>("points");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
-
+  
   useEffect(() => {
     setTeams((t) => {
       var enumerable = Enumerable.from(t);

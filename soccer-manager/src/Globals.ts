@@ -6,10 +6,23 @@ import {
   MdTableView,
   MdSchool,
   MdBuild,
-  MdTransferWithinAStation
+  MdTransferWithinAStation,
 } from "react-icons/md";
-import { GiCastle, GiChicken, GiFalconMoon, GiFlamer, GiHorseHead } from "react-icons/gi";
-import { PositionType, TrainingType, ViewVariant, IconImage, GroundType } from "./Types";
+import {
+  GiCastle,
+  GiChicken,
+  GiFalconMoon,
+  GiFlamer,
+  GiHorseHead,
+} from "react-icons/gi";
+import {
+  PositionType,
+  TrainingType,
+  ViewVariant,
+  IconImage,
+  GroundType,
+  TransferFilterKeys,
+} from "./Types";
 
 export default {
   functions: {
@@ -76,8 +89,8 @@ export default {
 
       return color;
     },
-    mapGroundTypeToColor(groundType: GroundType){
-      switch(groundType){
+    mapGroundTypeToColor(groundType: GroundType) {
+      switch (groundType) {
         case GroundType.HOME:
           return "#F24C00";
         case GroundType.AWAY:
@@ -85,7 +98,7 @@ export default {
         default:
           return "#9D514B";
       }
-    }
+    },
   },
   navigation: [
     {
@@ -156,4 +169,29 @@ export default {
       icon: GiChicken,
     },
   ] as IconImage[],
+  availableFilters: [
+    {
+      filterName: "Age",
+      filterKey: "age",
+    },
+    {
+      filterName: "Rating",
+      filterKey: "rating",
+    },
+    {
+      filterName: "Potential rating",
+      filterKey: "potentialRating",
+    },
+    {
+      filterName: "Market value",
+      filterKey: "marketValue",
+    },
+    {
+      filterName: "Wage",
+      filterKey: "wage",
+    },
+  ] as {
+    filterName: string;
+    filterKey: keyof TransferFilterKeys;
+  }[],
 };

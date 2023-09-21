@@ -2,15 +2,15 @@ import { TableCell, TableCellProps } from "@mui/material";
 import { ITableTeamInfo } from "../../Types";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
-interface IProps extends TableCellProps {
-  orderBy: keyof ITableTeamInfo;
-  prop: keyof ITableTeamInfo;
-  setOrderBy: React.Dispatch<React.SetStateAction<keyof ITableTeamInfo>>;
+interface IProps<T> extends TableCellProps {
+  orderBy: keyof T;
+  prop: keyof T;
+  setOrderBy: React.Dispatch<React.SetStateAction<keyof T>>;
   sortAscending: boolean;
   setSortAscending: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function SortableTableCell(props: IProps) {
+function SortableTableCell<T>(props: IProps<T>) {
   return (
     <TableCell
       {...props}
@@ -25,7 +25,7 @@ function SortableTableCell(props: IProps) {
         props.setOrderBy(props.prop);
       }}
     >
-      {props.prop}
+      {props.prop.toString()}
       {props.orderBy === props.prop ? (
         props.sortAscending ? (
           <MdArrowUpward />

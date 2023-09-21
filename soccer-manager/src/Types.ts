@@ -3,11 +3,19 @@ import {
   eventSchema,
   loginSchema,
   playerRatingSchema,
+  playerTransferSchema,
   registerSchema,
 } from "./Validation";
 import { PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
 import { ItemParams } from "react-contexify";
+
+type MapPropertyToFilter<T> = {
+  -readonly [Property in keyof T]: {
+    from?: T[Property];
+    to?: T[Property];
+  };
+};
 
 export interface IUserSettings {
   mode: PaletteMode;
@@ -172,6 +180,31 @@ export interface IContextMenu {
   setSettings: React.Dispatch<React.SetStateAction<IContextMenuSetting[]>>;
 }
 
+export type TransferFilterKeys = Partial<
+  MapPropertyToFilter<Omit<PlayerTransferType, "teamInfo" | "id" | "name">>
+>;
+
+export interface ITransferFilter<
+  T extends {
+    from?: U;
+    to?: U;
+  },
+  U
+> {
+  readonly filterType: TransferFilterType;
+  readonly filterKey: keyof TransferFilterKeys;
+  readonly label: string;
+  from?: U;
+  to?: U;
+  setValue: (filterKey: keyof TransferFilterKeys, from?: U, to?: U) => void;
+  validateFilter?: (filterValue: { from?: U; to?: U }) => boolean;
+}
+
+export enum TransferFilterType {
+  NUMERIC,
+  MONEY,
+}
+
 export enum SoccerShirtType {
   PLAIN = "Plain",
   STRIPES_SIMPLE = "Simple stripes",
@@ -252,3 +285,6 @@ export type PlayerRating = InferType<typeof playerRatingSchema>;
 export type CalendarEvent = InferType<typeof eventSchema>;
 export type RegisterType = InferType<typeof registerSchema>;
 export type LoginType = InferType<typeof loginSchema>;
+export type PlayerTransferType = Readonly<
+  InferType<typeof playerTransferSchema>
+>;
