@@ -8,7 +8,12 @@ interface IProps {
 
 function FormationView({ playersInFormation }: IProps) {
   return (
-    <Grid container justifyContent={"center"} columnGap={"2rem"}>
+    <Grid
+      className="formation-players-container"
+      container
+      justifyContent={"center"}
+      columnGap={"2rem"}
+    >
       {playersInFormation ? (
         playersInFormation.map((p) => (
           <Grid key={p.playerId} item>

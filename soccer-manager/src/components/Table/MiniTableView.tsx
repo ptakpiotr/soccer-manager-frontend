@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { GameResultType, ITableTeamInfo } from "../../Types";
 import Enumerable from "linq";
+import { useNavigate } from "react-router-dom";
 import { MdOpenInNew } from "react-icons/md";
 import RecentForm from "./RecentForm";
 
@@ -170,6 +171,8 @@ const teamsInfo: ITableTeamInfo[] = [
 function MiniTableView() {
   const [teams, setTeams] = useState<ITableTeamInfo[]>(teamsInfo);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setTeams((t) => {
       var enumerable = Enumerable.from(t);
@@ -177,6 +180,10 @@ function MiniTableView() {
       return enumerable.orderByDescending((t) => t.points).toArray();
     });
   }, []);
+
+  const handleClick = (teamId: number) => {
+    navigate(`/team/${teamId}`);
+  };
 
   return (
     <>
@@ -203,7 +210,12 @@ function MiniTableView() {
                   }}
                 >
                   <Typography flex={1}>{t.name}</Typography>
-                  <span>
+                  <span
+                    className="table-open-new"
+                    onClick={() => {
+                      handleClick(t.id);
+                    }}
+                  >
                     <MdOpenInNew />
                   </span>
                 </TableCell>

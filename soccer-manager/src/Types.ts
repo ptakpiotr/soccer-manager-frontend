@@ -8,7 +8,6 @@ import {
 } from "./Validation";
 import { PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
-import { ItemParams } from "react-contexify";
 
 type MapPropertyToFilter<T> = {
   -readonly [Property in keyof T]: {
@@ -166,18 +165,6 @@ export interface IAcademySettings {
   capacity: number;
   managerQuality: number;
   facilitiesQuality: number;
-}
-
-export interface IContextMenuSetting {
-  readonly settingId: string;
-  readonly settingDesc: string;
-  readonly icon: IconType;
-  readonly settingItemHandler: (args: ItemParams<any, any>) => void;
-}
-
-export interface IContextMenu {
-  settings: IContextMenuSetting[];
-  setSettings: React.Dispatch<React.SetStateAction<IContextMenuSetting[]>>;
 }
 
 export type TransferFilterKeys = Partial<

@@ -1,10 +1,7 @@
 import { IconButton, Tooltip } from "@mui/material";
 import Globals from "../Globals";
 import { PositionType, ViewVariant } from "../Types";
-import useAppContextMenu from "../hooks/useAppContextMenu";
-import { MdOpenInBrowser } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import AppContextMenu from "./misc/AppContextMenu";
+import { Link } from "react-router-dom";
 
 export interface IProps {
   id: string;
@@ -27,8 +24,7 @@ function FormationPlayerView({
   disableRipple,
   variant = ViewVariant.STANDARD,
 }: IProps) {
-  const navigate = useNavigate();
-  const url = `player/${id}`;
+  const widthAndHeight = Globals.functions.mapViewVariantToMaxWidth(variant);
 
   const borderColor = Globals.functions.mapCardColorToBorderColor(
     Globals.functions.mapPositionTypeToColor(positionType),
@@ -37,19 +33,7 @@ function FormationPlayerView({
   );
 
   return (
-    <AppContextMenu
-      contextMenuId={`player-info-menu-${id}`}
-      customSettings={[
-        {
-          settingId: "player-info",
-          icon: MdOpenInBrowser,
-          settingDesc: "Open",
-          settingItemHandler(_) {
-            navigate(url);
-          },
-        },
-      ]}
-    >
+    <Link to={`/player/${id}`}>
       <Tooltip title={playerName ?? ""} arrow>
         <IconButton
           sx={{
@@ -62,16 +46,17 @@ function FormationPlayerView({
           }`}
           disableRipple={disableRipple}
         >
-          <img
-            src={image}
-            loading="lazy"
+          <div
+            className="formation-player-image"
             style={{
-              maxWidth: Globals.functions.mapViewVariantToMaxWidth(variant),
+              backgroundImage: `url("${image}.png")`,
+              width: widthAndHeight,
+              height: widthAndHeight,
             }}
-          />
+          ></div>
         </IconButton>
       </Tooltip>
-    </AppContextMenu>
+    </Link>
   );
 }
 

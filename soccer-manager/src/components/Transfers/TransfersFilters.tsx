@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransferFilter from "./TransferFilter";
 import { TransferFilterKeys, TransferFilterType } from "../../Types";
 import { Button, Grid } from "@mui/material";
@@ -12,6 +12,14 @@ interface IProps {
 
 function TransfersFilters({ callSearch }: IProps) {
   const [filterValues, setFilterValues] = useState<TransferFilterKeys>({});
+
+  useEffect(() => {
+    const storageFilterValues = localStorage.getItem("filterValues");
+
+    if (storageFilterValues) {
+      setFilterValues(JSON.parse(storageFilterValues));
+    }
+  }, []);
 
   const validateFilter = <U,>(filter: { from?: U; to?: U }) => {
     const { from, to } = filter;
@@ -36,17 +44,19 @@ function TransfersFilters({ callSearch }: IProps) {
     setFilterValues((prev) => ({
       ...prev,
       [filterKey]: {
-        from,
-        to,
+        from: from ? from : prev[filterKey]?.from,
+        to: to ? to : prev[filterKey]?.to,
       },
     }));
   };
 
   const clearFilters = () => {
+    localStorage.setItem("filterValues", JSON.stringify({}));
     setFilterValues({});
   };
 
   const handleSearch = () => {
+    localStorage.setItem("filterValues", JSON.stringify(filterValues));
     callSearch();
   };
 

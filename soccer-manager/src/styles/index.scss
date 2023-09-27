@@ -53,6 +53,21 @@ main {
   cursor: pointer;
 }
 
+.formation-player-image {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.table-open-new:hover {
+  cursor: pointer;
+}
+
+.formation-players-container:not(:first-of-type) {
+  border-bottom: 1px dashed yellowgreen;
+  margin-bottom: 0.5rem;
+}
+
 .register-page-container {
   display: flex;
   flex-direction: column;
@@ -80,7 +95,7 @@ main {
   .second-row-container {
     flex-direction: column !important;
     row-gap: 2rem;
-    
+
     .soccer-logo-designer-container,
     .soccer-kit-designer-container {
       align-self: center;

@@ -11,6 +11,7 @@ import {
 import { GameResultType, ITableTeamInfo } from "../../Types";
 import Enumerable from "linq";
 import { MdOpenInNew } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import SortableTableCell from "./SortableTableCell";
 import RecentForm from "./RecentForm";
 
@@ -172,7 +173,9 @@ function TableView() {
   const [teams, setTeams] = useState<ITableTeamInfo[]>(teamsInfo);
   const [orderBy, setOrderBy] = useState<keyof ITableTeamInfo>("points");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
-  
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     setTeams((t) => {
       var enumerable = Enumerable.from(t);
@@ -184,6 +187,10 @@ function TableView() {
       }
     });
   }, [orderBy, sortAscending]);
+
+  const handleClick = (teamId: number) => {
+    navigate(`/team/${teamId}`);
+  };
 
   return (
     <>
@@ -219,7 +226,12 @@ function TableView() {
                   }}
                 >
                   <Typography flex={1}>{t.name}</Typography>
-                  <span>
+                  <span
+                    className="table-open-new"
+                    onClick={() => {
+                      handleClick(t.id);
+                    }}
+                  >
                     <MdOpenInNew />
                   </span>
                 </TableCell>

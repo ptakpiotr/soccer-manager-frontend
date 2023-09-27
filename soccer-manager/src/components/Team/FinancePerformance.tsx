@@ -16,12 +16,16 @@ function FinancePerformance({ monthlyPerformance }: IFinancePerformance) {
       ),
     [monthlyPerformance]
   );
-
+  //responsive charts: https://www.chartjs.org/docs/latest/configuration/responsive.html
   return (
     <Chart
       type={"line"}
       options={{
         borderColor: "#228b22",
+        responsive: true,
+      }}
+      style={{
+        maxWidth: "fit-content",
       }}
       data={{
         datasets: [

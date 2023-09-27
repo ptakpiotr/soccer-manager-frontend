@@ -4,6 +4,7 @@ import { Paper, PaperProps } from "@mui/material";
 function AppPaper(props: PropsWithChildren<PaperProps>) {
   return (
     <Paper
+      className="app-paper"
       {...props}
       elevation={5}
       variant="elevation"

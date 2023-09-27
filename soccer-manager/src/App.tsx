@@ -4,13 +4,9 @@ import Header from "./components/Header";
 import Tactics from "./pages/Tactics";
 import { ThemeProvider, createTheme, PaletteMode } from "@mui/material";
 import { useMemo, useState } from "react";
-import {
-  ContextMenuContext,
-  TacticsContext,
-  UserSettingsContext,
-} from "./context";
+import { TacticsContext, UserSettingsContext } from "./context";
 import Settings from "./pages/Settings";
-import { IContextMenuSetting, IPlayerSquadInfo, PositionType } from "./Types";
+import { IPlayerSquadInfo, PositionType } from "./Types";
 import BottomMenu from "./components/BottomMenu";
 import Calendar from "./pages/Calendar";
 import Table from "./pages/Table";
@@ -20,15 +16,14 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Academy from "./pages/Academy";
 import Facilities from "./pages/Facilities";
-import AppContextMenu from "./components/misc/AppContextMenu";
 import Player from "./pages/Player";
 import Transfers from "./pages/Transfers";
 import Budget from "./pages/Budget";
+import TeamInfo from "./pages/TeamInfo";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
   const [bottomMenu, enableBottomMenu] = useState<boolean>(false);
-  const [contextMenu, setContextMenu] = useState<IContextMenuSetting[]>([]);
 
   const playerSquadInfoList: IPlayerSquadInfo[] = [
     {
@@ -314,39 +309,31 @@ function App() {
           setReserve: setBenchedPlayers,
         }}
       >
-        <ContextMenuContext.Provider
-          value={{
-            settings: contextMenu,
-            setSettings: setContextMenu,
-          }}
-        >
-          <ThemeProvider theme={theme}>
-            <div className={mode === "light" ? "light-mode" : "dark-mode"}>
-              <BrowserRouter>
-                <Header />
-                <AppContextMenu>
-                  <Routes>
-                    <Route path="/" Component={Home} />
-                    <Route path="/team" Component={Team} />
-                    <Route path="/tactics" Component={Tactics} />
-                    <Route path="/calendar" Component={Calendar} />
-                    <Route path="/table" Component={Table} />
-                    <Route path="/academy" Component={Academy} />
-                    <Route path="/facilities" Component={Facilities} />
-                    <Route path="/player/:id" Component={Player} />
-                    <Route path="/transfers" Component={Transfers} />
-                    <Route path="/budget" Component={Budget} />
-                    <Route path="/settings" Component={Settings} />
-                    <Route path="/register" Component={Register} />
-                    <Route path="/login" Component={Login} />
-                    <Route path="/forgot-password" Component={ForgotPassword} />
-                  </Routes>
-                </AppContextMenu>
-                <BottomMenu />
-              </BrowserRouter>
-            </div>
-          </ThemeProvider>
-        </ContextMenuContext.Provider>
+        <ThemeProvider theme={theme}>
+          <div className={mode === "light" ? "light-mode" : "dark-mode"}>
+            <BrowserRouter>
+              <Header />
+              <Routes>
+                <Route path="/" Component={Home} />
+                <Route path="/team" Component={Team} />
+                <Route path="/tactics" Component={Tactics} />
+                <Route path="/calendar" Component={Calendar} />
+                <Route path="/table" Component={Table} />
+                <Route path="/academy" Component={Academy} />
+                <Route path="/facilities" Component={Facilities} />
+                <Route path="/player/:id" Component={Player} />
+                <Route path="/transfers" Component={Transfers} />
+                <Route path="/budget" Component={Budget} />
+                <Route path="/team/:id" Component={TeamInfo} />
+                <Route path="/settings" Component={Settings} />
+                <Route path="/register" Component={Register} />
+                <Route path="/login" Component={Login} />
+                <Route path="/forgot-password" Component={ForgotPassword} />
+              </Routes>
+              <BottomMenu />
+            </BrowserRouter>
+          </div>
+        </ThemeProvider>
       </TacticsContext.Provider>
     </UserSettingsContext.Provider>
   );
