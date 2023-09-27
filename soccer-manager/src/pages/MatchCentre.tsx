@@ -1,7 +1,13 @@
-import React from "react";
+import { useParams } from "react-router-dom";
+import MatchCentreView from "../components/MatchCentre/MatchCentreView";
 
 function MatchCentre() {
-  return <main>MatchCentre</main>;
+  const { id } = useParams();
+  return (
+    <main>
+      <MatchCentreView />
+    </main>
+  );
 }
 
 export default MatchCentre;

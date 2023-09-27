@@ -20,6 +20,7 @@ import Player from "./pages/Player";
 import Transfers from "./pages/Transfers";
 import Budget from "./pages/Budget";
 import TeamInfo from "./pages/TeamInfo";
+import MatchCentre from "./pages/MatchCentre";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -325,6 +326,7 @@ function App() {
                 <Route path="/transfers" Component={Transfers} />
                 <Route path="/budget" Component={Budget} />
                 <Route path="/team/:id" Component={TeamInfo} />
+                <Route path="/match/:id" Component={MatchCentre} />
                 <Route path="/settings" Component={Settings} />
                 <Route path="/register" Component={Register} />
                 <Route path="/login" Component={Login} />

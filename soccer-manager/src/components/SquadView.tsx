@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { IPlayerSquadInfo, ISquadFormationShape } from "../Types";
+import { IPlayerSquadInfo, ISquadFormationShape, PositionType } from "../Types";
 import { Grid } from "@mui/material";
 import FormationView from "./FormationView";
 import { TacticsContext } from "../context";
@@ -55,10 +55,22 @@ function SquadView({ formation }: IProps) {
 
   return (
     <Grid container rowGap={"2rem"}>
-      <FormationView playersInFormation={goalkeeper} />
-      <FormationView playersInFormation={defenders} />
-      <FormationView playersInFormation={midfielders} />
-      <FormationView playersInFormation={strikers} />
+      <FormationView
+        positionType={PositionType.GOALKEEPER}
+        playersInFormation={goalkeeper}
+      />
+      <FormationView
+        positionType={PositionType.DEFENDER}
+        playersInFormation={defenders}
+      />
+      <FormationView
+        positionType={PositionType.MIDFIELDER}
+        playersInFormation={midfielders}
+      />
+      <FormationView
+        positionType={PositionType.STRIKER}
+        playersInFormation={strikers}
+      />
     </Grid>
   );
 }

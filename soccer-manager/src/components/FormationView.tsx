@@ -1,12 +1,13 @@
 import { Alert, Badge, Grid } from "@mui/material";
-import { IPlayerSquadInfo } from "../Types";
+import { IPlayerSquadInfo, PositionType } from "../Types";
 import DroppablePlayerView from "./DroppablePlayerView";
 import { MdLocalHospital } from "react-icons/md";
 interface IProps {
   playersInFormation?: IPlayerSquadInfo[];
+  positionType: PositionType;
 }
 
-function FormationView({ playersInFormation }: IProps) {
+function FormationView({ playersInFormation, positionType }: IProps) {
   return (
     <Grid
       className="formation-players-container"
@@ -18,7 +19,9 @@ function FormationView({ playersInFormation }: IProps) {
         playersInFormation.map((p) => (
           <Grid key={p.playerId} item>
             <Badge
-              badgeContent={p.playerRating.rating}
+              badgeContent={
+                positionType === p.positionType ? p.playerRating.rating : 1
+              }
               color={"info"}
               anchorOrigin={{
                 vertical: "bottom",
