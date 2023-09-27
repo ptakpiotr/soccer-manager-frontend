@@ -23,6 +23,7 @@ function BottomMenu() {
   if (bottomMenu) {
     return (
       <BottomNavigation
+        className="app-bottom-navigation-menu"
         value={currentSelection}
         onChange={handleChange}
         showLabels
