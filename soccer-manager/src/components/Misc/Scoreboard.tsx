@@ -1,7 +1,7 @@
 import { Grid, Paper } from "@mui/material";
 import { useMemo } from "react";
 
-interface IProps {
+export interface IProps {
   isMyTeamHome: boolean;
   homeScore: number;
   awayScore: number;
@@ -31,14 +31,14 @@ function Scoreboard({ isMyTeamHome, homeScore, awayScore }: IProps) {
   const resultColors = useMemo(() => {
     return getColorsForScores();
   }, []);
-  
+
   return (
     <Grid container>
       <Grid flex={4} item>
         <Paper
           sx={{
             padding: "1rem",
-            color: resultColors[0]
+            color: resultColors[0],
           }}
         >
           {homeScore}
@@ -49,7 +49,7 @@ function Scoreboard({ isMyTeamHome, homeScore, awayScore }: IProps) {
         <Paper
           sx={{
             padding: "1rem",
-            color: resultColors[1]
+            color: resultColors[1],
           }}
         >
           {awayScore}

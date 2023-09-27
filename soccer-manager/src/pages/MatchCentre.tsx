@@ -5,7 +5,7 @@ function MatchCentre() {
   const { id } = useParams();
   return (
     <main>
-      <MatchCentreView />
+      <MatchCentreView isMyTeamHome={false} homeScore={10} awayScore={10} />
     </main>
   );
 }
