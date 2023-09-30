@@ -13,10 +13,12 @@ import {
   MdFormatPaint,
   MdAccountCircle,
   MdExpandMore,
-  MdSettings,
+  MdAdminPanelSettings,
 } from "react-icons/md";
 import ManageAccountActionCenter from "../components/Account/ManageAccountActionCenter";
 import ColorThemePicker from "../components/misc/ColorThemePicker";
+import AdminPanel from "../components/Account/AdminPanel";
+import ProtectedAreaView from "../components/misc/ProtectedAreaView";
 
 function Settings() {
   const { mode, bottomMenu, setMode, enableBottomMenu } =
@@ -71,10 +73,13 @@ function Settings() {
             id="settings2-header"
           >
             <Typography>
-              <MdSettings /> System settings
+              <MdAdminPanelSettings /> Admin panel settings
             </Typography>
           </AccordionSummary>
-          <AccordionDetails></AccordionDetails>
+          <AccordionDetails>
+            {/* <AdminPanel /> */}
+            <ProtectedAreaView />
+          </AccordionDetails>
         </Accordion>
         <Accordion>
           <AccordionSummary

@@ -1,4 +1,4 @@
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, Typography } from "@mui/material";
 import { IPlayerTableInfo } from "../../Types";
 import Globals from "../../Globals";
 import PlayerRating from "../PlayerRating";
@@ -16,32 +16,42 @@ function PlayerInfoTable({
   return (
     <List className="player-info-list">
       <ListItem className="player-info-list-item">
-        Position:
-        <span
-          style={{
-            color: Globals.functions.mapPositionTypeToColor(positionType),
-          }}
-        >
-          {Globals.functions.mapPositionTypeToShortName(positionType)}
-        </span>
+        <Typography>
+          Position:
+          <span
+            style={{
+              color: Globals.functions.mapPositionTypeToColor(positionType),
+            }}
+          >
+            {Globals.functions.mapPositionTypeToShortName(positionType)}
+          </span>
+        </Typography>
       </ListItem>
       <ListItem className="player-info-list-item">
-        Rating:
-        <span>
-          <PlayerRating rating={playerRating.rating} />
-        </span>
+        <Typography>
+          Rating:
+          <span>
+            <PlayerRating rating={playerRating.rating} />
+          </span>
+        </Typography>
       </ListItem>
       <ListItem className="player-info-list-item">
-        Potential:
-        <span>
-          <PlayerRating rating={potentialRating.rating} />
-        </span>
+        <Typography>
+          Potential:
+          <span>
+            <PlayerRating rating={potentialRating.rating} />
+          </span>
+        </Typography>
       </ListItem>
       <ListItem className="player-info-list-item">
-        Foot:
-        <span>{foot}</span>
+        <Typography>
+          Foot:
+          <span>{foot}</span>
+        </Typography>
       </ListItem>
-      <ListItem className="player-info-list-item">Condition:</ListItem>
+      <ListItem className="player-info-list-item">
+        <Typography>Condition:</Typography>
+      </ListItem>
       <PlayerCondition condition={condition} />
     </List>
   );
