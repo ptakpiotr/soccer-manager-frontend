@@ -202,6 +202,13 @@ export interface IconImage {
   icon: IconType;
 }
 
+export interface IErrorInfo {
+  errorMessage: string;
+  errorCode?: number;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  setErrorCode: React.Dispatch<React.SetStateAction<number | undefined>>;
+}
+
 export enum PositionType {
   GOALKEEPER,
   DEFENDER,

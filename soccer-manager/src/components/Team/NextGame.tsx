@@ -1,6 +1,8 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 
-function NextGame() {
+interface IProps {}
+
+function NextGame({}: IProps) {
   return (
     <Grid container>
       <Grid container>

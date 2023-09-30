@@ -4,13 +4,16 @@ import Header from "./components/Header";
 import Tactics from "./pages/Tactics";
 import { ThemeProvider, createTheme, PaletteMode } from "@mui/material";
 import { useMemo, useState } from "react";
-import { TacticsContext, UserSettingsContext } from "./context";
+import {
+  ErrorViewContext,
+  TacticsContext,
+  UserSettingsContext,
+} from "./context";
 import Settings from "./pages/Settings";
 import { IPlayerSquadInfo, PositionType } from "./Types";
 import BottomMenu from "./components/BottomMenu";
 import Calendar from "./pages/Calendar";
 import Table from "./pages/Table";
-import Team from "./pages/Team";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -25,6 +28,9 @@ import MatchCentre from "./pages/MatchCentre";
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
   const [bottomMenu, enableBottomMenu] = useState<boolean>(false);
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorCode, setErrorCode] = useState<number>();
 
   const playerSquadInfoList: IPlayerSquadInfo[] = [
     {
@@ -294,50 +300,58 @@ function App() {
   );
 
   return (
-    <UserSettingsContext.Provider
+    <ErrorViewContext.Provider
       value={{
-        mode,
-        setMode,
-        bottomMenu,
-        enableBottomMenu,
+        errorCode,
+        errorMessage,
+        setErrorCode,
+        setErrorMessage,
       }}
     >
-      <TacticsContext.Provider
+      <UserSettingsContext.Provider
         value={{
-          squad: squadPlayers,
-          reserve: benchedPlayers,
-          setSquad: setSquadPlayers,
-          setReserve: setBenchedPlayers,
+          mode,
+          setMode,
+          bottomMenu,
+          enableBottomMenu,
         }}
       >
-        <ThemeProvider theme={theme}>
-          <div className={mode === "light" ? "light-mode" : "dark-mode"}>
-            <BrowserRouter>
-              <Header />
-              <Routes>
-                <Route path="/" Component={Home} />
-                <Route path="/team" Component={Team} />
-                <Route path="/tactics" Component={Tactics} />
-                <Route path="/calendar" Component={Calendar} />
-                <Route path="/table" Component={Table} />
-                <Route path="/academy" Component={Academy} />
-                <Route path="/facilities" Component={Facilities} />
-                <Route path="/player/:id" Component={Player} />
-                <Route path="/transfers" Component={Transfers} />
-                <Route path="/budget" Component={Budget} />
-                <Route path="/team/:id" Component={TeamInfo} />
-                <Route path="/match/:id" Component={MatchCentre} />
-                <Route path="/settings" Component={Settings} />
-                <Route path="/register" Component={Register} />
-                <Route path="/login" Component={Login} />
-                <Route path="/forgot-password" Component={ForgotPassword} />
-              </Routes>
-              <BottomMenu />
-            </BrowserRouter>
-          </div>
-        </ThemeProvider>
-      </TacticsContext.Provider>
-    </UserSettingsContext.Provider>
+        <TacticsContext.Provider
+          value={{
+            squad: squadPlayers,
+            reserve: benchedPlayers,
+            setSquad: setSquadPlayers,
+            setReserve: setBenchedPlayers,
+          }}
+        >
+          <ThemeProvider theme={theme}>
+            <div className={mode === "light" ? "light-mode" : "dark-mode"}>
+              <BrowserRouter>
+                <Header />
+                <Routes>
+                  <Route path="/" Component={Home} />
+                  <Route path="/tactics" Component={Tactics} />
+                  <Route path="/calendar" Component={Calendar} />
+                  <Route path="/table" Component={Table} />
+                  <Route path="/academy" Component={Academy} />
+                  <Route path="/facilities" Component={Facilities} />
+                  <Route path="/player/:id" Component={Player} />
+                  <Route path="/transfers" Component={Transfers} />
+                  <Route path="/budget" Component={Budget} />
+                  <Route path="/team/:id" Component={TeamInfo} />
+                  <Route path="/match/:id" Component={MatchCentre} />
+                  <Route path="/settings" Component={Settings} />
+                  <Route path="/register" Component={Register} />
+                  <Route path="/login" Component={Login} />
+                  <Route path="/forgot-password" Component={ForgotPassword} />
+                </Routes>
+                <BottomMenu />
+              </BrowserRouter>
+            </div>
+          </ThemeProvider>
+        </TacticsContext.Provider>
+      </UserSettingsContext.Provider>
+    </ErrorViewContext.Provider>
   );
 }
 

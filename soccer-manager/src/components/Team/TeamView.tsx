@@ -5,15 +5,32 @@ import RateGame from "../RateGame";
 import NextGame from "./NextGame";
 import TeamViewGridItem from "./TeamViewGridItem";
 import MiniPanel from "../misc/MiniPanel";
+import ErrorView from "../misc/ErrorView";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useEffect } from "react";
 
 function TeamView() {
+  const nextGameId = 123;
+
+  const { setErrorMessage } = useErrorMessageManager();
+
+  useEffect(() => {
+    if (setErrorMessage) {
+      if (!nextGameId) {
+        setErrorMessage("No next game info");
+      } else {
+        setErrorMessage("");
+      }
+    }
+  }, [nextGameId]);
+
   return (
     <Grid container>
       <TeamViewGridItem>
         <MiniPanel />
       </TeamViewGridItem>
-      <TeamViewGridItem>
-        <NextGame />
+      <TeamViewGridItem url={nextGameId ? `/match/${nextGameId}` : undefined}>
+        {nextGameId ? <NextGame /> : <ErrorView />}
       </TeamViewGridItem>
       <TeamViewGridItem>
         <RateGame />

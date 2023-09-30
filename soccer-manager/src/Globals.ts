@@ -105,7 +105,7 @@ export default {
     {
       itemText: "Team",
       itemIcon: MdPeople,
-      url: "/team",
+      url: "/",
     },
     {
       itemText: "Tactics",

@@ -1,6 +1,11 @@
+import TeamView from "../components/Team/TeamView";
 
 function Home() {
-  return <main>Home</main>;
+  return (
+    <main>
+      <TeamView />
+    </main>
+  );
 }
 
 export default Home;
