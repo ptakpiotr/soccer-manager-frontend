@@ -16,7 +16,15 @@ function TeamViewGridItem({ url, children }: PropsWithChildren<IProps>) {
   };
 
   return (
-    <Grid item md={6} xs={12} onClick={handleClick}>
+    <Grid
+      item
+      md={6}
+      xs={12}
+      onClick={handleClick}
+      sx={{
+        cursor: url ? "pointer" : "default",
+      }}
+    >
       <Card
         sx={{
           margin: "2rem",

@@ -8,6 +8,7 @@ import {
 } from "./Validation";
 import { PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
+import Globals from "./Globals";
 
 type MapPropertyToFilter<T> = {
   -readonly [Property in keyof T]: {
@@ -19,8 +20,10 @@ type MapPropertyToFilter<T> = {
 export interface IUserSettings {
   mode: PaletteMode;
   bottomMenu: boolean;
+  navbarColor: NavbarColors;
   setMode: React.Dispatch<React.SetStateAction<PaletteMode>>;
   enableBottomMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setNavbarColor: React.Dispatch<React.SetStateAction<NavbarColors>>;
 }
 
 export interface ITeamHistoryInfo {
@@ -276,3 +279,6 @@ export type LoginType = InferType<typeof loginSchema>;
 export type PlayerTransferType = Readonly<
   InferType<typeof playerTransferSchema>
 >;
+
+export type NavbarColors =
+  (typeof Globals.availableColors)[keyof typeof Globals.availableColors];

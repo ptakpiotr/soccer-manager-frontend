@@ -35,7 +35,7 @@ function TeamView() {
       <TeamViewGridItem>
         <RateGame />
       </TeamViewGridItem>
-      <TeamViewGridItem>
+      <TeamViewGridItem url={"/budget"}>
         <FinancePerformance
           monthlyPerformance={[
             { month: 1, money: 20 },

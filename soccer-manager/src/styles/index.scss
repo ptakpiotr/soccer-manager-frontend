@@ -53,6 +53,15 @@ main {
   cursor: pointer;
 }
 
+.color-single-item {
+  width: 50px;
+  height: 50px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .formation-player-image {
   background-position: center;
   background-size: cover;

@@ -48,3 +48,12 @@ export const playerTransferSchema = object({
   wage: number().required(),
   teamInfo: mixed<IShortTeamInfo>(),
 });
+
+export const changePasswordSchema = object({
+  currentPassword: string().required(),
+  newPassword: string().required(),
+  confirmedPassword: string().oneOf(
+    [ref("email")],
+    "Password values must match"
+  ),
+});

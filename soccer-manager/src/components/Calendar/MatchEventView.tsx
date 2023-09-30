@@ -48,7 +48,7 @@ function MatchEventView({ eventData }: IProps) {
           )}
         </Grid>
         <Grid container>
-          <Grid flex={1} item textAlign={'left'}>
+          <Grid flex={1} item textAlign={"left"}>
             {day}
           </Grid>
           <Grid item>TODO: LOGO HERE {matchInfo.rivalTeamId}</Grid>

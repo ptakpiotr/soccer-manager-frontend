@@ -10,7 +10,12 @@ import {
   UserSettingsContext,
 } from "./context";
 import Settings from "./pages/Settings";
-import { IPlayerSquadInfo, PositionType } from "./Types";
+import {
+  IPlayerSquadInfo,
+  IUserSettings,
+  NavbarColors,
+  PositionType,
+} from "./Types";
 import BottomMenu from "./components/BottomMenu";
 import Calendar from "./pages/Calendar";
 import Table from "./pages/Table";
@@ -25,10 +30,13 @@ import Budget from "./pages/Budget";
 import TeamInfo from "./pages/TeamInfo";
 import MatchCentre from "./pages/MatchCentre";
 import NotFound from "./pages/NotFound";
+import ManageAccount from "./pages/ManageAccount";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
   const [bottomMenu, enableBottomMenu] = useState<boolean>(false);
+  const [navbarColor, setNavbarColor] = useState<NavbarColors>("#228b22");
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorCode, setErrorCode] = useState<number>();
@@ -278,7 +286,7 @@ function App() {
       createTheme({
         palette: {
           primary: {
-            main: "#228B22",
+            main: navbarColor as string,
           },
           background: {
             default: "#ffffff",
@@ -297,7 +305,7 @@ function App() {
           },
         },
       }),
-    [mode]
+    [mode, navbarColor]
   );
 
   return (
@@ -315,6 +323,8 @@ function App() {
           setMode,
           bottomMenu,
           enableBottomMenu,
+          navbarColor,
+          setNavbarColor,
         }}
       >
         <TacticsContext.Provider
@@ -345,6 +355,8 @@ function App() {
                   <Route path="/register" Component={Register} />
                   <Route path="/login" Component={Login} />
                   <Route path="/forgot-password" Component={ForgotPassword} />
+                  <Route path="/manage-account" Component={ManageAccount} />
+                  <Route path="/change-password" Component={ChangePassword} />
                   <Route path="*" Component={NotFound} />
                 </Routes>
                 <BottomMenu />

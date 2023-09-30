@@ -1,0 +1,17 @@
+@use "../../styles/mixins" as m;
+
+.manage-account-container {
+  display: flex;
+
+  > * {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@include m.tablet-view() {
+  .manage-account-container {
+    display: block;
+  }
+}

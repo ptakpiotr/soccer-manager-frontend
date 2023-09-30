@@ -7,6 +7,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Grid,
 } from "@mui/material";
 import {
   MdFormatPaint,
@@ -14,6 +15,8 @@ import {
   MdExpandMore,
   MdSettings,
 } from "react-icons/md";
+import ManageAccountActionCenter from "../components/Account/ManageAccountActionCenter";
+import ColorThemePicker from "../components/misc/ColorThemePicker";
 
 function Settings() {
   const { mode, bottomMenu, setMode, enableBottomMenu } =
@@ -56,6 +59,9 @@ function Settings() {
               value={bottomMenu}
               setValue={setBottomMenu}
             />
+            <Grid container alignItems="center" columnGap="1rem">
+              <ColorThemePicker /> <Typography>| Main color</Typography>
+            </Grid>
           </AccordionDetails>
         </Accordion>
         <Accordion>
@@ -80,7 +86,9 @@ function Settings() {
               <MdAccountCircle /> Account settings
             </Typography>
           </AccordionSummary>
-          <AccordionDetails></AccordionDetails>
+          <AccordionDetails>
+            <ManageAccountActionCenter />
+          </AccordionDetails>
         </Accordion>
       </AppPaper>
     </main>

@@ -200,4 +200,5 @@ export default {
     filterName: string;
     filterKey: keyof TransferFilterKeys;
   }[],
+  availableColors: ["#228b22", "#0CA4A5", "#055B67", "#797A7D"] as const,
 };
