@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import Globals from "../Globals";
 import { PositionType, ViewVariant } from "../Types";
 import { Link } from "react-router-dom";
@@ -11,7 +11,6 @@ export interface IProps {
   variant?: ViewVariant;
   yellowCard?: boolean;
   suspended?: boolean;
-  disableRipple?: boolean;
 }
 
 function FormationPlayerView({
@@ -21,7 +20,6 @@ function FormationPlayerView({
   image,
   yellowCard,
   suspended,
-  disableRipple,
   variant = ViewVariant.STANDARD,
 }: IProps) {
   const widthAndHeight = Globals.functions.mapViewVariantToMaxWidth(variant);
@@ -35,16 +33,16 @@ function FormationPlayerView({
   return (
     <Link to={`/player/${id}`}>
       <Tooltip title={playerName ?? ""} arrow>
-        <IconButton
-          sx={{
+        <div
+          style={{
             borderColor,
             borderWidth: "1px",
             borderStyle: "solid",
+            borderRadius: "50%",
           }}
           className={`${
             variant != ViewVariant.SMALL ? "responsive-player-view" : ""
           }`}
-          disableRipple={disableRipple}
         >
           <div
             className="formation-player-image"
@@ -54,7 +52,7 @@ function FormationPlayerView({
               height: widthAndHeight,
             }}
           ></div>
-        </IconButton>
+        </div>
       </Tooltip>
     </Link>
   );

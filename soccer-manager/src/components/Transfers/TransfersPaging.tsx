@@ -1,4 +1,3 @@
-import React from "react";
 import { Grid, Pagination } from "@mui/material";
 
 interface IProps {

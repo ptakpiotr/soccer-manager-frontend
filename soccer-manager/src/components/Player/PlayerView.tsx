@@ -12,7 +12,7 @@ interface IProps {
   id: string;
 }
 
-function PlayerView({ id }: IProps) {
+function PlayerView({}: IProps) {
   return (
     <Grid container flexDirection="row">
       <ShortPlayerInfoBar

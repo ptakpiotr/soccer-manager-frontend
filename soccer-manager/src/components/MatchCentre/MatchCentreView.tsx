@@ -4,7 +4,7 @@ import Scoreboard, { IProps as ScoreboardProps } from "../misc/Scoreboard";
 
 interface IProps extends ScoreboardProps {}
 
-function MatchCentreView({ isMyTeamHome, awayScore, homeScore }: IProps) {
+function MatchCentreView({ homeScore }: IProps) {
   return (
     <>
       <Grid container flexDirection={"row"}>

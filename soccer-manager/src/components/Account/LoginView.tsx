@@ -9,7 +9,7 @@ import {
   Link,
 } from "@mui/material";
 import { LoginType } from "../../Types";
-import { loginSchema } from "../../Validation";
+// import { loginSchema } from "../../Validation";
 import { ValidationError } from "yup";
 import ValidationErrorAlert from "../ValidationErrorAlert";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +50,7 @@ function LoginView() {
 
   const handleClick = async () => {
     try {
-      const valid = await loginSchema.validate(loginData);
+      // const valid = await loginSchema.validate(loginData);
       //TODO: make call
     } catch (ex) {
       if (ex instanceof ValidationError) {

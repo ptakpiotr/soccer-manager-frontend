@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import MatchCentreView from "../components/MatchCentre/MatchCentreView";
 
 function MatchCentre() {
-  const { id } = useParams();
+  const {} = useParams();
   return (
     <main>
       <MatchCentreView isMyTeamHome={false} homeScore={10} awayScore={10} />

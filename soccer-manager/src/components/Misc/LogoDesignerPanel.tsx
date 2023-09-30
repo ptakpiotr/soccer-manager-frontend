@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import AppSelect from "../AppSelect";
 import { ChangeEvent } from "react";
-import { ISoccerLogo, ISoccerShirt, SoccerShirtType } from "../../Types";
+import { ISoccerLogo, SoccerShirtType } from "../../Types";
 import AppIconPicker from "../AppIconPicker";
 import Globals from "../../Globals";
 

@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PlayerTransferType } from "../../Types";
 import SortableTableCell from "../Table/SortableTableCell";
 import Enumerable from "linq";
@@ -58,7 +58,7 @@ const playerTransfers: PlayerTransferType[] = [
     potentialRating: { rating: 4 },
     marketValue: 16000000,
     wage: 72000,
-  }
+  },
 ];
 
 function isRatingProperty(

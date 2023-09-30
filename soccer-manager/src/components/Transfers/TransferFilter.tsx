@@ -1,15 +1,16 @@
 import { Grid, OutlinedInput as Input, InputLabel } from "@mui/material";
 import { ITransferFilter } from "../../Types";
 
-type Props<
-  T extends { from?: U | undefined; to?: U | undefined },
-  U
-> = ITransferFilter<T, U>;
+type Props<U> = ITransferFilter<U>;
 
-function TransferFilter<
-  T extends { from?: U | undefined; to?: U | undefined },
-  U
->({ filterKey, label, setValue, from, to, validateFilter }: Props<T, U>) {
+function TransferFilter<U>({
+  filterKey,
+  label,
+  setValue,
+  from,
+  to,
+  validateFilter,
+}: Props<U>) {
   const handleChange = (from?: string, to?: string) => {
     if (
       validateFilter &&
@@ -19,10 +20,8 @@ function TransferFilter<
       })
     ) {
       setValue(filterKey, from as U | undefined, to as U | undefined);
-    } 
+    }
   };
-
-  
 
   return (
     <Grid item>

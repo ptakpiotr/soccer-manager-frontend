@@ -171,13 +171,7 @@ export type TransferFilterKeys = Partial<
   MapPropertyToFilter<Omit<PlayerTransferType, "teamInfo" | "id" | "name">>
 >;
 
-export interface ITransferFilter<
-  T extends {
-    from?: U;
-    to?: U;
-  },
-  U
-> {
+export interface ITransferFilter<U> {
   readonly filterType: TransferFilterType;
   readonly filterKey: keyof TransferFilterKeys;
   readonly label: string;

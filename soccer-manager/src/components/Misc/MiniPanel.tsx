@@ -1,5 +1,4 @@
 import { Grid } from "@mui/material";
-import React from "react";
 import MiniPanelElem from "./MiniPanelElem";
 
 function MiniPanel() {

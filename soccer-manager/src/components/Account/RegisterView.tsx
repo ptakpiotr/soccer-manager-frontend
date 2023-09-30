@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { RegisterType } from "../../Types";
-import { registerSchema } from "../../Validation";
+// import { registerSchema } from "../../Validation";
 import { ValidationError } from "yup";
 import ValidationErrorAlert from "../ValidationErrorAlert";
 
@@ -48,7 +48,7 @@ function RegisterView() {
 
   const handleClick = async () => {
     try {
-      const valid = await registerSchema.validate(registerData);
+      // const valid = await registerSchema.validate(registerData);
       setIsAllValid(true);
       //TODO: make call
     } catch (ex) {

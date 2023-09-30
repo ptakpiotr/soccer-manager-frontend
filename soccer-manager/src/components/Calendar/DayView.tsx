@@ -1,14 +1,11 @@
 import { Card, Grid, ButtonBase, CardContent } from "@mui/material";
 import { useMemo } from "react";
-import TrainingEventView from "./TrainingEventView";
 import {
   CalendarEvent,
   EventType,
   GroundType,
   IMatchCalendarInfo,
-  ITrainingCalendarInfo,
   MatchType,
-  TrainingType,
 } from "../../Types";
 import MatchEventView from "./MatchEventView";
 

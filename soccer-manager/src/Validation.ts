@@ -1,5 +1,11 @@
 import { object, number, mixed, string, boolean, ref } from "yup";
-import { EventType, IMatchCalendarInfo, IShortTeamInfo, ITrainingCalendarInfo, MatchType, PlayerRating } from "./Types";
+import {
+  EventType,
+  IMatchCalendarInfo,
+  IShortTeamInfo,
+  ITrainingCalendarInfo,
+  PlayerRating,
+} from "./Types";
 
 export const playerRatingSchema = object({
   rating: number().min(0).max(5).required(),
@@ -40,5 +46,5 @@ export const playerTransferSchema = object({
   potentialRating: mixed<PlayerRating>().required(),
   marketValue: number().required(),
   wage: number().required(),
-  teamInfo: mixed<IShortTeamInfo>()
+  teamInfo: mixed<IShortTeamInfo>(),
 });

@@ -6,7 +6,7 @@ import {
   FilledInput,
   Button,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import RateStars from "../RateStars";
 import { IAcademySettings } from "../../Types";
 import { MdTrackChanges } from "react-icons/md";

@@ -1,14 +1,10 @@
-import {
-  Card,
-  CardContent,
-  Grid,
-} from "@mui/material";
+import { Card, CardContent, Grid } from "@mui/material";
 import MiniTableView from "../Table/MiniTableView";
 import FinancePerformance from "./FinancePerformance";
 import RateGame from "../RateGame";
 import NextGame from "./NextGame";
-import MiniPanel from "../Misc/MiniPanel";
 import TeamViewGridItem from "./TeamViewGridItem";
+import MiniPanel from "../misc/MiniPanel";
 
 function TeamView() {
   return (

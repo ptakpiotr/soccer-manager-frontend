@@ -1,5 +1,4 @@
 import { TableCell, TableCellProps } from "@mui/material";
-import { ITableTeamInfo } from "../../Types";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
 interface IProps<T> extends TableCellProps {

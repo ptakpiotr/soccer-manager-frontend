@@ -3,7 +3,6 @@ import LogoDesignerPanel from "./LogoDesignerPanel";
 import { ISoccerLogo, SoccerShirtType } from "../../Types";
 import { SelectChangeEvent } from "@mui/material";
 import "./soccer_logo_designer.scss";
-import Globals from "../../Globals";
 import SoccerLogoDisplay from "./SoccerLogoDisplay";
 
 const defaultLogoSetup: ISoccerLogo = {

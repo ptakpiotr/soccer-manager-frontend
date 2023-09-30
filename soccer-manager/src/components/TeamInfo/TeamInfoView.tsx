@@ -1,4 +1,3 @@
-import React from "react";
 import SoccerLogoDisplay from "../misc/SoccerLogoDisplay";
 import { SoccerShirtType } from "../../Types";
 import { Grid, Typography } from "@mui/material";

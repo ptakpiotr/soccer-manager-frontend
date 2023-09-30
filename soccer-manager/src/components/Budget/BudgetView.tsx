@@ -1,4 +1,3 @@
-import React from "react";
 import AppPaper from "../AppPaper";
 import FinancePerformance from "../Team/FinancePerformance";
 import { Grid, List, ListItem, ListSubheader, Typography } from "@mui/material";

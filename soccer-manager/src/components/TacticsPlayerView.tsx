@@ -48,7 +48,6 @@ function TacticsPlayerView({
             variant={ViewVariant.SMALL}
             yellowCard={yellowCard}
             suspended={suspended}
-            disableRipple={disableRipple}
           />
         </Badge>
       </ListItemAvatar>
