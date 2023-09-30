@@ -24,6 +24,7 @@ import Transfers from "./pages/Transfers";
 import Budget from "./pages/Budget";
 import TeamInfo from "./pages/TeamInfo";
 import MatchCentre from "./pages/MatchCentre";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -344,6 +345,7 @@ function App() {
                   <Route path="/register" Component={Register} />
                   <Route path="/login" Component={Login} />
                   <Route path="/forgot-password" Component={ForgotPassword} />
+                  <Route path="*" Component={NotFound} />
                 </Routes>
                 <BottomMenu />
               </BrowserRouter>
