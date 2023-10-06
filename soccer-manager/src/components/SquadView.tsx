@@ -21,24 +21,27 @@ function SquadView({ formation }: IProps) {
 
   useEffect(() => {
     const playersPerFormation = formation.split("-").map((p) => parseInt(p));
-
+    console.log(playersPerFormation);
     const goalkeeper = squad?.filter((s) => s?.squadPosition === 1);
 
     const defenders = squad?.filter(
-      (s) => s.squadPosition! > 1 && s.squadPosition! <= playersPerFormation[0]
+      (s) =>
+        s.squadPosition! > 1 && s.squadPosition! <= playersPerFormation[0] + 1
     );
     const midfielders = squad?.filter(
       (s) =>
-        s.squadPosition! > playersPerFormation[0] &&
-        s.squadPosition! <= playersPerFormation[0] + playersPerFormation[1]
+        s.squadPosition! > playersPerFormation[0] + 1 &&
+        s.squadPosition! <= playersPerFormation[0] + playersPerFormation[1] + 1
     );
     const strikers = squad?.filter(
       (s) =>
-        s.squadPosition! > playersPerFormation[0] + playersPerFormation[1] &&
+        s.squadPosition! >
+          playersPerFormation[0] + playersPerFormation[1] + 1 &&
         s.squadPosition! <=
           playersPerFormation[0] +
             playersPerFormation[1] +
-            playersPerFormation[2]
+            playersPerFormation[2] +
+            1
     );
 
     setSquadFormationShape({
