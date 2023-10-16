@@ -10,13 +10,44 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { MdPassword } from "react-icons/md";
+import { ChangePasswordType } from "../../Types";
 import { changePasswordSchema } from "../../Validation";
+import axios, { AxiosError } from "axios";
+import { useMutation as useReactMutation } from "@tanstack/react-query";
+import { UserTokenContext } from "../../context";
+
+const changePasswordUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/login`;
+
 function ChangePasswordView() {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
 
   const navigate = useNavigate();
+
+  const { data, mutateAsync } = useReactMutation({
+    mutationKey: ["changePassword"],
+    mutationFn: async (data: ChangePasswordType) => {
+      try {
+        const res = await axios.post(changePasswordUrl, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmedPassword("");
+
+        return res.data;
+      } catch (ex) {
+        if (ex instanceof AxiosError) {
+          //TODO: error handling
+          // setErrors(ex.response?.data?.map((d: any) => d.description));
+        }
+      }
+    },
+  });
 
   const onCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCurrentPassword(e.target.value);
@@ -33,12 +64,13 @@ function ChangePasswordView() {
   };
 
   const handleClick = async () => {
-    //TODO: make call
-    changePasswordSchema.validate({
+    const valid = await changePasswordSchema.validate({
       currentPassword,
       newPassword,
       confirmedPassword,
     });
+
+    await mutateAsync(valid);
   };
 
   return (

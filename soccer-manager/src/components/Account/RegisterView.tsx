@@ -7,17 +7,48 @@ import {
   Grid,
   Button,
 } from "@mui/material";
+import axios, { AxiosError } from "axios";
+import { useMutation as useReactMutation } from "@tanstack/react-query";
 import { RegisterType } from "../../Types";
-// import { registerSchema } from "../../Validation";
+import { registerSchema } from "../../Validation";
 import { ValidationError } from "yup";
 import ValidationErrorAlert from "../ValidationErrorAlert";
 
+const registerUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/register`;
+
 //TODO: hiding nice when all valid
 function RegisterView() {
-  const [registerData, setRegisterData] = useState<Partial<RegisterType>>({});
+  const [registerData, setRegisterData] = useState<Partial<RegisterType>>({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [isRegisterEnabled, setIsRegisterEnabled] = useState<boolean>(true);
   const [errors, setErrors] = useState<string[]>();
   const [isAllValid, setIsAllValid] = useState<boolean>(false);
+
+  const { data, mutateAsync } = useReactMutation({
+    mutationKey: ["register"],
+    mutationFn: async (data: RegisterType) => {
+      try {
+        const res = await axios.post(registerUrl, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        //TODO: add entry in the data api
+        setRegisterData({ email: "", password: "", confirmPassword: "" });
+        return res.data;
+      } catch (ex) {
+        if (ex instanceof AxiosError) {
+          setIsRegisterEnabled(false);
+          
+          setErrors(ex.response?.data?.map((d: any) => d.description));
+        }
+      }
+    },
+  });
 
   const enableRegisterButton = () => {
     setIsRegisterEnabled(true);
@@ -43,14 +74,14 @@ function RegisterView() {
   };
 
   const onConfirmedPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegisterDataOnInputChange(e, "confirmedPassword");
+    setRegisterDataOnInputChange(e, "confirmPassword");
   };
 
   const handleClick = async () => {
     try {
-      // const valid = await registerSchema.validate(registerData);
+      const valid = await registerSchema.validate(registerData);
       setIsAllValid(true);
-      //TODO: make call
+      await mutateAsync(valid);
     } catch (ex) {
       if (ex instanceof ValidationError) {
         setIsRegisterEnabled(false);
@@ -90,7 +121,7 @@ function RegisterView() {
         <InputLabel>Confirm password</InputLabel>
         <FilledInput
           type="password"
-          value={registerData.confirmedPassword}
+          value={registerData.confirmPassword}
           onChange={onConfirmedPasswordChange}
           required
         ></FilledInput>

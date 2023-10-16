@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import {
   FormControl,
   FilledInput,
@@ -9,15 +9,47 @@ import {
   Link,
 } from "@mui/material";
 import { LoginType } from "../../Types";
-// import { loginSchema } from "../../Validation";
+import { loginSchema } from "../../Validation";
 import { ValidationError } from "yup";
 import ValidationErrorAlert from "../ValidationErrorAlert";
 import { useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { useMutation as useReactMutation } from "@tanstack/react-query";
+import { UserTokenContext } from "../../context";
+
+const loginUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/login`;
 
 function LoginView() {
-  const [loginData, setLoginData] = useState<Partial<LoginType>>({});
+  const [loginData, setLoginData] = useState<Partial<LoginType>>({
+    email: "",
+    password: "",
+  });
   const [isLoginEnabled, setIsLoginEnabled] = useState<boolean>(true);
   const [errors, setErrors] = useState<string[]>();
+
+  const { setToken } = useContext(UserTokenContext);
+
+  const { data, mutateAsync } = useReactMutation({
+    mutationKey: ["login"],
+    mutationFn: async (data: LoginType) => {
+      try {
+        const res = await axios.post(loginUrl, data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        setLoginData({ email: "", password: "" });
+        return res.data;
+      } catch (ex) {
+        if (ex instanceof AxiosError) {
+          setIsLoginEnabled(false);
+          setErrors(["An error has occured"]);
+          // setErrors(ex.response?.data?.map((d: any) => d.description));
+        }
+      }
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -50,9 +82,14 @@ function LoginView() {
 
   const handleClick = async () => {
     try {
-      // const valid = await loginSchema.validate(loginData);
-      //TODO: make call
+      const valid = await loginSchema.validate(loginData);
+      const token = await mutateAsync(valid);
+      if (setToken && token) {
+        setToken(token);
+        localStorage.setItem("token", token);
+      }
     } catch (ex) {
+      //TODO: make call
       if (ex instanceof ValidationError) {
         setIsLoginEnabled(false);
         setErrors(ex.errors);

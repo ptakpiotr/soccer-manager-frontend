@@ -93,10 +93,6 @@ main {
 
   .register-view-container {
     flex: 1;
-
-    &:has(.valid-registration) {
-      display: none;
-    }
   }
 }
 

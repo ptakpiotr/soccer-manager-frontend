@@ -77,7 +77,7 @@ function Settings() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {/* <AdminPanel /> */}
+            <AdminPanel />
             <ProtectedAreaView />
           </AccordionDetails>
         </Accordion>

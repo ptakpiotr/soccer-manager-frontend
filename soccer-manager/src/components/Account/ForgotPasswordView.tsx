@@ -10,11 +10,44 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { BiSad } from "react-icons/bi";
+import axios, { AxiosError } from "axios";
+import { useMutation as useReactMutation } from "@tanstack/react-query";
+
+const forgotPasswordUrl = `${
+  import.meta.env.VITE_AUTH_BACKEND_URL
+}/forgotPassword`;
 
 function ForgotPasswordView() {
   const [email, setEmail] = useState<string>("");
 
   const navigate = useNavigate();
+
+  const { data, mutateAsync } = useReactMutation({
+    mutationKey: ["forgotPassword"],
+    mutationFn: async (email: string) => {
+      try {
+        const res = await axios.post(
+          forgotPasswordUrl,
+          {
+            email,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        setEmail("");
+        return res.data;
+      } catch (ex) {
+        if (ex instanceof AxiosError) {
+          //TODO: handleErrors
+          // setErrors(ex.response?.data?.map((d: any) => d.description));
+        }
+      }
+    },
+  });
 
   const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -25,7 +58,8 @@ function ForgotPasswordView() {
   };
 
   const handleClick = async () => {
-    //TODO: make call
+    const res = await mutateAsync(email);
+    console.log(res);
   };
 
   return (

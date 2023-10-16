@@ -1,5 +1,6 @@
 import { InferType } from "yup";
 import {
+  changePasswordSchema,
   eventSchema,
   loginSchema,
   playerRatingSchema,
@@ -184,6 +185,11 @@ export interface ITransferFilter<U> {
   validateFilter?: (filterValue: { from?: U; to?: U }) => boolean;
 }
 
+export interface IUserToken {
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+}
+
 export enum TransferFilterType {
   NUMERIC,
   MONEY,
@@ -279,6 +285,8 @@ export type LoginType = InferType<typeof loginSchema>;
 export type PlayerTransferType = Readonly<
   InferType<typeof playerTransferSchema>
 >;
+
+export type ChangePasswordType = InferType<typeof changePasswordSchema>;
 
 export type NavbarColors =
   (typeof Globals.availableColors)[keyof typeof Globals.availableColors];
