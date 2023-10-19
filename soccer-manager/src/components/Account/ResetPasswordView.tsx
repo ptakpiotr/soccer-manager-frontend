@@ -8,36 +8,42 @@ import {
   Button,
   Link,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { MdPassword } from "react-icons/md";
-import { ChangePasswordType } from "../../Types";
-import { changePasswordSchema } from "../../Validation";
+import { ResetPasswordType } from "../../Types";
+import { resetPasswordSchema } from "../../Validation";
 import axios, { AxiosError } from "axios";
 import { useMutation as useReactMutation } from "@tanstack/react-query";
 import { UserTokenContext } from "../../context";
 
-const changePasswordUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/login`;
+const resetPasswordUrl = `${
+  import.meta.env.VITE_AUTH_BACKEND_URL
+}/resetPassword`;
 
-function ChangePasswordView() {
-  const [currentPassword, setCurrentPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
+function ResetPasswordView() {
+  //nie mozna uzyc useSearchParams -> usuwa znaki typu +
+  const params = window.location.href.split("=");
+
+  const token = params[1].replace("&email", "");
+  const email = params[2];
+
+  const [password, setPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
   const { setToken } = useContext(UserTokenContext);
 
   const navigate = useNavigate();
 
-  const { data, mutateAsync } = useReactMutation({
-    mutationKey: ["changePassword"],
-    mutationFn: async (data: ChangePasswordType) => {
+  const { mutateAsync } = useReactMutation({
+    mutationKey: ["resetPassword"],
+    mutationFn: async (data: ResetPasswordType) => {
       try {
-        const res = await axios.post(changePasswordUrl, data, {
+        const res = await axios.post(resetPasswordUrl, data, {
           headers: {
             "Content-Type": "application/json",
           },
         });
 
-        setCurrentPassword("");
-        setNewPassword("");
+        setPassword("");
         setConfirmedPassword("");
 
         return res.data;
@@ -50,11 +56,8 @@ function ChangePasswordView() {
     },
   });
 
-  const onCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentPassword(e.target.value);
-  };
-  const onNewPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
   const onConfirmedPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmedPassword(e.target.value);
@@ -65,9 +68,10 @@ function ChangePasswordView() {
   };
 
   const handleClick = async () => {
-    const valid = await changePasswordSchema.validate({
-      currentPassword,
-      newPassword,
+    const valid = await resetPasswordSchema.validate({
+      email,
+      token,
+      password,
       confirmedPassword,
     });
 
@@ -81,29 +85,24 @@ function ChangePasswordView() {
     navigate("/login");
   };
 
+  if (!email || !token) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <Grid container flexDirection="column" rowGap="1rem" maxWidth="768px">
-      <Typography variant="h6">Change password</Typography>
+      <Typography variant="h6">Reset password</Typography>
       <FormControl>
-        <InputLabel>Current password</InputLabel>
+        <InputLabel>Password</InputLabel>
         <FilledInput
           type="password"
-          value={currentPassword}
-          onChange={onCurrentPasswordChange}
+          value={password}
+          onChange={onPasswordChange}
           required
         ></FilledInput>
       </FormControl>
       <FormControl>
-        <InputLabel>New password</InputLabel>
-        <FilledInput
-          type="password"
-          value={newPassword}
-          onChange={onNewPasswordChange}
-          required
-        ></FilledInput>
-      </FormControl>
-      <FormControl>
-        <InputLabel>Confirm new password</InputLabel>
+        <InputLabel>Confirm password</InputLabel>
         <FilledInput
           type="password"
           value={confirmedPassword}
@@ -117,7 +116,7 @@ function ChangePasswordView() {
         onClick={handleClick}
         startIcon={<MdPassword />}
       >
-        Change password
+        Reset password
       </Button>
       <Link
         onClick={() => {
@@ -137,4 +136,4 @@ function ChangePasswordView() {
   );
 }
 
-export default ChangePasswordView;
+export default ResetPasswordView;

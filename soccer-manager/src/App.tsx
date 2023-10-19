@@ -35,6 +35,7 @@ import ManageAccount from "./pages/ManageAccount";
 import ChangePassword from "./pages/ChangePassword";
 import AuthorizedArea from "./AuthorizedArea";
 import Logout from "./components/Account/Logout";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -356,9 +357,11 @@ function App() {
                   <Routes>
                     <Route path="/register" Component={Register} />
                     <Route path="/login" Component={Login} />
-                    <Route path="/forgot-password" Component={ForgotPassword} />
-                    <Route path="/manage-account" Component={ManageAccount} />
-                    <Route path="/change-password" Component={ChangePassword} />
+                    <Route path="/forgotPassword" Component={ForgotPassword} />
+                    <Route path="/manageAccount" Component={ManageAccount} />
+                    <Route path="/changePassword" Component={ChangePassword} />
+                    <Route path="/resetPassword" Component={ResetPassword} />
+
                     <Route path="/" Component={AuthorizedArea}>
                       <Route path="/" Component={Home} />
                       <Route path="/tactics" Component={Tactics} />

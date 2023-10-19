@@ -53,7 +53,17 @@ export const changePasswordSchema = object({
   currentPassword: string().required(),
   newPassword: string().required(),
   confirmedPassword: string().oneOf(
-    [ref("email")],
+    [ref("newPassword")],
     "Password values must match"
   ),
+});
+
+export const resetPasswordSchema = object({
+  email: string().required(),
+  password: string().required(),
+  confirmedPassword: string().oneOf(
+    [ref("password")],
+    "Password values must match"
+  ),
+  token: string().required(),
 });

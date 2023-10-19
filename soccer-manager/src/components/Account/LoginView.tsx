@@ -136,7 +136,7 @@ function LoginView() {
       </Link>
       <Link
         onClick={() => {
-          handleLinkClick("/forgot-password");
+          handleLinkClick("/forgotPassword");
         }}
       >
         Forgot password

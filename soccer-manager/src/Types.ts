@@ -6,6 +6,7 @@ import {
   playerRatingSchema,
   playerTransferSchema,
   registerSchema,
+  resetPasswordSchema,
 } from "./Validation";
 import { PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
@@ -290,8 +291,8 @@ export type LoginType = InferType<typeof loginSchema>;
 export type PlayerTransferType = Readonly<
   InferType<typeof playerTransferSchema>
 >;
-
 export type ChangePasswordType = InferType<typeof changePasswordSchema>;
+export type ResetPasswordType = InferType<typeof resetPasswordSchema>;
 
 export type NavbarColors =
   (typeof Globals.availableColors)[keyof typeof Globals.availableColors];
