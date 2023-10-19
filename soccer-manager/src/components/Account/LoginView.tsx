@@ -87,6 +87,7 @@ function LoginView() {
       if (setToken && token) {
         setToken(token);
         localStorage.setItem("token", token);
+        navigate("/");
       }
     } catch (ex) {
       //TODO: make call

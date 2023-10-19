@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 interface IProps {
   errors: string[];
-  enableButton: ()=>void;
+  enableButton: () => void;
 }
 
 function ValidationErrorAlert({ errors, enableButton }: IProps) {

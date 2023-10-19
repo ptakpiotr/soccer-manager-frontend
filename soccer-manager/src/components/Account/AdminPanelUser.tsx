@@ -1,17 +1,15 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { MdDeleteForever, MdBlock, MdDone } from "react-icons/md";
-
-interface IProps {
-  userId: string;
-  userEmail: string;
-  deleteUser: (userId: string) => void;
-  blockUser: (userId: string) => void;
-  unBlockUser: (userId: string) => void;
+import { IUserAdminInfo } from "../../Types";
+interface IProps extends IUserAdminInfo {
+  deleteUser: (email: string) => void;
+  blockUser: (email: string) => void;
+  unBlockUser: (email: string) => void;
 }
 
 function AdminPanelUser({
-  userId,
-  userEmail,
+  email,
+  lockoutEnabled,
   deleteUser,
   blockUser,
   unBlockUser,
@@ -19,29 +17,32 @@ function AdminPanelUser({
   return (
     <Grid container flexDirection="row" columnGap="0.5rem">
       <Grid item minWidth="12rem">
-        <Typography>{userEmail}</Typography>
+        <Typography>{email}</Typography>
       </Grid>
       <Grid item>
         <Button
           startIcon={<MdDeleteForever />}
           color="error"
           onClick={() => {
-            deleteUser(userId);
+            deleteUser(email);
           }}
         ></Button>
-        <Button
-          startIcon={<MdBlock />}
-          color="warning"
-          onClick={() => {
-            blockUser(userId);
-          }}
-        ></Button>
-        <Button
-          startIcon={<MdDone />}
-          onClick={() => {
-            unBlockUser(userId);
-          }}
-        ></Button>
+        {lockoutEnabled ? (
+          <Button
+            startIcon={<MdDone />}
+            onClick={() => {
+              unBlockUser(email);
+            }}
+          ></Button>
+        ) : (
+          <Button
+            startIcon={<MdBlock />}
+            color="warning"
+            onClick={() => {
+              blockUser(email);
+            }}
+          ></Button>
+        )}
       </Grid>
     </Grid>
   );

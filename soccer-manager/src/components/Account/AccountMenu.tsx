@@ -1,9 +1,18 @@
 import { IconButton, Menu, Tooltip } from "@mui/material";
-import { useRef, useState } from "react";
-import { MdPersonOutline, MdAppRegistration, MdLogin, MdSettings } from "react-icons/md";
+import { useContext, useRef, useState } from "react";
+import {
+  MdPersonOutline,
+  MdAppRegistration,
+  MdLogin,
+  MdSettings,
+  MdLogout,
+} from "react-icons/md";
 import AccountMenuItem from "./AccountMenuItem";
+import { UserTokenContext } from "../../context";
 
 function AccountMenu() {
+  const { token } = useContext(UserTokenContext);
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLButtonElement>(null);
 
@@ -27,24 +36,37 @@ function AccountMenu() {
         anchorEl={menuRef.current}
         onClose={handleMenuClose}
       >
-        <AccountMenuItem
-          address="/register"
-          name="Register"
-          icon={MdAppRegistration}
-          closeMenu={handleMenuClose}
-        />
-        <AccountMenuItem
-          address="/login"
-          name="Login"
-          icon={MdLogin}
-          closeMenu={handleMenuClose}
-        />
-        <AccountMenuItem
-          address="/settings"
-          name="Settings"
-          icon={MdSettings}
-          closeMenu={handleMenuClose}
-        />
+        {token ? (
+          <>
+            <AccountMenuItem
+              address="/settings"
+              name="Settings"
+              icon={MdSettings}
+              closeMenu={handleMenuClose}
+            />
+            <AccountMenuItem
+              address="/logout"
+              name="Logout"
+              icon={MdLogout}
+              closeMenu={handleMenuClose}
+            />
+          </>
+        ) : (
+          <>
+            <AccountMenuItem
+              address="/register"
+              name="Register"
+              icon={MdAppRegistration}
+              closeMenu={handleMenuClose}
+            />
+            <AccountMenuItem
+              address="/login"
+              name="Login"
+              icon={MdLogin}
+              closeMenu={handleMenuClose}
+            />
+          </>
+        )}
       </Menu>
     </>
   );

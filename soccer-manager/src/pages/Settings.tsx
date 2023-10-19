@@ -19,6 +19,8 @@ import ManageAccountActionCenter from "../components/Account/ManageAccountAction
 import ColorThemePicker from "../components/misc/ColorThemePicker";
 import AdminPanel from "../components/Account/AdminPanel";
 import ProtectedAreaView from "../components/misc/ProtectedAreaView";
+import AuthorizedArea from "../AuthorizedArea";
+import IsAdminArea from "../IsAdminArea";
 
 function Settings() {
   const { mode, bottomMenu, setMode, enableBottomMenu } =
@@ -77,8 +79,9 @@ function Settings() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <AdminPanel />
-            <ProtectedAreaView />
+            <IsAdminArea notAuthorizedComponent={<ProtectedAreaView />}>
+              <AdminPanel />
+            </IsAdminArea>
           </AccordionDetails>
         </Accordion>
         <Accordion>

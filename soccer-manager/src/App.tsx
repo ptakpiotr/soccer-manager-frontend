@@ -33,7 +33,8 @@ import MatchCentre from "./pages/MatchCentre";
 import NotFound from "./pages/NotFound";
 import ManageAccount from "./pages/ManageAccount";
 import ChangePassword from "./pages/ChangePassword";
-import AuthorizedRoute from "./AuthorizedRoute";
+import AuthorizedArea from "./AuthorizedArea";
+import Logout from "./components/Account/Logout";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -353,25 +354,26 @@ function App() {
                 <BrowserRouter>
                   <Header />
                   <Routes>
-                    <Route path="/" Component={Home} />
-                    <Route path="/tactics" Component={Tactics} />
-                    <Route path="/calendar" Component={Calendar} />
-                    <Route path="/table" Component={Table} />
-                    <Route path="/academy" Component={Academy} />
-                    <Route path="/facilities" Component={Facilities} />
-                    <Route path="/player/:id" Component={Player} />
-                    <Route path="/transfers" Component={Transfers} />
-                    <Route path="/budget" Component={Budget} />
-                    <Route path="/team/:id" Component={TeamInfo} />
-                    <Route path="/match/:id" Component={MatchCentre} />
-
                     <Route path="/register" Component={Register} />
                     <Route path="/login" Component={Login} />
                     <Route path="/forgot-password" Component={ForgotPassword} />
                     <Route path="/manage-account" Component={ManageAccount} />
                     <Route path="/change-password" Component={ChangePassword} />
-                    <Route path="/" Component={AuthorizedRoute}>
+                    <Route path="/" Component={AuthorizedArea}>
+                      <Route path="/" Component={Home} />
+                      <Route path="/tactics" Component={Tactics} />
+                      <Route path="/calendar" Component={Calendar} />
+                      <Route path="/table" Component={Table} />
+                      <Route path="/academy" Component={Academy} />
+                      <Route path="/facilities" Component={Facilities} />
+                      <Route path="/player/:id" Component={Player} />
+                      <Route path="/transfers" Component={Transfers} />
+                      <Route path="/budget" Component={Budget} />
+                      <Route path="/team/:id" Component={TeamInfo} />
+                      <Route path="/match/:id" Component={MatchCentre} />
+
                       <Route path="settings" Component={Settings} />
+                      <Route path="/logout" Component={Logout} />
                     </Route>
                     <Route path="*" Component={NotFound} />
                   </Routes>

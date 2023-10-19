@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { BiSad } from "react-icons/bi";
 import axios, { AxiosError } from "axios";
 import { useMutation as useReactMutation } from "@tanstack/react-query";
+import InfoAlert from "../InfoAlert";
 
 const forgotPasswordUrl = `${
   import.meta.env.VITE_AUTH_BACKEND_URL
@@ -19,10 +20,10 @@ const forgotPasswordUrl = `${
 
 function ForgotPasswordView() {
   const [email, setEmail] = useState<string>("");
-
+  const [response, setResponse] = useState<string>();
   const navigate = useNavigate();
 
-  const { data, mutateAsync } = useReactMutation({
+  const { mutateAsync } = useReactMutation({
     mutationKey: ["forgotPassword"],
     mutationFn: async (email: string) => {
       try {
@@ -59,7 +60,7 @@ function ForgotPasswordView() {
 
   const handleClick = async () => {
     const res = await mutateAsync(email);
-    console.log(res);
+    setResponse(res.message);
   };
 
   return (
@@ -92,6 +93,7 @@ function ForgotPasswordView() {
       >
         Click here to login
       </Link>
+      {response && <InfoAlert messages={[response]} />}
     </Grid>
   );
 }

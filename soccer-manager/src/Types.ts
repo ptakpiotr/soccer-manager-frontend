@@ -218,6 +218,11 @@ export interface IErrorInfo {
   setErrorCode: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
+export interface IUserAdminInfo {
+  email: string;
+  lockoutEnabled: boolean;
+}
+
 export enum PositionType {
   GOALKEEPER,
   DEFENDER,

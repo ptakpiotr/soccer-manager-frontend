@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import {
   FormControl,
   FilledInput,
@@ -22,6 +22,7 @@ function ChangePasswordView() {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
+  const { setToken } = useContext(UserTokenContext);
 
   const navigate = useNavigate();
 
@@ -71,6 +72,12 @@ function ChangePasswordView() {
     });
 
     await mutateAsync(valid);
+
+    if (setToken) {
+      setToken("");
+    }
+
+    navigate("/");
   };
 
   return (
