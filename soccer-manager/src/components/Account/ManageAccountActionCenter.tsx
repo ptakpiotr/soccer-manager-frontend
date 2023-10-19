@@ -1,13 +1,35 @@
 import { Button, Grid } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { MdDeleteForever, MdPassword } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useMutation as useReactMutation } from "@tanstack/react-query";
 import AppDialog, { IProps as AppDialogProps } from "../misc/AppDialog";
+import axios from "axios";
+import { UserTokenContext } from "../../context";
+import jwt_decode from "jwt-decode";
 
 type ActionButtons = Pick<AppDialogProps, "actions">;
 
+const deleteUserUrl = import.meta.env.VITE_AUTH_BACKEND_URL;
+
 function ManageAccountActionCenter() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const { token, setToken } = useContext(UserTokenContext);
+
+  const { mutateAsync } = useReactMutation({
+    mutationKey: ["delete-single-user"],
+    mutationFn: async (userEmail: string) => {
+      try {
+        await axios.delete(`${deleteUserUrl}?userEmail=${userEmail}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch {
+        console.error("Unable to delete the user");
+      }
+    },
+  });
 
   const actionButtons = useMemo((): ActionButtons => {
     return {
@@ -32,21 +54,30 @@ function ManageAccountActionCenter() {
   const navigate = useNavigate();
 
   const handleChangePasswordClick = () => {
-    navigate("/change-password");
+    navigate("/changePassword");
   };
 
   const handleDeleteAccoutClick = () => {
     setOpenDialog(true);
-    // TODO: implement API call
   };
 
   const manageDialogOpenState = (state: boolean) => {
     setOpenDialog(state);
   };
 
-  const handleAccountDeletionCall = () => {
-    console.log("Deleting account...");
-    // TODO: implement API call
+  const handleAccountDeletionCall = async () => {
+    if (token) {
+      const decodedToken = jwt_decode(token) as Record<
+        string,
+        string | string[]
+      >;
+      await mutateAsync(decodedToken["UserName"] as string);
+      if (setToken) {
+        setToken("");
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    }
   };
 
   return (
