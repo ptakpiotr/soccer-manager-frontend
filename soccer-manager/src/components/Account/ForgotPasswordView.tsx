@@ -13,6 +13,7 @@ import { BiSad } from "react-icons/bi";
 import axios, { AxiosError } from "axios";
 import { useMutation as useReactMutation } from "@tanstack/react-query";
 import InfoAlert from "../InfoAlert";
+import ValidationErrorAlert from "../ValidationErrorAlert";
 
 const forgotPasswordUrl = `${
   import.meta.env.VITE_AUTH_BACKEND_URL
@@ -21,6 +22,7 @@ const forgotPasswordUrl = `${
 function ForgotPasswordView() {
   const [email, setEmail] = useState<string>("");
   const [response, setResponse] = useState<string>();
+  const [errors, setErrors] = useState<string>("");
   const navigate = useNavigate();
 
   const { mutateAsync } = useReactMutation({
@@ -43,8 +45,7 @@ function ForgotPasswordView() {
         return res.data;
       } catch (ex) {
         if (ex instanceof AxiosError) {
-          //TODO: handleErrors
-          // setErrors(ex.response?.data?.map((d: any) => d.description));
+          setErrors(ex.response?.data);
         }
       }
     },
@@ -94,6 +95,7 @@ function ForgotPasswordView() {
         Click here to login
       </Link>
       {response && <InfoAlert messages={[response]} />}
+      {errors ? <ValidationErrorAlert errors={errors} /> : <></>}
     </Grid>
   );
 }

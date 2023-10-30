@@ -25,11 +25,11 @@ function LoginView() {
     password: "",
   });
   const [isLoginEnabled, setIsLoginEnabled] = useState<boolean>(true);
-  const [errors, setErrors] = useState<string[]>();
+  const [errors, setErrors] = useState<string>();
 
   const { setToken } = useContext(UserTokenContext);
 
-  const { data, mutateAsync } = useReactMutation({
+  const { mutateAsync } = useReactMutation({
     mutationKey: ["login"],
     mutationFn: async (data: LoginType) => {
       try {
@@ -44,8 +44,7 @@ function LoginView() {
       } catch (ex) {
         if (ex instanceof AxiosError) {
           setIsLoginEnabled(false);
-          setErrors(["An error has occured"]);
-          // setErrors(ex.response?.data?.map((d: any) => d.description));
+          setErrors(ex.response?.data);
         }
       }
     },
@@ -55,7 +54,7 @@ function LoginView() {
 
   const enableLoginButton = () => {
     setIsLoginEnabled(true);
-    setErrors([]);
+    setErrors("");
   };
 
   const setLoginDataOnInputChange = (
@@ -85,15 +84,15 @@ function LoginView() {
       const valid = await loginSchema.validate(loginData);
       const token = await mutateAsync(valid);
       if (setToken && token) {
-        setToken(token);
-        localStorage.setItem("token", token);
+        setToken(token.token);
+        localStorage.setItem("token", token.token);
         navigate("/");
       }
     } catch (ex) {
-      //TODO: make call
       if (ex instanceof ValidationError) {
         setIsLoginEnabled(false);
-        setErrors(ex.errors);
+        console.log(ex.errors);
+        setErrors(ex.errors.join(","));
       }
     }
   };

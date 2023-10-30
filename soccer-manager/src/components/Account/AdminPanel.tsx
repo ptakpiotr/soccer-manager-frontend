@@ -13,7 +13,7 @@ const getUsersUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/getUsers`;
 const deleteUserUrl = import.meta.env.VITE_AUTH_BACKEND_URL;
 const blockUserUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/lockUser`;
 const unBlockUserUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/unlockUser`;
-
+//nie wyswietlac nie adminom
 function AdminPanel() {
   const { token } = useContext(UserTokenContext);
   const queryClient = useQueryClient();

@@ -15,6 +15,7 @@ import { changePasswordSchema } from "../../Validation";
 import axios, { AxiosError } from "axios";
 import { useMutation as useReactMutation } from "@tanstack/react-query";
 import { UserTokenContext } from "../../context";
+import ValidationErrorAlert from "../ValidationErrorAlert";
 
 const changePasswordUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/login`;
 
@@ -22,11 +23,13 @@ function ChangePasswordView() {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
+  const [errors, setErrors] = useState<string>("");
+
   const { setToken } = useContext(UserTokenContext);
 
   const navigate = useNavigate();
 
-  const { data, mutateAsync } = useReactMutation({
+  const { mutateAsync } = useReactMutation({
     mutationKey: ["changePassword"],
     mutationFn: async (data: ChangePasswordType) => {
       try {
@@ -43,8 +46,7 @@ function ChangePasswordView() {
         return res.data;
       } catch (ex) {
         if (ex instanceof AxiosError) {
-          //TODO: error handling
-          // setErrors(ex.response?.data?.map((d: any) => d.description));
+          setErrors(ex.response?.data);
         }
       }
     },
@@ -133,6 +135,7 @@ function ChangePasswordView() {
       >
         Click here to login
       </Link>
+      {errors ? <ValidationErrorAlert errors={errors} /> : <></>}
     </Grid>
   );
 }

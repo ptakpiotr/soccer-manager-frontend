@@ -2,24 +2,26 @@ import { Alert, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 
 interface IProps {
-  errors: string[];
-  enableButton: () => void;
+  errors: string;
+  enableButton?: () => void;
 }
 
 function ValidationErrorAlert({ errors, enableButton }: IProps) {
   const [numberOfNotClosed, setNumberOfNotClosed] = useState<number>(
-    errors.length
+    errors.split(",").length
   );
 
   useEffect(() => {
     if (numberOfNotClosed <= 0) {
-      enableButton();
+      if (enableButton) {
+        enableButton();
+      }
     }
   }, [numberOfNotClosed]);
 
   return (
     <Grid flexDirection="column" rowGap="0.5rem">
-      {errors.map((e) => (
+      {errors.split(",").map((e) => (
         <Alert
           variant="filled"
           severity="error"

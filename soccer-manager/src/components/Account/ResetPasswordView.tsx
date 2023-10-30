@@ -15,6 +15,7 @@ import { resetPasswordSchema } from "../../Validation";
 import axios, { AxiosError } from "axios";
 import { useMutation as useReactMutation } from "@tanstack/react-query";
 import { UserTokenContext } from "../../context";
+import ValidationErrorAlert from "../ValidationErrorAlert";
 
 const resetPasswordUrl = `${
   import.meta.env.VITE_AUTH_BACKEND_URL
@@ -29,6 +30,8 @@ function ResetPasswordView() {
 
   const [password, setPassword] = useState<string>("");
   const [confirmedPassword, setConfirmedPassword] = useState<string>("");
+  const [errors, setErrors] = useState<string>("");
+
   const { setToken } = useContext(UserTokenContext);
 
   const navigate = useNavigate();
@@ -49,8 +52,7 @@ function ResetPasswordView() {
         return res.data;
       } catch (ex) {
         if (ex instanceof AxiosError) {
-          //TODO: error handling
-          // setErrors(ex.response?.data?.map((d: any) => d.description));
+          setErrors(ex.response?.data);
         }
       }
     },
@@ -132,6 +134,7 @@ function ResetPasswordView() {
       >
         Click here to login
       </Link>
+      {errors ? <ValidationErrorAlert errors={errors} /> : <></>}
     </Grid>
   );
 }

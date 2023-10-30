@@ -24,10 +24,10 @@ function RegisterView() {
     confirmPassword: "",
   });
   const [isRegisterEnabled, setIsRegisterEnabled] = useState<boolean>(true);
-  const [errors, setErrors] = useState<string[]>();
+  const [errors, setErrors] = useState<string>("");
   const [isAllValid, setIsAllValid] = useState<boolean>(false);
 
-  const { data, mutateAsync } = useReactMutation({
+  const { mutateAsync } = useReactMutation({
     mutationKey: ["register"],
     mutationFn: async (data: RegisterType) => {
       try {
@@ -43,8 +43,8 @@ function RegisterView() {
       } catch (ex) {
         if (ex instanceof AxiosError) {
           setIsRegisterEnabled(false);
-          
-          setErrors(ex.response?.data?.map((d: any) => d.description));
+
+          setErrors(ex.response?.data);
         }
       }
     },
@@ -52,7 +52,7 @@ function RegisterView() {
 
   const enableRegisterButton = () => {
     setIsRegisterEnabled(true);
-    setErrors([]);
+    setErrors("");
   };
 
   const setRegisterDataOnInputChange = (
@@ -85,7 +85,7 @@ function RegisterView() {
     } catch (ex) {
       if (ex instanceof ValidationError) {
         setIsRegisterEnabled(false);
-        setErrors(ex.errors);
+        setErrors(ex.errors.join(","));
       }
     }
   };
