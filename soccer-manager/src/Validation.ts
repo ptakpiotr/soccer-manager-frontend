@@ -40,10 +40,10 @@ export const loginSchema = object({
 
 export const playerTransferSchema = object({
   id: string().required(),
-  name: string().required(),
+  playerName: string().required(),
   age: number().required().lessThan(50).moreThan(10),
-  rating: mixed<PlayerRating>().required(),
-  potentialRating: mixed<PlayerRating>().required(),
+  playerRating: number().required(),
+  potentialRating: number().required(),
   marketValue: number().required(),
   wage: number().required(),
   teamInfo: mixed<IShortTeamInfo>(),

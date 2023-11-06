@@ -13,68 +13,25 @@ import Enumerable from "linq";
 import PlayerRating from "../PlayerRating";
 import ActionCell from "./ActionCell";
 
-const playerTransfers: PlayerTransferType[] = [
-  {
-    id: "1",
-    name: "John Smith",
-    rating: { rating: 3 },
-    age: 25,
-    potentialRating: { rating: 4 },
-    marketValue: 15000000,
-    wage: 75000,
-  },
-  {
-    id: "2",
-    name: "Alice Johnson",
-    rating: { rating: 4 },
-    age: 28,
-    potentialRating: { rating: 3 },
-    marketValue: 18000000,
-    wage: 85000,
-  },
-  {
-    id: "3",
-    name: "David Wilson",
-    rating: { rating: 2 },
-    age: 23,
-    potentialRating: { rating: 5 },
-    marketValue: 12000000,
-    wage: 60000,
-  },
-  {
-    id: "4",
-    name: "Emily Brown",
-    rating: { rating: 5 },
-    age: 27,
-    potentialRating: { rating: 4 },
-    marketValue: 22000000,
-    wage: 95000,
-  },
-  {
-    id: "5",
-    name: "Michael Davis",
-    rating: { rating: 3 },
-    age: 24,
-    potentialRating: { rating: 4 },
-    marketValue: 16000000,
-    wage: 72000,
-  },
-];
+interface IProps {
+  playerTransfers: PlayerTransferType[];
+}
 
 function isRatingProperty(
   k: keyof PlayerTransferType
-): k is "rating" | "potentialRating" {
-  return k === "rating" || k === "potentialRating";
+): k is "playerRating" | "potentialRating" {
+  return k === "playerRating" || k === "potentialRating";
 }
 
-function TransfersTable() {
-  const [orderBy, setOrderBy] = useState<keyof PlayerTransferType>("rating");
+function TransfersTable({ playerTransfers }: IProps) {
+  const [orderBy, setOrderBy] =
+    useState<keyof PlayerTransferType>("playerRating");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
   const [players, setPlayers] = useState<PlayerTransferType[]>(playerTransfers);
 
   const currencyFormat = useMemo(
     () =>
-      new Intl.NumberFormat("pl-PL", { style: "currency", currency: "EUR" }),
+      new Intl.NumberFormat("pl-PL", { style: "currency", currency: "PLN" }),
     []
   );
 
@@ -86,7 +43,7 @@ function TransfersTable() {
         return enumerable
           .orderBy((e) => {
             if (isRatingProperty(orderBy)) {
-              return e[orderBy].rating;
+              return e[orderBy];
             } else {
               return e[orderBy];
             }
@@ -96,7 +53,7 @@ function TransfersTable() {
         return enumerable
           .orderByDescending((e) => {
             if (isRatingProperty(orderBy)) {
-              return e[orderBy].rating;
+              return e[orderBy];
             } else {
               return e[orderBy];
             }
@@ -113,7 +70,7 @@ function TransfersTable() {
           <TableRow>
             <TableCell>Id</TableCell>
             {Object.keys(players[0])
-              .filter((k) => k != "id")
+              .filter((k) => k != "id" && k != "__typename")
               .map((key) => (
                 <SortableTableCell
                   key={key}
@@ -137,17 +94,17 @@ function TransfersTable() {
           {players.map((p) => (
             <TableRow key={`player-${p.id}`}>
               <TableCell>{p.id}</TableCell>
-              <TableCell>{p.name}</TableCell>
+              <TableCell>{p.playerName}</TableCell>
               <TableCell>
-                <PlayerRating {...p.rating} />
+                <PlayerRating rating={p.playerRating} />
               </TableCell>
               <TableCell>{p.age}</TableCell>
               <TableCell>
-                <PlayerRating {...p.potentialRating} />
+                <PlayerRating rating={p.potentialRating} />
               </TableCell>
               <TableCell>{currencyFormat.format(p.marketValue)}</TableCell>
               <TableCell>{currencyFormat.format(p.wage)}</TableCell>
-              <ActionCell playerId={"123"} />
+              <ActionCell playerId={p.id} />
             </TableRow>
           ))}
         </TableBody>

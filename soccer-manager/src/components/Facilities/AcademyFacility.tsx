@@ -6,20 +6,41 @@ import {
   FilledInput,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import RateStars from "../RateStars";
 import { IAcademySettings } from "../../Types";
 import { MdTrackChanges } from "react-icons/md";
+import { UserTokenContext } from "../../context";
+import { useAcademyFacilityMutation } from "../../hooks/useAcademyFacilityMutation";
 
-function AcademyFacility() {
-  const [academySettings, setAcademySettings] = useState<IAcademySettings>({
-    secondTeamName: "",
-    capacity: 0,
-    facilitiesQuality: 1,
-    managerQuality: 1,
-  });
+interface IProps {
+  academy?: IAcademySettings;
+}
 
-  const handleChanges = () => {};
+function AcademyFacility({ academy }: IProps) {
+  const { userId } = useContext(UserTokenContext);
+  const [academySettings, setAcademySettings] = useState<IAcademySettings>(
+    academy ?? {
+      academyId: userId ?? "",
+      secondTeamName: "",
+      facilitiesQuality: 1,
+      managerQuality: 1,
+    }
+  );
+
+  const { mutate, data } = useAcademyFacilityMutation(academy);
+
+  const handleChanges = async () => {
+    await mutate({
+      variables: {
+        ...academySettings,
+      },
+    });
+
+    if (data) {
+      console.log("Succesfully upgraded stadium");
+    }
+  };
 
   return (
     <Grid item>

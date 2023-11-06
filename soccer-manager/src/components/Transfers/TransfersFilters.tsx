@@ -7,7 +7,7 @@ import { MdSearch, MdClear } from "react-icons/md";
 import Globals from "../../Globals";
 
 interface IProps {
-  callSearch: () => void;
+  callSearch: (filterValues: TransferFilterKeys) => void;
 }
 
 function TransfersFilters({ callSearch }: IProps) {
@@ -57,7 +57,8 @@ function TransfersFilters({ callSearch }: IProps) {
 
   const handleSearch = () => {
     localStorage.setItem("filterValues", JSON.stringify(filterValues));
-    callSearch();
+
+    callSearch(filterValues);
   };
 
   return (

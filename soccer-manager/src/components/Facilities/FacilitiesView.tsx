@@ -1,12 +1,18 @@
 import { Grid } from "@mui/material";
 import StadiumFacility from "./StadiumFacility";
 import AcademyFacility from "./AcademyFacility";
+import { IAcademySettings, IStadiumSettings } from "../../Types";
 
-function FacilitiesView() {
+interface IProps {
+  academy?: IAcademySettings;
+  stadium?: IStadiumSettings;
+}
+
+function FacilitiesView({ academy, stadium }: IProps) {
   return (
     <Grid container flexDirection="row">
-      <StadiumFacility />
-      <AcademyFacility />
+      <StadiumFacility stadium={stadium} />
+      <AcademyFacility academy={academy} />
     </Grid>
   );
 }

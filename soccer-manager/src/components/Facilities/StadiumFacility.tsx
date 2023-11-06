@@ -8,19 +8,44 @@ import {
 } from "@mui/material";
 import { MdTrackChanges } from "react-icons/md";
 import RateStars from "../RateStars";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { IStadiumSettings } from "../../Types";
+import { useStadiumMutation } from "../../hooks/useStadiumMutation";
+import { UserTokenContext } from "../../context";
 
-function StadiumFacility() {
-  const [stadiumSettings, setStadiumSettings] = useState<IStadiumSettings>({
-    stadiumName: "",
-    capacity: 0,
-    seatQuality: 1,
-    fansExtrasQuality: 1,
-  });
+interface IProps {
+  stadium?: IStadiumSettings;
+}
 
-  const handleChanges = () => {
-    //supply changes
+function StadiumFacility({ stadium }: IProps) {
+  const { userId } = useContext(UserTokenContext);
+
+  const [stadiumSettings, setStadiumSettings] = useState<IStadiumSettings>(
+    stadium ?? {
+      stadiumId: userId ?? "",
+      stadiumName: "",
+      capacity: 0,
+      seatQuality: 1,
+      fansExtrasQuality: 1,
+    }
+  );
+
+  const { mutate, data } = useStadiumMutation(stadium);
+
+  const handleChanges = async () => {
+    // let vars: typeof exists extends true
+    //   ? Omit<IStadiumSettings, "stadiumId">
+    //   : IStadiumSettings = stadiumSettings;
+
+    await mutate({
+      variables: {
+        ...stadiumSettings,
+      },
+    });
+
+    if (data) {
+      console.log("Succesfully upgraded stadium");
+    }
   };
 
   return (

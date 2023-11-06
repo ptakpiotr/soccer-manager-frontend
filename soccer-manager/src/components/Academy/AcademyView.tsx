@@ -1,15 +1,29 @@
 import { Button, Grid, List } from "@mui/material";
-import { useContext, useState } from "react";
-import { TacticsContext } from "../../context";
+import { useState } from "react";
 import AcademyViewPlayer from "./AcademyViewPlayer";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
+import { IPlayerSquadInfo } from "../../Types";
+import {
+  GET_ACADEMY_PLAYERS,
+  MANAGE_ACADEMY_PLAYERS,
+} from "../../GraphQL/Queries/academyQueries";
+import { useMutation as useGQLMutation } from "@apollo/client";
 
-//TODO: update demote/promote when backend ready
-function AcademyView() {
-  //temporary data retrieval
-  const { reserve } = useContext(TacticsContext);
-  const [academyPromoteList, setAcademyPromoteList] = useState<string[]>([]);
-  const [academyDemoteList, setAcademyDemoteList] = useState<string[]>([]);
+interface IProps {
+  players: IPlayerSquadInfo[];
+}
+
+function AcademyView({ players }: IProps) {
+  const [academyPromoteList, setAcademyPromoteList] = useState<string[]>(
+    players.filter((p) => p.isInAcademy === true).map((p) => p.playerId)
+  );
+  const [academyDemoteList, setAcademyDemoteList] = useState<string[]>(
+    players.filter((p) => !p.isInAcademy).map((p) => p.playerId)
+  );
+
+  const [mutate, { data }] = useGQLMutation(MANAGE_ACADEMY_PLAYERS, {
+    refetchQueries: [GET_ACADEMY_PLAYERS],
+  });
 
   const updateAcademyPromoteList = (playerId: string) => {
     if (academyPromoteList.includes(playerId)) {
@@ -35,9 +49,31 @@ function AcademyView() {
     }
   };
 
-  const handlePromoteClick = () => {};
+  const handlePromoteClick = async () => {
+    await mutate({
+      variables: {
+        ids: academyPromoteList,
+        isInAcademy: false,
+      },
+    });
 
-  const handleDemoteClick = () => {};
+    if (data) {
+      console.log("Succesfully promoted");
+    }
+  };
+
+  const handleDemoteClick = async () => {
+    await mutate({
+      variables: {
+        ids: academyDemoteList,
+        isInAcademy: true,
+      },
+    });
+
+    if (data) {
+      console.log("Succesfully demoted");
+    }
+  };
 
   return (
     <Grid container>
@@ -48,28 +84,22 @@ function AcademyView() {
             height: "70vh",
           }}
         >
-          <AcademyViewPlayer
-            isPromotion={true}
-            playerInfo={reserve![0]}
-            updateList={updateAcademyPromoteList}
-          />
-          <AcademyViewPlayer
-            isPromotion={true}
-            playerInfo={reserve![0]}
-            updateList={updateAcademyPromoteList}
-          />
-          <AcademyViewPlayer
-            isPromotion={true}
-            playerInfo={reserve![0]}
-            updateList={updateAcademyPromoteList}
-          />
-          <AcademyViewPlayer
-            isPromotion={true}
-            playerInfo={reserve![0]}
-            updateList={updateAcademyPromoteList}
-          />
+          {players
+            .filter((p) => p.isInAcademy === true)
+            .map((p) => (
+              <AcademyViewPlayer
+                playerInfo={p}
+                key={p.playerId}
+                updateList={updateAcademyPromoteList}
+              />
+            ))}
         </List>
-        <Button variant="contained" color="info" endIcon={<MdArrowUpward />} onClick={handlePromoteClick}>
+        <Button
+          variant="contained"
+          color="info"
+          endIcon={<MdArrowUpward />}
+          onClick={handlePromoteClick}
+        >
           Promote
         </Button>
       </Grid>
@@ -80,13 +110,22 @@ function AcademyView() {
             height: "70vh",
           }}
         >
-          <AcademyViewPlayer
-            isPromotion={false}
-            playerInfo={reserve![0]}
-            updateList={updateAcademyDemoteList}
-          />
+          {players
+            .filter((p) => !p.isInAcademy)
+            .map((p) => (
+              <AcademyViewPlayer
+                playerInfo={p}
+                key={p.playerId}
+                updateList={updateAcademyDemoteList}
+              />
+            ))}
         </List>
-        <Button variant="contained" color="error" endIcon={<MdArrowDownward />} onClick={handleDemoteClick}>
+        <Button
+          variant="contained"
+          color="error"
+          endIcon={<MdArrowDownward />}
+          onClick={handleDemoteClick}
+        >
           Demote
         </Button>
       </Grid>

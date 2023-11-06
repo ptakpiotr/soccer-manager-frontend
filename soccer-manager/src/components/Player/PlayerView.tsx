@@ -1,57 +1,121 @@
 import { Button, Grid, Typography } from "@mui/material";
 import CountryBox from "./CountryBox";
 import PlayerInfoTable from "./PlayerInfoTable";
-import { PositionType, SoccerShirtType } from "../../Types";
-import "./player_view.scss";
+import { IPlayerInfo } from "../../Types";
 import ShortPlayerInfoBar from "./ShortPlayerInfoBar";
 import PlayerContractInfo from "./PlayerContractInfo";
 import PlayerAdditionalInfo from "./PlayerAdditionalInfo";
 import PlayerTeamHistory from "./PlayerTeamHistory";
+import { useContext } from "react";
+import { useMutation as useGQLMutation } from "@apollo/client";
+import { UserTokenContext } from "../../context";
+import {
+  BUY_PLAYER,
+  MANAGE_PLAYER_TRANSFER_STATUS,
+} from "../../GraphQL/Mutations/playerMutations";
+import {
+  GET_PLAYER,
+  GET_PLAYERS_FOR_TRANSFERS,
+} from "../../GraphQL/Queries/playerQueries";
+import "./player_view.scss";
 
-interface IProps {
-  id: string;
-}
+type Props = IPlayerInfo;
 
-function PlayerView({}: IProps) {
+function PlayerView({
+  id,
+  age,
+  condition,
+  countryCode,
+  currentTeamData,
+  foot,
+  image,
+  playerName,
+  playerNumber,
+  playerRating,
+  positionType,
+  potentialRating,
+  teamHistory,
+  injuredTill,
+  isBenched,
+  suspended,
+  yellowCard,
+  marketValue,
+  wage,
+  isOnSale,
+  contractTo,
+}: Props) {
+  const { teamId } = useContext(UserTokenContext);
+  const [mutateBuy, { data: buyData }] = useGQLMutation(BUY_PLAYER, {
+    refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
+  });
+  const [mutateManage, { data: manageData }] = useGQLMutation(
+    MANAGE_PLAYER_TRANSFER_STATUS,
+    {
+      refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
+    }
+  );
+
+  const buyPlayer = async () => {
+    await mutateBuy({
+      variables: {
+        teamId,
+        playerId: id,
+      },
+    });
+
+    if (buyData) {
+      console.log("Player bought");
+    }
+  };
+
+  const managePlayerTransferStatus = async (transferStatus: boolean) => {
+    await mutateManage({
+      variables: {
+        playerId: id,
+        isOnSale: transferStatus,
+      },
+    });
+
+    if (manageData) {
+      console.log("Player managed");
+    }
+  };
+
   return (
     <Grid container flexDirection="row">
       <ShortPlayerInfoBar
-        playerName="Test test"
-        playerNumber={97}
+        playerName={playerName}
+        playerNumber={playerNumber}
         teamLogo={{
-          mainColor: "#0000FF",
-          secondaryColor: "#FF0000",
-          type: SoccerShirtType.STRIPES_SIMPLE,
-          name: "AFC",
-          iconId: "gi-chicken",
+          mainColor: currentTeamData.teamLogo.mainColor,
+          secondaryColor: currentTeamData.teamLogo.secondaryColor,
+          type: currentTeamData.teamLogo.type,
+          name: "",
+          iconId: currentTeamData.teamLogo.iconId,
         }}
       />
       <Typography variant="h6">General info</Typography>
       <Grid container flexDirection="row">
         <Grid item>
-          <img
-            className="player-view-img"
-            src="https://robohash.org/test"
-            loading="lazy"
-          />
+          <img className="player-view-img" src={image} loading="lazy" />
         </Grid>
         <Grid item flex={1} flexDirection="row">
-          <CountryBox countryCode="CAN" />
+          <CountryBox countryCode={countryCode} />
           <Grid item maxWidth="200px">
             <PlayerInfoTable
-              condition={89}
-              foot="L"
-              playerRating={{ rating: 2 }}
-              potentialRating={{ rating: 5 }}
-              positionType={PositionType.MIDFIELDER}
+              condition={condition}
+              foot={foot}
+              playerRating={{ rating: playerRating }}
+              potentialRating={{ rating: potentialRating }}
+              positionType={positionType}
             />
           </Grid>
         </Grid>
         <Grid item>
           <PlayerContractInfo
-            to={new Date()}
-            marketValue={123123}
-            wage={123123}
+            to={new Date(contractTo)}
+            marketValue={marketValue}
+            wage={wage}
           />
         </Grid>
       </Grid>
@@ -59,35 +123,45 @@ function PlayerView({}: IProps) {
       <Grid container>
         <Grid flex={1} item>
           <PlayerAdditionalInfo
-            age={22}
-            injuredTill={new Date()}
-            isBenched={false}
-            suspended={false}
-            yellowCard={true}
+            age={age}
+            injuredTill={injuredTill}
+            isBenched={isBenched}
+            suspended={suspended}
+            yellowCard={yellowCard}
           />
         </Grid>
         <Grid item>
-          <Button variant="contained">Put on transfer list</Button>
-          <Button variant="contained">Offer contract</Button>
-          <Typography variant="h6">Team history</Typography>
-          <PlayerTeamHistory
-            teamHistory={[
-              {
-                from: new Date(),
-                to: undefined,
-                id: "123",
-                teamId: "123",
-                teamName: "TEST",
-              },
-              {
-                from: new Date(),
-                to: new Date(),
-                id: "123",
-                teamId: "123",
-                teamName: "TEST22",
-              },
-            ]}
-          />
+          {teamId === currentTeamData.teamId ? (
+            !isOnSale ? (
+              <Button
+                variant="contained"
+                onClick={async () => {
+                  await managePlayerTransferStatus(true);
+                }}
+              >
+                Put on transfer list
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                onClick={async () => {
+                  await managePlayerTransferStatus(false);
+                }}
+              >
+                Remove from the transfer list
+              </Button>
+            )
+          ) : (
+            <></>
+          )}
+          {isOnSale && teamId !== currentTeamData.teamId ? (
+            <Button variant="contained" onClick={buyPlayer}>
+              Buy player
+            </Button>
+          ) : (
+            <></>
+          )}
+          <PlayerTeamHistory teamHistory={teamHistory} />
         </Grid>
       </Grid>
     </Grid>

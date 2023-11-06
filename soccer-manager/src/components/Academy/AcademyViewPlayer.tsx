@@ -9,12 +9,11 @@ import TacticsPlayerView from "../TacticsPlayerView";
 import { useState } from "react";
 
 interface IProps {
-  isPromotion: boolean;
   playerInfo: IPlayerSquadInfo;
   updateList: (playerId: string) => void;
 }
 
-function AcademyViewPlayer({ playerInfo, isPromotion, updateList }: IProps) {
+function AcademyViewPlayer({ playerInfo, updateList }: IProps) {
   const [isPlayerChecked, setIsPlayerChecked] = useState<boolean>(false);
 
   return (
@@ -29,7 +28,7 @@ function AcademyViewPlayer({ playerInfo, isPromotion, updateList }: IProps) {
           <Checkbox
             checked={isPlayerChecked}
             disableRipple={true}
-            color={isPromotion ? "info" : "error"}
+            color={playerInfo.isInAcademy ? "info" : "error"}
           />
         </ListItemIcon>
         <TacticsPlayerView {...playerInfo} disableRipple={true} />

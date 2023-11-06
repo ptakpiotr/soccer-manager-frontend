@@ -100,6 +100,36 @@ export default {
           return "#9D514B";
       }
     },
+    buildDynamicFilteredGraphQLQuery(
+      teamId: string,
+      filters: TransferFilterKeys
+    ) {
+      const whereClauseConditions = (
+        Object.keys(filters) as (keyof TransferFilterKeys)[]
+      )
+        .filter((f) => filters[f]?.from || filters[f]?.to)
+        .map(
+          (f) => `${f}:{
+          ${filters[f]?.from ? `gt:${filters[f]?.from}` : ""}
+          ${filters[f]?.to ? `lt:${filters[f]?.to}` : ""}
+        }`
+        );
+      return `
+        query{
+          transfers(teamId: "${teamId}" , where: {
+            ${whereClauseConditions.join(",")}
+          }){
+            id
+            playerName
+            playerRating
+            age
+            potentialRating
+            marketValue
+            wage
+          }
+        }
+      `;
+    },
   },
   navigation: [
     {

@@ -1,20 +1,29 @@
 import { useMemo } from "react";
-import { IFinancePerformance } from "../../Types";
+import { IFinanceProfits, IFinanceSpendings } from "../../Types";
 import { Chart } from "react-chartjs-2";
 
-function FinancePerformance({ monthlyPerformance }: IFinancePerformance) {
-  const data = useMemo(
-    () => monthlyPerformance.map((m) => m.money),
-    [monthlyPerformance]
-  );
-  const labels = useMemo(
-    () =>
-      monthlyPerformance.map((m) =>
-        new Date(2001, m.month - 1, 1).toLocaleString("default", {
-          month: "long",
-        })
-      ),
-    [monthlyPerformance]
+interface IProps {
+  teamProfits: IFinanceProfits;
+  teamSpendings: IFinanceSpendings;
+}
+
+function FinancePerformance({ teamProfits, teamSpendings }: IProps) {
+  const data = useMemo(() => {
+    let res = [];
+    for (let i = 0; i < teamProfits.teamProfits.length; i++) {
+      res.push({
+        diff:
+          teamProfits.teamProfits[i].stadium +
+          teamProfits.teamProfits[i].transfers -
+          (teamSpendings.teamSpendings[i].salaries +
+            teamSpendings.teamSpendings[i].transfers),
+      });
+    }
+
+    return res;
+  }, [teamProfits]);
+  const labels: string[] = teamProfits.teamProfits.map(
+    (t) => `Season: ${t.season}`
   );
   //responsive charts: https://www.chartjs.org/docs/latest/configuration/responsive.html
   return (

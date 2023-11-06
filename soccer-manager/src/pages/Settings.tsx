@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import AppSwitch from "../components/AppSwitch";
-import { UserSettingsContext } from "../context";
+import { UserSettingsContext, UserTokenContext } from "../context";
 import AppPaper from "../components/AppPaper";
 import {
   Accordion,
@@ -8,12 +8,14 @@ import {
   AccordionDetails,
   Typography,
   Grid,
+  Button,
 } from "@mui/material";
 import {
   MdFormatPaint,
   MdAccountCircle,
   MdExpandMore,
   MdAdminPanelSettings,
+  MdSave,
 } from "react-icons/md";
 import ManageAccountActionCenter from "../components/Account/ManageAccountActionCenter";
 import ColorThemePicker from "../components/misc/ColorThemePicker";
@@ -22,8 +24,14 @@ import ProtectedAreaView from "../components/misc/ProtectedAreaView";
 import AuthorizedArea from "../AuthorizedArea";
 import IsAdminArea from "../IsAdminArea";
 
+import { useUserPreferencesMutation } from "../hooks/useUserPreferencesMutation";
+
 function Settings() {
-  const { mode, bottomMenu, setMode, enableBottomMenu } =
+  const { userId } = useContext(UserTokenContext);
+
+  const { mutate, data } = useUserPreferencesMutation();
+
+  const { mode, bottomMenu, navbarColor, setMode, enableBottomMenu } =
     useContext(UserSettingsContext);
 
   const setModeValue = () => {
@@ -40,6 +48,21 @@ function Settings() {
   const setBottomMenu = () => {
     if (enableBottomMenu) {
       enableBottomMenu((prev) => !prev);
+    }
+  };
+
+  const savePreferences = async () => {
+    await mutate({
+      variables: {
+        userId,
+        mode,
+        bottomMenu,
+        navbarColor,
+      },
+    });
+
+    if (data) {
+      console.log("Preferences changed");
     }
   };
 
@@ -66,6 +89,13 @@ function Settings() {
             <Grid container alignItems="center" columnGap="1rem">
               <ColorThemePicker /> <Typography>| Main color</Typography>
             </Grid>
+            <Button
+              startIcon={<MdSave />}
+              color="secondary"
+              onClick={savePreferences}
+            >
+              Save
+            </Button>
           </AccordionDetails>
         </Accordion>
         <Accordion>

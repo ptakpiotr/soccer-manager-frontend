@@ -11,6 +11,7 @@ import {
 import { PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
 import Globals from "./Globals";
+import React from "react";
 
 type MapPropertyToFilter<T> = {
   -readonly [Property in keyof T]: {
@@ -23,17 +24,21 @@ export interface IUserSettings {
   mode: PaletteMode;
   bottomMenu: boolean;
   navbarColor: NavbarColors;
+  settingsExists: boolean;
   setMode: React.Dispatch<React.SetStateAction<PaletteMode>>;
   enableBottomMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setNavbarColor: React.Dispatch<React.SetStateAction<NavbarColors>>;
+  setSettingsExist: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ITeamHistoryInfo {
   id: string;
   teamId: string;
-  teamName: string;
-  from: Date;
-  to?: Date;
+  team: {
+    teamName: string;
+  };
+  from: string;
+  to?: string;
 }
 
 export interface IContractInfo {
@@ -61,8 +66,8 @@ export interface IPlayerAdditionalInfo {
 export interface IPlayerInfo extends IPlayerAdditionalInfo {
   id: string;
   playerName: string;
-  playerRating: PlayerRating;
-  potentialRating: PlayerRating;
+  playerRating: number;
+  potentialRating: number;
   positionType: PositionType;
   playerNumber: number;
   image: string;
@@ -70,6 +75,10 @@ export interface IPlayerInfo extends IPlayerAdditionalInfo {
   countryCode: string;
   foot: "L" | "R";
   currentTeamData: IShortTeamInfo;
+  wage: number;
+  marketValue: number;
+  isOnSale: boolean;
+  contractTo: string;
 }
 
 export interface IPlayerTableInfo {
@@ -96,7 +105,7 @@ export interface ISquadFormationShape {
 export interface ITacticsPlayerViewProps {
   playerId: string;
   playerName: string;
-  playerRating: PlayerRating;
+  playerRating: number;
   positionType: PositionType;
   image: string;
   isBenched?: boolean;
@@ -107,9 +116,9 @@ export interface ITacticsPlayerViewProps {
 }
 
 export interface IPlayerSquadInfo extends ITacticsPlayerViewProps {
-  isInSquad: boolean;
   squadPosition?: number;
-  number: number;
+  playerNumber: number;
+  isInAcademy?: boolean;
 }
 
 export interface IMatchCalendarInfo {
@@ -128,18 +137,35 @@ export interface ITrainingCalendarInfo {
 export interface ITableTeamInfo {
   id: number;
   name: string;
-  points: number;
-  wins: number;
-  draws: number;
-  lost: number;
-  form?: GameResultType[];
-  teamColor: string;
+  scores: {
+    points: number;
+    wins: number;
+    draws: number;
+    lost: number;
+    form?: GameResultType[];
+    team: {
+      id: string;
+      name: string;
+      logo: {
+        mainColor: string;
+      };
+    };
+  }[];
 }
 
-export interface IFinancePerformance {
-  monthlyPerformance: {
-    month: number;
-    money: number;
+export interface IFinanceProfits {
+  teamProfits: {
+    transfers: number;
+    stadium: number;
+    season: number;
+  }[];
+}
+
+export interface IFinanceSpendings {
+  teamSpendings: {
+    transfers: number;
+    salaries: number;
+    season: number;
   }[];
 }
 
@@ -159,6 +185,7 @@ export interface ISoccerLogo extends ITeamAttribute {
 }
 
 export interface IStadiumSettings {
+  stadiumId?: string;
   stadiumName: string;
   capacity: number;
   seatQuality: number;
@@ -166,10 +193,15 @@ export interface IStadiumSettings {
 }
 
 export interface IAcademySettings {
+  academyId?: string;
   secondTeamName: string;
-  capacity: number;
   managerQuality: number;
   facilitiesQuality: number;
+}
+
+export interface IFacilitySettings {
+  stadium: IStadiumSettings;
+  academy: IAcademySettings;
 }
 
 export type TransferFilterKeys = Partial<
@@ -188,7 +220,11 @@ export interface ITransferFilter<U> {
 
 export interface IUserToken {
   token: string;
+  teamId: string;
+  userId: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  setTeamId: React.Dispatch<React.SetStateAction<string>>;
+  setUserId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export enum TransferFilterType {
@@ -224,11 +260,15 @@ export interface IUserAdminInfo {
   lockoutEnabled: boolean;
 }
 
+export interface IPlayerTransfers {
+  transfers: PlayerTransferType[];
+}
+
 export enum PositionType {
-  GOALKEEPER,
-  DEFENDER,
-  MIDFIELDER,
-  STRIKER,
+  GOALKEEPER = "GOALKEEPER",
+  DEFENDER = "DEFENDER",
+  MIDFIELDER = "MIDFIELDER",
+  STRIKER = "STRIKER",
 }
 
 export enum ViewVariant {

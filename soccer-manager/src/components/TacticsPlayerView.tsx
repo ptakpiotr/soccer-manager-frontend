@@ -55,7 +55,7 @@ function TacticsPlayerView({
         <Grid container direction={"column"}>
           <Grid container direction={"column"}>
             <Grid item>{playerName}</Grid>
-            <PlayerRating rating={playerRating.rating} />
+            <PlayerRating rating={playerRating} />
             <Grid item>
               <PlayerCondition condition={condition} />
             </Grid>
