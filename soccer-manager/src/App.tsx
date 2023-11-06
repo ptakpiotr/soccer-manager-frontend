@@ -39,13 +39,15 @@ import ResetPassword from "./pages/ResetPassword";
 
 import { useQuery as useGQLQuery } from "@apollo/client";
 import { GET_USER_PREFERENCES } from "./GraphQL/Queries/settingsQueries";
+import { GET_TACTICS_PLAYERS } from "./GraphQL/Queries/playerQueries";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
   const [bottomMenu, enableBottomMenu] = useState<boolean>(false);
   const [navbarColor, setNavbarColor] = useState<NavbarColors>("#228b22");
   const [settingsExist, setSettingsExist] = useState<boolean>(false);
-
+  const [squad, setSquad] = useState<IPlayerSquadInfo[]>([]);
+  const [reserve, setReserve] = useState<IPlayerSquadInfo[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorCode, setErrorCode] = useState<number>();
 
@@ -97,6 +99,15 @@ function App() {
     }
   );
 
+  const { data: gqlSquad, loading: squadLoading } = useGQLQuery<{
+    players: { nodes: IPlayerSquadInfo[] };
+  }>(GET_TACTICS_PLAYERS, {
+    variables: {
+      teamId,
+    },
+    pollInterval: 1000 * 60 * 5,
+  });
+
   useEffect(() => {
     if (!loading && data?.userPreferences) {
       setMode(data.userPreferences.mode);
@@ -105,6 +116,18 @@ function App() {
       setSettingsExist(true);
     }
   }, [data, loading]);
+
+  useEffect(() => {
+    if (!squadLoading && gqlSquad) {
+      setSquad(
+        gqlSquad.players.nodes.filter((s) => !s.isBenched && s.squadPosition)
+      );
+
+      setReserve(
+        gqlSquad.players.nodes.filter((s) => s.isBenched || !s.squadPosition)
+      );
+    }
+  }, [gqlSquad, squadLoading]);
 
   return (
     <UserTokenContext.Provider
@@ -137,7 +160,14 @@ function App() {
             setSettingsExist,
           }}
         >
-          <TacticsContext.Provider value={{}}>
+          <TacticsContext.Provider
+            value={{
+              squad,
+              reserve,
+              setSquad,
+              setReserve,
+            }}
+          >
             <ThemeProvider theme={theme}>
               <div className={mode === "light" ? "light-mode" : "dark-mode"}>
                 <BrowserRouter>

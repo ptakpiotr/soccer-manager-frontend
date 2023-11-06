@@ -20,7 +20,7 @@ function DroppablePlayerView(props: IPlayerSquadInfo) {
   return (
     <div ref={dragRef}>
       <div ref={dropRef}>
-        <FormationPlayerView id="123" {...props} />
+        <FormationPlayerView {...props} />
       </div>
     </div>
   );

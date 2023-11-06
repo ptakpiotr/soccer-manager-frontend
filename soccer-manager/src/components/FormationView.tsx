@@ -20,7 +20,7 @@ function FormationView({ playersInFormation, positionType }: IProps) {
           <Grid key={p.playerId} item>
             <Badge
               badgeContent={
-                positionType === p.positionType ? p.playerRating.rating : 1
+                positionType === p.positionType ? p.playerRating : 1
               }
               color={"info"}
               anchorOrigin={{

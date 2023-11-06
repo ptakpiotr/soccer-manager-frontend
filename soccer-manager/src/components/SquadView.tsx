@@ -5,14 +5,14 @@ import FormationView from "./FormationView";
 import { TacticsContext } from "../context";
 
 interface IProps {
+  squad: IPlayerSquadInfo[];
   formation: string;
 }
 
-function SquadView({ formation }: IProps) {
+function SquadView({ squad, formation }: IProps) {
   const [_, setSquadFormationShape] = useState<
     ISquadFormationShape | undefined
   >();
-  const { squad } = useContext(TacticsContext);
 
   const [goalkeeper, setGoalkeeper] = useState<IPlayerSquadInfo[]>();
   const [defenders, setDefenders] = useState<IPlayerSquadInfo[]>();
@@ -21,7 +21,7 @@ function SquadView({ formation }: IProps) {
 
   useEffect(() => {
     const playersPerFormation = formation.split("-").map((p) => parseInt(p));
-    console.log(playersPerFormation);
+    console.log(squad);
     const goalkeeper = squad?.filter((s) => s?.squadPosition === 1);
 
     const defenders = squad?.filter(

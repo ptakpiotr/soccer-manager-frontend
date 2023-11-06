@@ -110,6 +110,7 @@ export interface ITacticsPlayerViewProps {
   image: string;
   isBenched?: boolean;
   injuredTill?: Date;
+  squadPosition?: number;
   suspended?: boolean;
   yellowCard?: boolean;
   condition: number;

@@ -17,3 +17,22 @@ export const MANAGE_PLAYER_TRANSFER_STATUS = gql`
     }
   }
 `;
+
+export const MODIFY_TEAM_TACTICS = gql`
+  mutation ModifyTeamTactics(
+    $teamId: UUID!
+    $benchPlayers: [UUID!]!
+    $squadPlayers: [PlayerTacticsPositionModelInput!]!
+  ) {
+    modifyTeamTactics(
+      input: {
+        teamId: $teamId
+        benchPlayers: $benchPlayers
+        squadPlayers: $squadPlayers
+      }
+    ) {
+      teamId
+      errorMessage
+    }
+  }
+`;

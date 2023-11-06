@@ -61,3 +61,27 @@ export const GET_PLAYER = gql`
     }
   }
 `;
+
+export const GET_TACTICS_PLAYERS = gql`
+  query GetTacticsPlayer($teamId: UUID!) {
+    players(
+      first: 50
+      where: { teamId: { eq: $teamId }, isInAcademy: { eq: false } }
+    ) {
+      nodes {
+        playerId: id
+        squadPosition
+        positionType
+        playerName
+        playerRating
+        image
+        isBenched
+        injuredTill
+        yellowCard
+        suspended
+        condition
+        playerNumber
+      }
+    }
+  }
+`;

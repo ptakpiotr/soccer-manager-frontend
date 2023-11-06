@@ -19,6 +19,7 @@ type Props = ITacticsPlayerViewProps & {
 };
 
 function TacticsPlayerView({
+  playerId,
   positionType,
   playerName,
   playerRating,
@@ -42,7 +43,7 @@ function TacticsPlayerView({
           }}
         >
           <FormationPlayerView
-            id={"123"}
+            playerId={playerId}
             image={image}
             positionType={positionType}
             variant={ViewVariant.SMALL}

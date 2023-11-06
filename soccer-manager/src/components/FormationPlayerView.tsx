@@ -1,27 +1,28 @@
 import { Tooltip } from "@mui/material";
 import Globals from "../Globals";
-import { PositionType, ViewVariant } from "../Types";
+import { ViewVariant, ITacticsPlayerViewProps } from "../Types";
 import { Link } from "react-router-dom";
 
-export interface IProps {
-  id: string;
-  positionType: PositionType;
-  playerName?: string;
-  image: string;
+type Props = Omit<
+  ITacticsPlayerViewProps,
+  "squadPosition" | "playerName" | "playerRating" | "condition"
+> & {
   variant?: ViewVariant;
-  yellowCard?: boolean;
-  suspended?: boolean;
-}
+} & Partial<{
+    playerName: string;
+    playerRating: number;
+    condition: number;
+  }>;
 
 function FormationPlayerView({
-  id,
+  playerId,
   positionType,
   playerName,
   image,
   yellowCard,
   suspended,
   variant = ViewVariant.STANDARD,
-}: IProps) {
+}: Props) {
   const widthAndHeight = Globals.functions.mapViewVariantToMaxWidth(variant);
 
   const borderColor = Globals.functions.mapCardColorToBorderColor(
@@ -31,7 +32,7 @@ function FormationPlayerView({
   );
 
   return (
-    <Link to={`/player/${id}`}>
+    <Link to={`/player/${playerId}`}>
       <Tooltip title={playerName ?? ""} arrow>
         <div
           style={{
