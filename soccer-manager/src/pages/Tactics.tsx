@@ -12,8 +12,12 @@ import { MODIFY_TEAM_TACTICS } from "../GraphQL/Mutations/playerMutations";
 import { GET_TACTICS_PLAYERS } from "../GraphQL/Queries/playerQueries";
 
 function Tactics() {
-  const [tactics, setTactics] = useState<string>("4-3-3");
-  const { squad, reserve } = useContext(TacticsContext);
+  const {
+    squad,
+    reserve,
+    formation: tactics,
+    setFormation: setTactics,
+  } = useContext(TacticsContext);
   const { teamId } = useContext(UserTokenContext);
 
   const [mutate, _] = useGQLMutation(MODIFY_TEAM_TACTICS, {
@@ -32,6 +36,7 @@ function Tactics() {
         teamId,
         benchPlayers,
         squadPlayers,
+        formation: tactics,
       },
     });
   };
@@ -52,10 +57,12 @@ function Tactics() {
                 },
               ]}
               handleChange={(e) => {
-                setTactics(e.target.value as string);
+                if (setTactics) {
+                  setTactics(e.target.value as string);
+                }
               }}
               label="Formation"
-              value={tactics}
+              value={tactics ?? "4-3-3"}
             />
             <Button
               variant="contained"
@@ -75,7 +82,10 @@ function Tactics() {
         <Grid item flex={9} minWidth="300px">
           <AppPaper>
             {squad ? (
-              <SquadView squad={squad} formation={tactics}></SquadView>
+              <SquadView
+                squad={squad}
+                formation={tactics ?? "4-3-3"}
+              ></SquadView>
             ) : (
               <NoData />
             )}

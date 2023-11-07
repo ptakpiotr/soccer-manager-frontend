@@ -81,6 +81,9 @@ export const GET_TACTICS_PLAYERS = gql`
         suspended
         condition
         playerNumber
+        team {
+          formation
+        }
       }
     }
   }

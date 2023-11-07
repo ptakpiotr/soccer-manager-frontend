@@ -1,15 +1,28 @@
 import SoccerLogoDisplay from "../misc/SoccerLogoDisplay";
-import { SoccerShirtType } from "../../Types";
+import {
+  ISoccerShirt,
+  ITeamInfoData,
+  ITeamShirts,
+  SoccerShirtType,
+} from "../../Types";
 import { Grid, Typography } from "@mui/material";
 import SoccerKitDisplay from "../misc/SoccerKitDisplay";
 import FlexiblePaper from "../misc/FlexiblePaper";
 import SquadView from "../SquadView";
 import AppPaper from "../AppPaper";
 
-function TeamInfoView() {
+interface IProps {
+  shirts: ISoccerShirt[];
+  teamInfo: ITeamInfoData;
+}
+
+function TeamInfoView({ shirts, teamInfo }: IProps) {
+  const firstShirt = shirts.find((s) => !s.isSecond);
+  const secondShirt = shirts.find((s) => s.isSecond);
+
   return (
     <>
-      <Typography variant="h6">FCK Soccer</Typography>
+      <Typography variant="h6">{teamInfo.name}</Typography>
       <Grid container columnGap={"2rem"}>
         <Grid item>
           <FlexiblePaper
@@ -20,39 +33,43 @@ function TeamInfoView() {
           >
             <SoccerLogoDisplay
               logoSetup={{
-                mainColor: "#0000FF",
-                secondaryColor: "#FF0000",
-                type: SoccerShirtType.STRIPES_SIMPLE,
-                name: "AFC",
-                iconId: "gi-chicken",
+                mainColor: teamInfo.logo.mainColor,
+                secondaryColor: teamInfo.logo.secondaryColor,
+                type: teamInfo.logo.type,
+                name: teamInfo.name,
+                iconId: teamInfo.logo.type,
               }}
               additionalClasses={["player-soccer-team-logo"]}
             />
-            <Typography textAlign={"center"}>FCK Soccer</Typography>
-            <Typography>-- managed by --</Typography>
-            <Typography>James Scott</Typography>
+            <Typography textAlign={"center"}>{teamInfo.name}</Typography>
+            <Typography>----</Typography>
           </FlexiblePaper>
           <Typography>Home kit</Typography>
           <SoccerKitDisplay
             kitSetup={{
-              mainColor: "red",
-              secondaryColor: "blue",
-              type: SoccerShirtType.STRIPES_SIMPLE,
+              mainColor: firstShirt?.mainColor!,
+              secondaryColor: firstShirt?.secondaryColor!,
+              type: firstShirt?.type!,
             }}
           />
           <Typography>Away kit</Typography>
           <SoccerKitDisplay
             kitSetup={{
-              mainColor: "yellowgreen",
-              secondaryColor: "black",
-              type: SoccerShirtType.STRIPES_45,
+              mainColor: secondShirt?.mainColor!,
+              secondaryColor: secondShirt?.secondaryColor!,
+              type: secondShirt?.type!,
             }}
           />
         </Grid>
         <Grid item flex={1} minWidth="300px">
           <Typography>Current squad</Typography>
           <AppPaper>
-            <SquadView formation={"4-3-3"}></SquadView>
+            <SquadView
+              formation={teamInfo.formation ?? "4-3-3"}
+              squad={teamInfo.players.filter(
+                (p) => !p.isInAcademy && p.squadPosition && !p.isBenched
+              )}
+            ></SquadView>
           </AppPaper>
         </Grid>
       </Grid>

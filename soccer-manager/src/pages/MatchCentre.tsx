@@ -1,34 +1,30 @@
 import { useParams } from "react-router-dom";
-import MatchCentreView from "../components/MatchCentre/MatchCentreView";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
 import ErrorView from "../components/misc/ErrorView";
+import { guidSchema } from "../Validation";
+import MatchCentreWrapper from "../components/MatchCentre/MatchCentreWrapper";
 
 function MatchCentre() {
   const { id } = useParams();
-  //TODO: fix it (from string to number)
+  const [isValid, setIsValid] = useState<boolean>(false);
+
   const { setErrorMessage } = useErrorMessageManager();
+
   useEffect(() => {
-    if (typeof id !== "string") {
+    if (!guidSchema.isValidSync({ teamId: id })) {
       if (setErrorMessage) {
         setErrorMessage("Given match doesn't exist");
       }
+      setIsValid(false);
+    } else {
+      setIsValid(true);
     }
   }, [id]);
-  // make to call to retrieve match info
+
   return (
     <main>
-      {typeof id !== "string" ? (
-        <ErrorView />
-      ) : (
-        <MatchCentreView
-          homeTeamId={parseInt(id)}
-          awayTeamId={parseInt(id)}
-          isMyTeamHome={false}
-          homeScore={10}
-          awayScore={10}
-        />
-      )}
+      {!isValid || !id ? <ErrorView /> : <MatchCentreWrapper matchId={id} />}
     </main>
   );
 }

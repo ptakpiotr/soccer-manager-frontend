@@ -23,12 +23,14 @@ export const MODIFY_TEAM_TACTICS = gql`
     $teamId: UUID!
     $benchPlayers: [UUID!]!
     $squadPlayers: [PlayerTacticsPositionModelInput!]!
+    $formation: String!
   ) {
     modifyTeamTactics(
       input: {
         teamId: $teamId
         benchPlayers: $benchPlayers
         squadPlayers: $squadPlayers
+        formation: $formation
       }
     ) {
       teamId

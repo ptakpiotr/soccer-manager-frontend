@@ -94,6 +94,8 @@ export interface ITactics {
   setSquad: React.Dispatch<React.SetStateAction<IPlayerSquadInfo[]>>;
   reserve: IPlayerSquadInfo[];
   setReserve: React.Dispatch<React.SetStateAction<IPlayerSquadInfo[]>>;
+  formation: string;
+  setFormation: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface ISquadFormationShape {
@@ -120,10 +122,15 @@ export interface IPlayerSquadInfo extends ITacticsPlayerViewProps {
   squadPosition?: number;
   playerNumber: number;
   isInAcademy?: boolean;
+  team?: {
+    formation?: string;
+  };
 }
 
 export interface IMatchCalendarInfo {
-  rivalTeamId: number;
+  id: string;
+  homeTeamId: string;
+  awayTeamId: string;
   ground: GroundType;
   type: MatchType;
   homeScore?: number;
@@ -177,6 +184,7 @@ export interface ITeamAttribute {
 
 export interface ISoccerShirt extends ITeamAttribute {
   type: SoccerShirtType;
+  isSecond?: boolean;
 }
 
 export interface ISoccerLogo extends ITeamAttribute {
@@ -234,11 +242,11 @@ export enum TransferFilterType {
 }
 
 export enum SoccerShirtType {
-  PLAIN = "Plain",
-  STRIPES_SIMPLE = "Simple stripes",
-  STRIPES_45 = "Stripes 45",
-  STRIPES_180 = "Stripes 180",
-  CIRCLE = "Circle",
+  PLAIN = "PLAIN",
+  STRIPES_SIMPLE = "STRIPES_SIMPLE",
+  STRIPES_45 = "STRIPES_45",
+  STRIPES_180 = "STRIPES_180",
+  CIRCLE = "CIRCLE",
 }
 
 export type SoccerLogoType = SoccerShirtType;
@@ -263,6 +271,21 @@ export interface IUserAdminInfo {
 
 export interface IPlayerTransfers {
   transfers: PlayerTransferType[];
+}
+
+export interface ITeamShirts {
+  shirts: ISoccerShirt[];
+}
+export interface ITeamInfoData {
+  logo: ISoccerLogo;
+  name: string;
+  formation: string;
+  players: IPlayerSquadInfo[];
+}
+export interface ITeamInfoView {
+  teams: {
+    nodes: ITeamInfoData[];
+  };
 }
 
 export enum PositionType {

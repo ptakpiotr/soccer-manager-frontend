@@ -48,6 +48,7 @@ function App() {
   const [settingsExist, setSettingsExist] = useState<boolean>(false);
   const [squad, setSquad] = useState<IPlayerSquadInfo[]>([]);
   const [reserve, setReserve] = useState<IPlayerSquadInfo[]>([]);
+  const [formation, setFormation] = useState<string>("4-3-3");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorCode, setErrorCode] = useState<number>();
 
@@ -126,6 +127,13 @@ function App() {
       setReserve(
         gqlSquad.players.nodes.filter((s) => s.isBenched || !s.squadPosition)
       );
+      const gqlFormation = gqlSquad.players.nodes[0].team?.formation;
+
+      if (gqlFormation) {
+        setFormation(gqlFormation);
+      } else {
+        setFormation("4-3-3");
+      }
     }
   }, [gqlSquad, squadLoading]);
 
@@ -164,8 +172,10 @@ function App() {
             value={{
               squad,
               reserve,
+              formation,
               setSquad,
               setReserve,
+              setFormation,
             }}
           >
             <ThemeProvider theme={theme}>

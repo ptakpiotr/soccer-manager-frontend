@@ -1,25 +1,27 @@
 import { Alert, Grid } from "@mui/material";
 import MatchCentrePaper from "./MatchCentrePaper";
-import Scoreboard, { IProps as ScoreboardProps } from "../misc/Scoreboard";
+import Scoreboard from "../misc/Scoreboard";
+import { GroundType, IMatchCalendarInfo } from "../../Types";
 
-interface IProps extends Partial<ScoreboardProps> {
-  homeTeamId: number;
-  awayTeamId: number;
-}
+type Props = Omit<IMatchCalendarInfo, "matchType">;
 
 function MatchCentreView({
   homeTeamId,
   awayTeamId,
-  isMyTeamHome,
+  ground,
   homeScore,
   awayScore,
-}: IProps) {
+}: Props) {
   return (
     <>
-      {isMyTeamHome && homeScore && awayScore ? (
+      {homeScore && awayScore ? (
         <Grid container justifyContent={"center"}>
           <Grid item>
-            <Scoreboard isMyTeamHome={true} awayScore={12} homeScore={20} />
+            <Scoreboard
+              isMyTeamHome={ground === GroundType.HOME}
+              awayScore={homeScore}
+              homeScore={awayScore}
+            />
           </Grid>
         </Grid>
       ) : (
@@ -29,10 +31,10 @@ function MatchCentreView({
       )}
       <Grid container flexDirection={"row"}>
         <Grid item flex={6}>
-          <MatchCentrePaper teamId={homeTeamId} teamName="Team 1" />
+          <MatchCentrePaper teamId={homeTeamId} />
         </Grid>
         <Grid item flex={6}>
-          <MatchCentrePaper teamId={awayTeamId} teamName="Team 2" />
+          <MatchCentrePaper teamId={awayTeamId} />
         </Grid>
       </Grid>
     </>
