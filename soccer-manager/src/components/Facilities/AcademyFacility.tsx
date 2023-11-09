@@ -12,6 +12,7 @@ import { IAcademySettings } from "../../Types";
 import { MdTrackChanges } from "react-icons/md";
 import { UserTokenContext } from "../../context";
 import { useAcademyFacilityMutation } from "../../hooks/useAcademyFacilityMutation";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 interface IProps {
   academy?: IAcademySettings;
@@ -28,7 +29,9 @@ function AcademyFacility({ academy }: IProps) {
     }
   );
 
-  const { mutate, data } = useAcademyFacilityMutation(academy);
+  const { mutate, data, error } = useAcademyFacilityMutation(academy);
+
+  const notify = useErrorMessageManager();
 
   const handleChanges = async () => {
     await mutate({
@@ -38,7 +41,9 @@ function AcademyFacility({ academy }: IProps) {
     });
 
     if (data) {
-      console.log("Succesfully upgraded stadium");
+      notify("Succesfully upgraded stadium", "success");
+    } else if (error) {
+      notify(error.message);
     }
   };
 

@@ -1,4 +1,4 @@
-import { IconButton, Menu, Tooltip } from "@mui/material";
+import { IconButton, Menu, MenuList, Tooltip } from "@mui/material";
 import { useContext, useRef, useState } from "react";
 import {
   MdPersonOutline,
@@ -37,7 +37,7 @@ function AccountMenu() {
         onClose={handleMenuClose}
       >
         {token ? (
-          <>
+          <MenuList>
             <AccountMenuItem
               address="/settings"
               name="Settings"
@@ -50,9 +50,9 @@ function AccountMenu() {
               icon={MdLogout}
               closeMenu={handleMenuClose}
             />
-          </>
+          </MenuList>
         ) : (
-          <>
+          <MenuList>
             <AccountMenuItem
               address="/register"
               name="Register"
@@ -65,7 +65,7 @@ function AccountMenu() {
               icon={MdLogin}
               closeMenu={handleMenuClose}
             />
-          </>
+          </MenuList>
         )}
       </Menu>
     </>

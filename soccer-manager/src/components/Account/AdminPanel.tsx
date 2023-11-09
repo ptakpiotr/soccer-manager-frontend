@@ -8,15 +8,17 @@ import {
 import { useContext } from "react";
 import { UserTokenContext } from "../../context";
 import { IUserAdminInfo } from "../../Types";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 const getUsersUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/getUsers`;
 const deleteUserUrl = import.meta.env.VITE_AUTH_BACKEND_URL;
 const blockUserUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/lockUser`;
 const unBlockUserUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/unlockUser`;
-//nie wyswietlac nie adminom
+
 function AdminPanel() {
   const { token } = useContext(UserTokenContext);
   const queryClient = useQueryClient();
+  const notify = useErrorMessageManager();
 
   const { data } = useReactQuery({
     queryKey: ["adminpanel-users"],
@@ -30,7 +32,7 @@ function AdminPanel() {
 
         return resp.data as IUserAdminInfo[];
       } catch {
-        console.error("Unable to fetch user data");
+        notify("Unable to fetch user data");
       }
     },
   });
@@ -46,7 +48,7 @@ function AdminPanel() {
         });
         await queryClient.invalidateQueries(["adminpanel-users"]);
       } catch {
-        console.error("Unable to delete the user");
+        notify("Unable to delete the user");
       }
     },
   });
@@ -62,7 +64,7 @@ function AdminPanel() {
         });
         await queryClient.invalidateQueries(["adminpanel-users"]);
       } catch {
-        console.error("Unable to block the user");
+        notify("Unable to block the user");
       }
     },
   });
@@ -78,7 +80,7 @@ function AdminPanel() {
         });
         await queryClient.invalidateQueries(["adminpanel-users"]);
       } catch {
-        console.error("Unable to unblock the user");
+        notify("Unable to unblock the user");
       }
     },
   });

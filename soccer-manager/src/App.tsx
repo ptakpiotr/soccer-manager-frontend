@@ -5,7 +5,6 @@ import Tactics from "./pages/Tactics";
 import { ThemeProvider, createTheme, PaletteMode } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import {
-  ErrorViewContext,
   TacticsContext,
   UserSettingsContext,
   UserTokenContext,
@@ -41,6 +40,9 @@ import { useQuery as useGQLQuery } from "@apollo/client";
 import { GET_USER_PREFERENCES } from "./GraphQL/Queries/settingsQueries";
 import { GET_TACTICS_PLAYERS } from "./GraphQL/Queries/playerQueries";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
   const [bottomMenu, enableBottomMenu] = useState<boolean>(false);
@@ -49,8 +51,6 @@ function App() {
   const [squad, setSquad] = useState<IPlayerSquadInfo[]>([]);
   const [reserve, setReserve] = useState<IPlayerSquadInfo[]>([]);
   const [formation, setFormation] = useState<string>("4-3-3");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [errorCode, setErrorCode] = useState<number>();
 
   //inspired with here: https://dev.to/sanjayttg/jwt-authentication-in-react-with-react-router-1d03
   const [token, setToken] = useState<string>(
@@ -148,73 +148,65 @@ function App() {
         setUserId,
       }}
     >
-      <ErrorViewContext.Provider
+      <UserSettingsContext.Provider
         value={{
-          errorCode,
-          errorMessage,
-          setErrorCode,
-          setErrorMessage,
+          mode,
+          bottomMenu,
+          navbarColor,
+          settingsExists: settingsExist,
+          setMode,
+          enableBottomMenu,
+          setNavbarColor,
+          setSettingsExist,
         }}
       >
-        <UserSettingsContext.Provider
+        <TacticsContext.Provider
           value={{
-            mode,
-            bottomMenu,
-            navbarColor,
-            settingsExists: settingsExist,
-            setMode,
-            enableBottomMenu,
-            setNavbarColor,
-            setSettingsExist,
+            squad,
+            reserve,
+            formation,
+            setSquad,
+            setReserve,
+            setFormation,
           }}
         >
-          <TacticsContext.Provider
-            value={{
-              squad,
-              reserve,
-              formation,
-              setSquad,
-              setReserve,
-              setFormation,
-            }}
-          >
-            <ThemeProvider theme={theme}>
-              <div className={mode === "light" ? "light-mode" : "dark-mode"}>
-                <BrowserRouter>
-                  <Header />
-                  <Routes>
-                    <Route path="/register" Component={Register} />
-                    <Route path="/login" Component={Login} />
-                    <Route path="/forgotPassword" Component={ForgotPassword} />
-                    <Route path="/manageAccount" Component={ManageAccount} />
-                    <Route path="/changePassword" Component={ChangePassword} />
-                    <Route path="/resetPassword" Component={ResetPassword} />
+          <ThemeProvider theme={theme}>
+            <div className={mode === "light" ? "light-mode" : "dark-mode"}>
+              <BrowserRouter>
+                <Header />
+                <Routes>
+                  <Route path="/register" Component={Register} />
+                  <Route path="/login" Component={Login} />
+                  <Route path="/forgotPassword" Component={ForgotPassword} />
+                  <Route path="/manageAccount" Component={ManageAccount} />
+                  <Route path="/changePassword" Component={ChangePassword} />
+                  <Route path="/resetPassword" Component={ResetPassword} />
 
-                    {/* <Route path="/" Component={AuthorizedArea}> */}
-                    <Route path="/" Component={Home} />
-                    <Route path="/tactics" Component={Tactics} />
-                    <Route path="/calendar" Component={Calendar} />
-                    <Route path="/table" Component={Table} />
-                    <Route path="/academy" Component={Academy} />
-                    <Route path="/facilities" Component={Facilities} />
-                    <Route path="/player/:id" Component={Player} />
-                    <Route path="/transfers" Component={Transfers} />
-                    <Route path="/budget" Component={Budget} />
-                    <Route path="/team/:id" Component={TeamInfo} />
-                    <Route path="/match/:id" Component={MatchCentre} />
+                  {/* <Route path="/" Component={AuthorizedArea}> */}
+                  <Route path="/" Component={Home} />
+                  <Route path="/tactics" Component={Tactics} />
+                  <Route path="/calendar" Component={Calendar} />
+                  <Route path="/table" Component={Table} />
+                  <Route path="/academy" Component={Academy} />
+                  <Route path="/facilities" Component={Facilities} />
+                  <Route path="/player/:id" Component={Player} />
+                  <Route path="/transfers" Component={Transfers} />
+                  <Route path="/budget" Component={Budget} />
+                  <Route path="/team/:id" Component={TeamInfo} />
+                  <Route path="/match/:id" Component={MatchCentre} />
 
-                    <Route path="settings" Component={Settings} />
-                    <Route path="/logout" Component={Logout} />
-                    {/* </Route> */}
-                    <Route path="*" Component={NotFound} />
-                  </Routes>
-                  <BottomMenu />
-                </BrowserRouter>
-              </div>
-            </ThemeProvider>
-          </TacticsContext.Provider>
-        </UserSettingsContext.Provider>
-      </ErrorViewContext.Provider>
+                  <Route path="settings" Component={Settings} />
+                  <Route path="/logout" Component={Logout} />
+                  {/* </Route> */}
+                  <Route path="*" Component={NotFound} />
+                </Routes>
+                <BottomMenu />
+              </BrowserRouter>
+              <ToastContainer />
+            </div>
+          </ThemeProvider>
+        </TacticsContext.Provider>
+      </UserSettingsContext.Provider>
     </UserTokenContext.Provider>
   );
 }

@@ -21,7 +21,6 @@ function SquadView({ squad, formation }: IProps) {
 
   useEffect(() => {
     const playersPerFormation = formation.split("-").map((p) => parseInt(p));
-    console.log(squad);
     const goalkeeper = squad?.filter((s) => s?.squadPosition === 1);
 
     const defenders = squad?.filter(

@@ -17,21 +17,25 @@ import SortableTableCell from "./SortableTableCell";
 import RecentForm from "./RecentForm";
 import NoData from "../misc/NoData";
 import { GET_LEAGUE_TABLE } from "../../GraphQL/Queries/leagueQueries";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 interface IProps {
   leagueId?: string;
+  miniTable?: boolean;
 }
 
-type SingleScore = ITableTeamInfo["scores"][0];
+type SingleScore = ITableTeamInfo;
 
-function TableView({ leagueId }: IProps) {
-  const [teams, setTeams] = useState<ITableTeamInfo>();
+function TableView({ leagueId, miniTable }: IProps) {
+  const [teams, setTeams] = useState<ITableTeamInfo[]>();
   const [orderBy, setOrderBy] = useState<keyof SingleScore>("points");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const [getLeagueTable, _] = useLazyGQLQuery<{ league: ITableTeamInfo }>(
+  const notify = useErrorMessageManager();
+
+  const [getLeagueTable, _] = useLazyGQLQuery<{ league: ITableTeamInfo[] }>(
     GET_LEAGUE_TABLE,
     {
       variables: {
@@ -46,26 +50,20 @@ function TableView({ leagueId }: IProps) {
       loadLeagueData()
         .then(() => {})
         .catch((err) => {
-          console.error(err);
+          notify(`${err}`);
         });
     }
   }, []);
 
   useEffect(() => {
     setTeams((t) => {
-      if (t && t.scores) {
-        var enumerable = Enumerable.from(t.scores);
+      if (t) {
+        var enumerable = Enumerable.from(t);
 
         if (sortAscending) {
-          return {
-            ...t,
-            scores: enumerable.orderBy((e) => e[orderBy]).toArray(),
-          };
+          return enumerable.orderBy((e) => e[orderBy]).toArray();
         } else {
-          return {
-            ...t,
-            scores: enumerable.orderByDescending((e) => e[orderBy]).toArray(),
-          };
+          return enumerable.orderByDescending((e) => e[orderBy]).toArray();
         }
       }
       return t;
@@ -84,16 +82,26 @@ function TableView({ leagueId }: IProps) {
     navigate(`/team/${teamId}`);
   };
 
-  return leagueId && teams && teams?.scores?.length > 0 ? (
+  return leagueId && teams && teams?.length > 0 ? (
     <>
-      <Typography variant="h6">{teams.name}</Typography>
-      <TableContainer>
+      {!miniTable && (
+        <Typography variant="h6">{teams[0].league.name}</Typography>
+      )}
+      <TableContainer className={miniTable ? "team-view-card-table" : ""}>
         <Table className="league-table-view">
           <TableHead>
             <TableRow>
               <TableCell>Position</TableCell>
-              {Object.keys(teams?.scores[0])
-                .filter((k) => k !== "id" && k !== "form" && k !== "teamColor")
+              <TableCell>Name</TableCell>
+              {Object.keys(teams[0])
+                .filter(
+                  (k) =>
+                    k !== "id" &&
+                    k !== "form" &&
+                    k != "league" &&
+                    k != "team" &&
+                    k != "__typename"
+                )
                 .map((key) => (
                   <SortableTableCell
                     key={key}
@@ -108,9 +116,9 @@ function TableView({ leagueId }: IProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {teams.scores?.map((t) => (
+            {teams?.map((t) => (
               <TableRow key={`team-${t.team.id}`}>
-                <TableCell>{teams.scores.indexOf(t) + 1}</TableCell>
+                <TableCell>{teams.indexOf(t) + 1}</TableCell>
                 <TableCell
                   sx={{
                     backgroundColor: t.team.logo.mainColor,

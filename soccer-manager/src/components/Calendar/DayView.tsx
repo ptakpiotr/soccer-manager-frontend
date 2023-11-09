@@ -1,43 +1,22 @@
 import { Card, Grid, ButtonBase, CardContent } from "@mui/material";
 import { useMemo } from "react";
-import {
-  CalendarEvent,
-  EventType,
-  GroundType,
-  IMatchCalendarInfo,
-  MatchType,
-} from "../../Types";
+import { CalendarEvent } from "../../Types";
 import MatchEventView from "./MatchEventView";
 
 interface IProps {
-  day: number;
+  event?: CalendarEvent;
 }
-
-function DayView({ day }: IProps) {
+//TODO: match simulation & calendar future events
+function DayView({ event }: IProps) {
   const isOutdated = useMemo(() => {
     const today = new Date();
 
-    if (day < today.getUTCDay()) {
+    if (event && event.day <= today.getUTCDay()) {
       return true;
     }
-  }, [day]);
 
-  const calendarEventDetails: CalendarEvent = {
-    id: "123",
-    day,
-    eventDetails: {
-      ground: GroundType.HOME,
-      type: MatchType.FRIENDLY,
-      rivalTeamId: 1,
-      awayScore: 2,
-      homeScore: 3,
-    } as IMatchCalendarInfo,
-    eventType: EventType.MATCH,
-    month: 8,
-    year: 2023,
-    description: "test",
-    notEditable: isOutdated,
-  };
+    return event?.notEditable;
+  }, [event?.day]);
 
   return (
     <Grid item>
@@ -51,7 +30,7 @@ function DayView({ day }: IProps) {
           variant="outlined"
         >
           <CardContent>
-            <MatchEventView eventData={calendarEventDetails} />
+            {event ? <MatchEventView eventData={event} /> : <>NO DATA</>}
           </CardContent>
         </Card>
       </ButtonBase>

@@ -11,8 +11,8 @@ interface IProps {
 }
 
 function MatchEventView({ eventData }: IProps) {
-  const { eventDetails, day } = eventData;
-  const matchInfo = eventDetails as IMatchCalendarInfo;
+  const { match, day } = eventData;
+  const matchInfo = match as IMatchCalendarInfo;
   const [isModalOpen, setModalOpen] = useState<[boolean, boolean]>([
     false,
     false,
@@ -44,14 +44,14 @@ function MatchEventView({ eventData }: IProps) {
               isMyTeamHome={true}
             />
           ) : (
-            <></>
+            <strong>Match yet to be played</strong>
           )}
         </Grid>
         <Grid container>
           <Grid flex={1} item textAlign={"left"}>
             {day}
           </Grid>
-          <Grid item>TODO: LOGO HERE {matchInfo.rivalTeamId}</Grid>
+          <Grid item>TODO: LOGO HERE {matchInfo.awayTeamId}</Grid>
         </Grid>
       </Grid>
       <MatchModal

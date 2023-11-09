@@ -6,18 +6,20 @@ import {
   EDIT_USER_PREFERENCES,
 } from "../GraphQL/Mutations/settingsMutations";
 import { GET_USER_PREFERENCES } from "../GraphQL/Queries/settingsQueries";
+import { IGeneralPayload } from "../Types";
 
 export function useUserPreferencesMutation() {
   const { settingsExists } = useContext(UserSettingsContext);
 
-  const [mutateEdit, { data: editData }] = useGQLMutation(
-    EDIT_USER_PREFERENCES,
-    {
-      refetchQueries: [GET_USER_PREFERENCES],
-    }
-  );
+  const [mutateEdit, { data: editData, error: editError }] = useGQLMutation<{
+    editUserPreferences: IGeneralPayload;
+  }>(EDIT_USER_PREFERENCES, {
+    refetchQueries: [GET_USER_PREFERENCES],
+  });
 
-  const [mutateAdd, { data: addData }] = useGQLMutation(ADD_USER_PREFERENCES, {
+  const [mutateAdd, { data: addData, error: addError }] = useGQLMutation<{
+    addUserPreferences: IGeneralPayload;
+  }>(ADD_USER_PREFERENCES, {
     refetchQueries: [GET_USER_PREFERENCES],
   });
 
@@ -25,11 +27,13 @@ export function useUserPreferencesMutation() {
     return {
       mutate: mutateEdit,
       data: editData,
+      error: editError,
     };
   }
 
   return {
     mutate: mutateAdd,
     data: addData,
+    error: addError,
   };
 }

@@ -12,12 +12,15 @@ import {
 import { guidSchema } from "../Validation";
 import InvalidData from "../components/misc/InvalidData";
 import NotExists from "../components/misc/NotExists";
+import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
 
 function TeamInfo() {
   const { id } = useParams();
   const [isValid, setIsValid] = useState<boolean>(false);
   const [shirts, setShirts] = useState<ISoccerShirt[] | undefined>();
   const [teamInfo, setTeamInfo] = useState<ITeamInfoData | undefined>();
+
+  const notify = useErrorMessageManager();
 
   const [getShirts] = useLazyGQLQuery<ITeamShirts>(GET_SHIRTS, {
     variables: {
@@ -41,8 +44,10 @@ function TeamInfo() {
       collectData()
         .then(() => {})
         .catch((err) => {
-          console.error(err);
+          notify(`${err}`);
         });
+    } else {
+      notify("Invalid team id");
     }
   }, [id]);
 

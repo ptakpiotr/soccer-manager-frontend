@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import CountryBox from "./CountryBox";
 import PlayerInfoTable from "./PlayerInfoTable";
-import { IPlayerInfo } from "../../Types";
+import { IGeneralPayload, IPlayerInfo } from "../../Types";
 import ShortPlayerInfoBar from "./ShortPlayerInfoBar";
 import PlayerContractInfo from "./PlayerContractInfo";
 import PlayerAdditionalInfo from "./PlayerAdditionalInfo";
@@ -18,6 +18,7 @@ import {
   GET_PLAYERS_FOR_TRANSFERS,
 } from "../../GraphQL/Queries/playerQueries";
 import "./player_view.scss";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 type Props = IPlayerInfo;
 
@@ -45,31 +46,38 @@ function PlayerView({
   contractTo,
 }: Props) {
   const { teamId } = useContext(UserTokenContext);
-  const [mutateBuy, { data: buyData }] = useGQLMutation(BUY_PLAYER, {
+  const [mutateBuy] = useGQLMutation<{
+    buyPlayer: IGeneralPayload;
+  }>(BUY_PLAYER, {
     refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
   });
-  const [mutateManage, { data: manageData }] = useGQLMutation(
-    MANAGE_PLAYER_TRANSFER_STATUS,
-    {
-      refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
-    }
-  );
+  const [mutateManage] = useGQLMutation<{
+    managePlayerTransferStatus: IGeneralPayload;
+  }>(MANAGE_PLAYER_TRANSFER_STATUS, {
+    refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
+  });
+
+  const notify = useErrorMessageManager();
 
   const buyPlayer = async () => {
-    await mutateBuy({
+    const { data: buyData, errors: buyErrors } = await mutateBuy({
       variables: {
         teamId,
         playerId: id,
       },
     });
 
-    if (buyData) {
-      console.log("Player bought");
+    if (buyData?.buyPlayer.errorMessage) {
+      notify(buyData?.buyPlayer.errorMessage);
+    } else if (buyErrors) {
+      notify("An error has occured", "error");
+    } else {
+      notify("Player bought", "success");
     }
   };
 
   const managePlayerTransferStatus = async (transferStatus: boolean) => {
-    await mutateManage({
+    const { data: manageData, errors: manageErrors } = await mutateManage({
       variables: {
         playerId: id,
         isOnSale: transferStatus,
@@ -77,7 +85,11 @@ function PlayerView({
     });
 
     if (manageData) {
-      console.log("Player managed");
+      notify(manageData?.managePlayerTransferStatus.errorMessage);
+    } else if (manageErrors) {
+      notify(manageErrors.join(","));
+    } else {
+      notify("Player managed", "success");
     }
   };
 

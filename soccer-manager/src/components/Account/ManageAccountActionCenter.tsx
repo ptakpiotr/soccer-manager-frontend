@@ -7,6 +7,7 @@ import AppDialog, { IProps as AppDialogProps } from "../misc/AppDialog";
 import axios from "axios";
 import { UserTokenContext } from "../../context";
 import jwt_decode from "jwt-decode";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 type ActionButtons = Pick<AppDialogProps, "actions">;
 
@@ -15,6 +16,8 @@ const deleteUserUrl = import.meta.env.VITE_AUTH_BACKEND_URL;
 function ManageAccountActionCenter() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const { token, setToken } = useContext(UserTokenContext);
+
+  const notify = useErrorMessageManager();
 
   const { mutateAsync } = useReactMutation({
     mutationKey: ["delete-single-user"],
@@ -26,7 +29,7 @@ function ManageAccountActionCenter() {
           },
         });
       } catch {
-        console.error("Unable to delete the user");
+        notify("Unable to delete the user");
       }
     },
   });

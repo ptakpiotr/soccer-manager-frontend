@@ -14,7 +14,8 @@ export const playerRatingSchema = object({
 export const eventSchema = object({
   id: string().required(),
   eventType: mixed<EventType>().required(),
-  eventDetails: mixed<ITrainingCalendarInfo | IMatchCalendarInfo>().required(),
+  match: mixed<IMatchCalendarInfo>(),
+  training: mixed<ITrainingCalendarInfo>(),
   year: number().moreThan(1900).lessThan(2100).required(),
   month: number().moreThan(0).lessThan(13).required(),
   day: number().moreThan(0).lessThan(32).required(),

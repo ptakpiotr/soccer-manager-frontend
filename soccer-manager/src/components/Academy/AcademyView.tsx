@@ -2,12 +2,13 @@ import { Button, Grid, List } from "@mui/material";
 import { useState } from "react";
 import AcademyViewPlayer from "./AcademyViewPlayer";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
-import { IPlayerSquadInfo } from "../../Types";
+import { IGeneralPayload, IPlayerSquadInfo } from "../../Types";
 import {
   GET_ACADEMY_PLAYERS,
   MANAGE_ACADEMY_PLAYERS,
 } from "../../GraphQL/Queries/academyQueries";
 import { useMutation as useGQLMutation } from "@apollo/client";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 interface IProps {
   players: IPlayerSquadInfo[];
@@ -21,7 +22,11 @@ function AcademyView({ players }: IProps) {
     players.filter((p) => !p.isInAcademy).map((p) => p.playerId)
   );
 
-  const [mutate, { data }] = useGQLMutation(MANAGE_ACADEMY_PLAYERS, {
+  const notify = useErrorMessageManager();
+
+  const [mutate, { data, error }] = useGQLMutation<{
+    managePlayerAcademy: IGeneralPayload;
+  }>(MANAGE_ACADEMY_PLAYERS, {
     refetchQueries: [GET_ACADEMY_PLAYERS],
   });
 
@@ -57,8 +62,12 @@ function AcademyView({ players }: IProps) {
       },
     });
 
-    if (data) {
-      console.log("Succesfully promoted");
+    if (data?.managePlayerAcademy.errorMessage) {
+      notify(data?.managePlayerAcademy.errorMessage);
+    } else if (error) {
+      notify(error.message);
+    } else {
+      notify("Succesfully promoted", "success");
     }
   };
 
@@ -70,8 +79,12 @@ function AcademyView({ players }: IProps) {
       },
     });
 
-    if (data) {
-      console.log("Succesfully demoted");
+    if (data?.managePlayerAcademy.errorMessage) {
+      notify(data?.managePlayerAcademy.errorMessage);
+    } else if (error) {
+      notify(error.message);
+    } else {
+      notify("Succesfully demoted", "success");
     }
   };
 

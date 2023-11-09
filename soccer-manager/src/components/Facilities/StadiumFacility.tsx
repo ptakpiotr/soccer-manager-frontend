@@ -12,6 +12,7 @@ import { useState, useContext } from "react";
 import { IStadiumSettings } from "../../Types";
 import { useStadiumMutation } from "../../hooks/useStadiumMutation";
 import { UserTokenContext } from "../../context";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 
 interface IProps {
   stadium?: IStadiumSettings;
@@ -30,7 +31,9 @@ function StadiumFacility({ stadium }: IProps) {
     }
   );
 
-  const { mutate, data } = useStadiumMutation(stadium);
+  const { mutate, data, error } = useStadiumMutation(stadium);
+
+  const notify = useErrorMessageManager();
 
   const handleChanges = async () => {
     // let vars: typeof exists extends true
@@ -44,7 +47,9 @@ function StadiumFacility({ stadium }: IProps) {
     });
 
     if (data) {
-      console.log("Succesfully upgraded stadium");
+      notify("Succesfully upgraded stadium", "success");
+    } else if (error) {
+      notify(error.message);
     }
   };
 

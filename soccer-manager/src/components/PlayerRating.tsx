@@ -14,8 +14,8 @@ function PlayerRating(props: PlayerRatingType) {
       <Grid item>
         {Enumerable.range(0, props.rating)
           .toArray()
-          .map((_) => (
-            <MdStar color="gold" />
+          .map((i) => (
+            <MdStar color="gold" key={`star-${i}`} />
           ))}
       </Grid>
     );

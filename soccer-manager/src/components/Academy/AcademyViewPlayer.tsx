@@ -1,10 +1,5 @@
 import { IPlayerSquadInfo } from "../../Types";
-import {
-  Checkbox,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-} from "@mui/material";
+import { Checkbox, Grid, IconButton } from "@mui/material";
 import TacticsPlayerView from "../TacticsPlayerView";
 import { useState } from "react";
 
@@ -17,23 +12,27 @@ function AcademyViewPlayer({ playerInfo, updateList }: IProps) {
   const [isPlayerChecked, setIsPlayerChecked] = useState<boolean>(false);
 
   return (
-    <ListItem>
-      <ListItemButton
-        onClick={() => {
-          updateList(playerInfo.playerId);
-          setIsPlayerChecked((prev) => !prev);
-        }}
-      >
-        <ListItemIcon>
+    <Grid
+      container
+      flexDirection="row"
+      onClick={() => {
+        updateList(playerInfo.playerId);
+        setIsPlayerChecked((prev) => !prev);
+      }}
+    >
+      <Grid item alignSelf="center">
+        <IconButton>
           <Checkbox
             checked={isPlayerChecked}
             disableRipple={true}
             color={playerInfo.isInAcademy ? "info" : "error"}
           />
-        </ListItemIcon>
+        </IconButton>
+      </Grid>
+      <Grid item flex={11}>
         <TacticsPlayerView {...playerInfo} disableRipple={true} />
-      </ListItemButton>
-    </ListItem>
+      </Grid>
+    </Grid>
   );
 }
 

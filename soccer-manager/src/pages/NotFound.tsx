@@ -1,19 +1,11 @@
-import { useEffect } from "react";
-import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
-import ErrorView from "../components/misc/ErrorView";
+import { Alert } from "@mui/material";
 
 function NotFound() {
-  const { setErrorMessage } = useErrorMessageManager();
-
-  useEffect(() => {
-    if (setErrorMessage) {
-      setErrorMessage("Not found");
-    }
-  }, []);
-
   return (
     <main>
-      <ErrorView />
+      <Alert variant="standard" color="error">
+        Not found
+      </Alert>
     </main>
   );
 }

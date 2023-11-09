@@ -91,7 +91,6 @@ function LoginView() {
     } catch (ex) {
       if (ex instanceof ValidationError) {
         setIsLoginEnabled(false);
-        console.log(ex.errors);
         setErrors(ex.errors.join(","));
       }
     }

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ITactics, IUserSettings, IErrorInfo, IUserToken } from "./Types.ts";
+import { ITactics, IUserSettings, IUserToken } from "./Types.ts";
 
 const userSettingsInitialValue: Partial<IUserSettings> = {
   mode: "light",
@@ -7,8 +7,6 @@ const userSettingsInitialValue: Partial<IUserSettings> = {
 };
 
 const tacticsInitialValue: Partial<ITactics> = {};
-
-const errorInfoInitialValue: Partial<IErrorInfo> = {};
 
 const userTokenInitialValue: Partial<IUserToken> = {};
 
@@ -18,10 +16,6 @@ export const UserSettingsContext = createContext<Partial<IUserSettings>>(
 
 export const TacticsContext =
   createContext<Partial<ITactics>>(tacticsInitialValue);
-
-export const ErrorViewContext = createContext<Partial<IErrorInfo>>(
-  errorInfoInitialValue
-);
 
 export const UserTokenContext = createContext<Partial<IUserToken>>(
   userTokenInitialValue

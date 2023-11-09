@@ -25,14 +25,17 @@ import AuthorizedArea from "../AuthorizedArea";
 import IsAdminArea from "../IsAdminArea";
 
 import { useUserPreferencesMutation } from "../hooks/useUserPreferencesMutation";
+import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
 
 function Settings() {
   const { userId } = useContext(UserTokenContext);
 
-  const { mutate, data } = useUserPreferencesMutation();
+  const { mutate, data, error } = useUserPreferencesMutation();
 
   const { mode, bottomMenu, navbarColor, setMode, enableBottomMenu } =
     useContext(UserSettingsContext);
+
+  const notify = useErrorMessageManager();
 
   const setModeValue = () => {
     if (setMode) {
@@ -62,7 +65,9 @@ function Settings() {
     });
 
     if (data) {
-      console.log("Preferences changed");
+      notify("Preferences changed", "success");
+    } else if (error) {
+      notify(error.message);
     }
   };
 

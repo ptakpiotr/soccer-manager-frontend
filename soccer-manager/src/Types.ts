@@ -8,7 +8,7 @@ import {
   registerSchema,
   resetPasswordSchema,
 } from "./Validation";
-import { PaletteMode } from "@mui/material";
+import { AlertColor, PaletteMode } from "@mui/material";
 import { IconType } from "react-icons";
 import Globals from "./Globals";
 import React from "react";
@@ -144,21 +144,21 @@ export interface ITrainingCalendarInfo {
 
 export interface ITableTeamInfo {
   id: number;
-  name: string;
-  scores: {
-    points: number;
-    wins: number;
-    draws: number;
-    lost: number;
-    form?: GameResultType[];
-    team: {
-      id: string;
-      name: string;
-      logo: {
-        mainColor: string;
-      };
+  team: {
+    id: string;
+    name: string;
+    logo: {
+      mainColor: string;
     };
-  }[];
+  };
+  points: number;
+  wins: number;
+  draws: number;
+  lost: number;
+  form?: GameResultType[];
+  league: {
+    name: string;
+  };
 }
 
 export interface IFinanceProfits {
@@ -257,11 +257,13 @@ export interface IconImage {
   icon: IconType;
 }
 
-export interface IErrorInfo {
+export interface IToastInfo {
+  message: string;
+  type: AlertColor;
+}
+
+export interface IGeneralPayload {
   errorMessage: string;
-  errorCode?: number;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  setErrorCode: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 export interface IUserAdminInfo {
@@ -344,8 +346,8 @@ export enum Months {
 }
 
 export enum MatchType {
-  LEAGUE,
-  FRIENDLY,
+  LEAGUE = "LEAGUE",
+  FRIENDLY = "FRIENDLY",
 }
 
 export type PlayerRating = InferType<typeof playerRatingSchema>;

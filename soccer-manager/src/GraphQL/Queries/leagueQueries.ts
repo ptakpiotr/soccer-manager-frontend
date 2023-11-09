@@ -10,20 +10,20 @@ export const GET_LEAGUE_TABLE = gql`
   query GetLeagueTable($leagueId: UUID!) {
     league(leagueId: $leagueId) {
       id
-      name
-      scores {
-        points
-        wins
-        draws
-        lost
-        form
-        team {
-          id
-          name
-          logo {
-            mainColor
-          }
+      points
+      wins
+      draws
+      lost
+      form
+      team {
+        id
+        name
+        logo {
+          mainColor
         }
+      }
+      league {
+        name
       }
     }
   }

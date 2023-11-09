@@ -1,13 +1,17 @@
 import Enumerable from "linq";
 import { Grid } from "@mui/material";
 import DayView from "./DayView";
+import { CalendarEvent } from "../../Types";
 
-// interface IProps {
-//   year: number;
-//   month: number;
-// }
+interface IProps {
+  calendar: CalendarEvent[];
+  year: number;
+  month: number;
+}
 
-function MonthView() {
+function MonthView({ calendar, year, month }: IProps) {
+  const daysInMonth = new Date(year, month, 0).getDate();
+
   return (
     <Grid
       container
@@ -15,10 +19,10 @@ function MonthView() {
       alignItems={"center"}
       justifyContent={"center"}
     >
-      {Enumerable.range(1, 31)
+      {Enumerable.range(1, daysInMonth)
         .toArray()
         .map((d) => (
-          <DayView key={d} day={d} />
+          <DayView key={d} event={calendar.find((c) => c.day === d)} />
         ))}
     </Grid>
   );

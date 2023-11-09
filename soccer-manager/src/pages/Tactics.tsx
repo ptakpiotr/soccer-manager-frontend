@@ -10,6 +10,8 @@ import { TacticsContext, UserTokenContext } from "../context";
 import NoData from "../components/misc/NoData";
 import { MODIFY_TEAM_TACTICS } from "../GraphQL/Mutations/playerMutations";
 import { GET_TACTICS_PLAYERS } from "../GraphQL/Queries/playerQueries";
+import { IGeneralPayload } from "../Types";
+import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
 
 function Tactics() {
   const {
@@ -20,9 +22,14 @@ function Tactics() {
   } = useContext(TacticsContext);
   const { teamId } = useContext(UserTokenContext);
 
-  const [mutate, _] = useGQLMutation(MODIFY_TEAM_TACTICS, {
-    refetchQueries: [GET_TACTICS_PLAYERS],
-  });
+  const [mutate] = useGQLMutation<{ modifyTeamTactics: IGeneralPayload }>(
+    MODIFY_TEAM_TACTICS,
+    {
+      refetchQueries: [GET_TACTICS_PLAYERS],
+    }
+  );
+
+  const notify = useErrorMessageManager();
 
   const handleSave = async () => {
     const benchPlayers = reserve?.map((r) => r.playerId);
@@ -31,7 +38,7 @@ function Tactics() {
       squadPosition: s.squadPosition,
     }));
 
-    await mutate({
+    const { data, errors } = await mutate({
       variables: {
         teamId,
         benchPlayers,
@@ -39,6 +46,14 @@ function Tactics() {
         formation: tactics,
       },
     });
+
+    if (errors) {
+      notify("An error has occured", "error");
+    } else if (data?.modifyTeamTactics.errorMessage) {
+      notify(data?.modifyTeamTactics.errorMessage, "error");
+    } else {
+      notify("Successfully saved squad", "success");
+    }
   };
 
   return (

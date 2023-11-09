@@ -6,13 +6,15 @@ import { UserTokenContext } from "../../context";
 import { useMutation as useGQLMutation } from "@apollo/client";
 import { BUY_PLAYER } from "../../GraphQL/Mutations/playerMutations";
 import { GET_PLAYERS_FOR_TRANSFERS } from "../../GraphQL/Queries/playerQueries";
+import { IGeneralPayload } from "../../Types";
+import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
 interface IProps {
   readonly playerId: string;
 }
 
 function ActionCell({ playerId }: IProps) {
   const { teamId } = useContext(UserTokenContext);
-  const [mutate, { data }] = useGQLMutation(BUY_PLAYER, {
+  const [mutate] = useGQLMutation<{ buyPlayer: IGeneralPayload }>(BUY_PLAYER, {
     refetchQueries: [GET_PLAYERS_FOR_TRANSFERS],
   });
 
@@ -22,6 +24,8 @@ function ActionCell({ playerId }: IProps) {
   ]);
 
   const navigate = useNavigate();
+
+  const notify = useErrorMessageManager();
 
   const openInNew = () => {
     navigate(`/player/${playerId}`);
@@ -33,15 +37,20 @@ function ActionCell({ playerId }: IProps) {
 
   const handleApprovalClick = async () => {
     setBuyingSure([true, true]);
-    await mutate({
+
+    const { data: buyData, errors: buyErrors } = await mutate({
       variables: {
         teamId,
         playerId,
       },
     });
 
-    if (data) {
-      alert("Player succesfully bought!");
+    if (buyData?.buyPlayer.errorMessage) {
+      notify(buyData?.buyPlayer.errorMessage);
+    } else if (buyErrors) {
+      notify("An error has occured", "error");
+    } else {
+      notify("Player bought", "success");
     }
   };
 

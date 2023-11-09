@@ -1,8 +1,11 @@
-import { useContext } from "react";
-import { ErrorViewContext } from "../context";
+import { toast } from "react-toastify";
+import { IToastInfo } from "../Types";
 
 export function useErrorMessageManager() {
-  const { setErrorMessage, setErrorCode } = useContext(ErrorViewContext);
-
-  return { setErrorMessage, setErrorCode };
+  return (message: string, type: IToastInfo["type"] = "error") => {
+    toast(message, {
+      type,
+      theme: "colored",
+    });
+  };
 }
