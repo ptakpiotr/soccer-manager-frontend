@@ -1,21 +1,17 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import LogoDesignerPanel from "./LogoDesignerPanel";
 import { ISoccerLogo, SoccerShirtType } from "../../Types";
 import { SelectChangeEvent } from "@mui/material";
-import "./soccer_logo_designer.scss";
 import SoccerLogoDisplay from "./SoccerLogoDisplay";
+import "./soccer_logo_designer.scss";
+import { defaultLogoSetup } from "../../Globals";
 
-const defaultLogoSetup: ISoccerLogo = {
-  mainColor: "#0000FF",
-  secondaryColor: "#FF0000",
-  type: SoccerShirtType.STRIPES_SIMPLE,
-  name: "",
-  iconId: "gi-chicken",
-};
+interface IProps {
+  logoSetup: ISoccerLogo;
+  setLogoSetup: React.Dispatch<React.SetStateAction<ISoccerLogo>>;
+}
 
-function SoccerLogoDesigner() {
-  const [logoSetup, setLogoSetup] = useState<ISoccerLogo>(defaultLogoSetup);
-
+function SoccerLogoDesigner({ logoSetup, setLogoSetup }: IProps) {
   const handleMainColorChange = (e: ChangeEvent<HTMLInputElement>) => {
     setLogoSetup((prev) => ({
       ...prev,
@@ -51,9 +47,7 @@ function SoccerLogoDesigner() {
     }));
   };
 
-  const handleAccept = () => {
-    //TODO: implement this
-  };
+  const handleAccept = () => {};
 
   const handleRestore = () => {
     setLogoSetup({ ...defaultLogoSetup });

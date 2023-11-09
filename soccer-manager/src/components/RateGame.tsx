@@ -5,13 +5,13 @@ import { useMutation as useGQLMutation } from "@apollo/client";
 import { ADD_OPINION } from "../GraphQL/Mutations/miscMutations";
 import { UserTokenContext } from "../context";
 import { IGeneralPayload } from "../Types";
-import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
+import { useMessageManager } from "../hooks/useMessageManager";
 
 function RateGame() {
   const [opinion, setOpinion] = useState<string>("");
   const [rating, setRating] = useState<number>(1);
   const { userId } = useContext(UserTokenContext);
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const [mutate, { data, error }] = useGQLMutation<{
     addOpinion: IGeneralPayload;

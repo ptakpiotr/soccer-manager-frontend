@@ -31,6 +31,14 @@ export interface IUserSettings {
   setSettingsExist: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+type GetSetterProperties<T> = {
+  [P in keyof T as T[P] extends (value: any) => void ? P : never]: T[P];
+};
+
+export type IUserSettingsSetters = GetSetterProperties<IUserSettings>;
+
+export type ITacticsSetters = GetSetterProperties<ITactics>;
+
 export interface ITeamHistoryInfo {
   id: string;
   teamId: string;
@@ -287,6 +295,21 @@ export interface ITeamInfoData {
 export interface ITeamInfoView {
   teams: {
     nodes: ITeamInfoData[];
+  };
+}
+
+export interface IMatchExpanded {
+  homeTeamId: string;
+  awayTeamId: string;
+  homeScore?: number;
+  awayScore?: number;
+  homeTeam: {
+    name: string;
+    logo: ISoccerLogo;
+  };
+  awayTeam: {
+    name: string;
+    logo: ISoccerLogo;
   };
 }
 

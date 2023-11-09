@@ -27,7 +27,7 @@ function LoginView() {
   const [isLoginEnabled, setIsLoginEnabled] = useState<boolean>(true);
   const [errors, setErrors] = useState<string>();
 
-  const { setToken } = useContext(UserTokenContext);
+  const { setToken, setUserId, setTeamId } = useContext(UserTokenContext);
 
   const { mutateAsync } = useReactMutation({
     mutationKey: ["login"],
@@ -83,10 +83,14 @@ function LoginView() {
     try {
       const valid = await loginSchema.validate(loginData);
       const token = await mutateAsync(valid);
-      if (setToken && token) {
+      if (setToken && setUserId && setTeamId && token) {
         setToken(token.token);
+        setUserId(token.userId);
+        setTeamId(token.userId);
         localStorage.setItem("token", token.token);
-        navigate("/");
+        localStorage.setItem("userId", token.userId);
+        localStorage.setItem("teamId", token.userId);
+        navigate("/loadData");
       }
     } catch (ex) {
       if (ex instanceof ValidationError) {

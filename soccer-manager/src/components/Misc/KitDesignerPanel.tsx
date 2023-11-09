@@ -23,7 +23,6 @@ interface IProps {
   handleMainColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSecondaryColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleShirtTypeChange: (e: SelectChangeEvent<SoccerShirtType>) => void;
-  handleAccept: () => void;
   handleRestore: () => void;
 }
 
@@ -31,7 +30,6 @@ function KitDesignerPanel({
   kitSetup,
   handleMainColorChange,
   handleSecondaryColorChange,
-  handleAccept,
   handleRestore,
   handleShirtTypeChange,
 }: IProps) {
@@ -77,9 +75,6 @@ function KitDesignerPanel({
         />
       </Grid>
       <Grid container columnGap={"1rem"} justifyContent={"center"}>
-        <Button variant="contained" color="success" onClick={handleAccept}>
-          Accept
-        </Button>
         <Button variant="contained" color="error" onClick={handleRestore}>
           Restore
         </Button>

@@ -7,7 +7,7 @@ import AppDialog, { IProps as AppDialogProps } from "../misc/AppDialog";
 import axios from "axios";
 import { UserTokenContext } from "../../context";
 import jwt_decode from "jwt-decode";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 type ActionButtons = Pick<AppDialogProps, "actions">;
 
@@ -17,7 +17,7 @@ function ManageAccountActionCenter() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const { token, setToken } = useContext(UserTokenContext);
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const { mutateAsync } = useReactMutation({
     mutationKey: ["delete-single-user"],

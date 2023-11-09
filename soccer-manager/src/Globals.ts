@@ -23,6 +23,8 @@ import {
   IconImage,
   GroundType,
   TransferFilterKeys,
+  ISoccerLogo,
+  SoccerShirtType,
 } from "./Types";
 
 export default {
@@ -231,4 +233,18 @@ export default {
     filterKey: keyof TransferFilterKeys;
   }[],
   availableColors: ["#228b22", "#0CA4A5", "#055B67", "#797A7D"] as const,
+};
+
+export const defaultLogoSetup: ISoccerLogo = {
+  mainColor: "#0000FF",
+  secondaryColor: "#FF0000",
+  type: SoccerShirtType.STRIPES_SIMPLE,
+  name: "",
+  iconId: "gi-chicken",
+};
+
+export const defaultKitSetup = {
+  mainColor: "#0000FF",
+  secondaryColor: "#FF0000",
+  type: SoccerShirtType.STRIPES_SIMPLE,
 };

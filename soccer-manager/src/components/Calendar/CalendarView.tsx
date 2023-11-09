@@ -5,27 +5,30 @@ import NextMonthButton from "./NextMonthButton";
 import AddNewEvent from "./AddNewEvent";
 import QuickMonthPicker from "./QuickMonthPicker";
 import { CalendarEvent, Months } from "../../Types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery as useGQLQuery } from "@apollo/client";
 import { GET_CALENDAR } from "../../GraphQL/Queries/calendarQueries";
 import Loading from "../misc/Loading";
+import { UserTokenContext } from "../../context";
 
 function CalendarView() {
   const [chosenMonth, setChosenMonth] = useState<Months>(
     new Date().getUTCMonth()
   );
 
+  const { teamId } = useContext(UserTokenContext);
+
   const { data, loading } = useGQLQuery<{ calendar: CalendarEvent[] }>(
     GET_CALENDAR,
     {
       variables: {
-        teamId: "84b287ef-648c-424a-a172-702b42409c87",
+        teamId,
         year: 2023,
         month: 11,
       },
     }
   );
-  console.log(data);
+
   return (
     <Grid container flexDirection="column">
       <Grid container flexDirection="row">

@@ -9,23 +9,49 @@ import {
 } from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useMutation as useReactMutation } from "@tanstack/react-query";
-import { RegisterType } from "../../Types";
-import { registerSchema } from "../../Validation";
+import { useMutation as useGQLMutation } from "@apollo/client";
+import { ISoccerLogo, ISoccerShirt, RegisterType } from "../../Types";
+import {
+  registerSchema,
+  soccerLogoSchema,
+  soccerShirtSchema,
+} from "../../Validation";
 import { ValidationError } from "yup";
 import ValidationErrorAlert from "../ValidationErrorAlert";
+import { ADD_TEAM } from "../../GraphQL/Mutations/teamMutations";
+import { useMessageManager } from "../../hooks/useMessageManager";
+import { useNavigate } from "react-router-dom";
 
 const registerUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/register`;
 
-//TODO: hiding nice when all valid
-function RegisterView() {
+interface IProps {
+  errors: string;
+  isAllValid: boolean;
+  setErrors: React.Dispatch<React.SetStateAction<string>>;
+  setIsAllValid: React.Dispatch<React.SetStateAction<boolean>>;
+  setups: {
+    logoSetup: ISoccerLogo;
+    firstKitSetup: ISoccerShirt;
+    secondKitSetup: ISoccerShirt;
+  };
+}
+
+function RegisterView({
+  errors,
+  isAllValid,
+  setErrors,
+  setIsAllValid,
+  setups: { logoSetup, firstKitSetup, secondKitSetup },
+}: IProps) {
   const [registerData, setRegisterData] = useState<Partial<RegisterType>>({
     email: "",
     password: "",
     confirmPassword: "",
   });
+
   const [isRegisterEnabled, setIsRegisterEnabled] = useState<boolean>(true);
-  const [errors, setErrors] = useState<string>("");
-  const [isAllValid, setIsAllValid] = useState<boolean>(false);
+
+  const [mutateData] = useGQLMutation(ADD_TEAM);
 
   const { mutateAsync } = useReactMutation({
     mutationKey: ["register"],
@@ -37,9 +63,7 @@ function RegisterView() {
           },
         });
 
-        //TODO: add entry in the data api
-        setRegisterData({ email: "", password: "", confirmPassword: "" });
-        return res.data;
+        return res.data as { userId: string };
       } catch (ex) {
         if (ex instanceof AxiosError) {
           setIsRegisterEnabled(false);
@@ -49,6 +73,9 @@ function RegisterView() {
       }
     },
   });
+
+  const notify = useMessageManager();
+  const navigate = useNavigate();
 
   const enableRegisterButton = () => {
     setIsRegisterEnabled(true);
@@ -79,9 +106,39 @@ function RegisterView() {
 
   const handleClick = async () => {
     try {
+      const validLogo = await soccerLogoSchema.validate(logoSetup);
+      const validFirstKit = await soccerShirtSchema.validate(firstKitSetup);
+      const validSecondKit = await soccerShirtSchema.validate(secondKitSetup);
       const valid = await registerSchema.validate(registerData);
+
       setIsAllValid(true);
-      await mutateAsync(valid);
+
+      const returnData = await mutateAsync(valid);
+
+      if (returnData) {
+        await mutateData({
+          variables: {
+            userId: returnData.userId,
+            firstMainColor: validFirstKit.mainColor,
+            firstSecondaryColor: validFirstKit.secondaryColor,
+            firstType: validFirstKit.type,
+            iconId: validLogo.iconId,
+            logoMainColor: validLogo.mainColor,
+            logoSecondaryColor: validLogo.secondaryColor,
+            logoType: validLogo.type,
+            name: validLogo.name,
+            secondMainColor: validSecondKit.mainColor,
+            secondSecondaryColor: validSecondKit.secondaryColor,
+            secondType: validSecondKit.type,
+          },
+        });
+
+        setRegisterData({ email: "", password: "", confirmPassword: "" });
+        notify("Succesfully registered", "success");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
+      }
     } catch (ex) {
       if (ex instanceof ValidationError) {
         setIsRegisterEnabled(false);

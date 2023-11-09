@@ -17,7 +17,7 @@ import SortableTableCell from "./SortableTableCell";
 import RecentForm from "./RecentForm";
 import NoData from "../misc/NoData";
 import { GET_LEAGUE_TABLE } from "../../GraphQL/Queries/leagueQueries";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 interface IProps {
   leagueId?: string;
@@ -33,7 +33,7 @@ function TableView({ leagueId, miniTable }: IProps) {
 
   const navigate = useNavigate();
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const [getLeagueTable, _] = useLazyGQLQuery<{ league: ITableTeamInfo[] }>(
     GET_LEAGUE_TABLE,

@@ -3,19 +3,14 @@ import Home from "./pages/Home";
 import Header from "./components/Header";
 import Tactics from "./pages/Tactics";
 import { ThemeProvider, createTheme, PaletteMode } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   TacticsContext,
   UserSettingsContext,
   UserTokenContext,
 } from "./context";
 import Settings from "./pages/Settings";
-import {
-  IPlayerSquadInfo,
-  IUserSettings,
-  NavbarColors,
-  PositionType,
-} from "./Types";
+import { IPlayerSquadInfo, NavbarColors } from "./Types";
 import BottomMenu from "./components/BottomMenu";
 import Calendar from "./pages/Calendar";
 import Table from "./pages/Table";
@@ -35,13 +30,10 @@ import ChangePassword from "./pages/ChangePassword";
 import AuthorizedArea from "./AuthorizedArea";
 import Logout from "./components/Account/Logout";
 import ResetPassword from "./pages/ResetPassword";
-
-import { useQuery as useGQLQuery } from "@apollo/client";
-import { GET_USER_PREFERENCES } from "./GraphQL/Queries/settingsQueries";
-import { GET_TACTICS_PLAYERS } from "./GraphQL/Queries/playerQueries";
-
 import { ToastContainer } from "react-toastify";
+import { useAppGQLQueries } from "./hooks/useAppGQLQueries";
 import "react-toastify/dist/ReactToastify.css";
+import LoadData from "./pages/LoadData";
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>("light");
@@ -57,10 +49,10 @@ function App() {
     localStorage.getItem("token") ?? ""
   );
   const [teamId, setTeamId] = useState<string>(
-    localStorage.getItem("teamId") ?? "e7c5612f-f3b1-49cc-99c8-f657742214ba"
+    localStorage.getItem("teamId") ?? ""
   );
   const [userId, setUserId] = useState<string>(
-    localStorage.getItem("userId") ?? "3f2504e0-4f89-11d3-9a0c-0205e82c3308"
+    localStorage.getItem("userId") ?? ""
   );
 
   const theme = useMemo(
@@ -90,52 +82,17 @@ function App() {
     [mode, navbarColor]
   );
 
-  const { data, loading } = useGQLQuery<{ userPreferences?: IUserSettings }>(
-    GET_USER_PREFERENCES,
-    {
-      variables: {
-        userId,
-      },
-      pollInterval: 3600000,
-    }
-  );
-
-  const { data: gqlSquad, loading: squadLoading } = useGQLQuery<{
-    players: { nodes: IPlayerSquadInfo[] };
-  }>(GET_TACTICS_PLAYERS, {
-    variables: {
-      teamId,
-    },
-    pollInterval: 1000 * 60 * 5,
+  useAppGQLQueries({
+    enableBottomMenu,
+    setFormation,
+    setMode,
+    setNavbarColor,
+    setReserve,
+    setSettingsExist,
+    setSquad,
+    teamId,
+    userId,
   });
-
-  useEffect(() => {
-    if (!loading && data?.userPreferences) {
-      setMode(data.userPreferences.mode);
-      enableBottomMenu(data.userPreferences.bottomMenu);
-      setNavbarColor(data.userPreferences.navbarColor);
-      setSettingsExist(true);
-    }
-  }, [data, loading]);
-
-  useEffect(() => {
-    if (!squadLoading && gqlSquad) {
-      setSquad(
-        gqlSquad.players.nodes.filter((s) => !s.isBenched && s.squadPosition)
-      );
-
-      setReserve(
-        gqlSquad.players.nodes.filter((s) => s.isBenched || !s.squadPosition)
-      );
-      const gqlFormation = gqlSquad.players.nodes[0].team?.formation;
-
-      if (gqlFormation) {
-        setFormation(gqlFormation);
-      } else {
-        setFormation("4-3-3");
-      }
-    }
-  }, [gqlSquad, squadLoading]);
 
   return (
     <UserTokenContext.Provider
@@ -182,22 +139,23 @@ function App() {
                   <Route path="/changePassword" Component={ChangePassword} />
                   <Route path="/resetPassword" Component={ResetPassword} />
 
-                  {/* <Route path="/" Component={AuthorizedArea}> */}
-                  <Route path="/" Component={Home} />
-                  <Route path="/tactics" Component={Tactics} />
-                  <Route path="/calendar" Component={Calendar} />
-                  <Route path="/table" Component={Table} />
-                  <Route path="/academy" Component={Academy} />
-                  <Route path="/facilities" Component={Facilities} />
-                  <Route path="/player/:id" Component={Player} />
-                  <Route path="/transfers" Component={Transfers} />
-                  <Route path="/budget" Component={Budget} />
-                  <Route path="/team/:id" Component={TeamInfo} />
-                  <Route path="/match/:id" Component={MatchCentre} />
+                  <Route path="/" Component={AuthorizedArea}>
+                    <Route path="/" Component={Home} />
+                    <Route path="/loadData" Component={LoadData} />
+                    <Route path="/tactics" Component={Tactics} />
+                    <Route path="/calendar" Component={Calendar} />
+                    <Route path="/table" Component={Table} />
+                    <Route path="/academy" Component={Academy} />
+                    <Route path="/facilities" Component={Facilities} />
+                    <Route path="/player/:id" Component={Player} />
+                    <Route path="/transfers" Component={Transfers} />
+                    <Route path="/budget" Component={Budget} />
+                    <Route path="/team/:id" Component={TeamInfo} />
+                    <Route path="/match/:id" Component={MatchCentre} />
 
-                  <Route path="settings" Component={Settings} />
-                  <Route path="/logout" Component={Logout} />
-                  {/* </Route> */}
+                    <Route path="settings" Component={Settings} />
+                    <Route path="/logout" Component={Logout} />
+                  </Route>
                   <Route path="*" Component={NotFound} />
                 </Routes>
                 <BottomMenu />

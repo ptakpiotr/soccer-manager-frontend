@@ -18,7 +18,7 @@ import {
   GET_PLAYERS_FOR_TRANSFERS,
 } from "../../GraphQL/Queries/playerQueries";
 import "./player_view.scss";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 type Props = IPlayerInfo;
 
@@ -57,7 +57,7 @@ function PlayerView({
     refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
   });
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const buyPlayer = async () => {
     const { data: buyData, errors: buyErrors } = await mutateBuy({

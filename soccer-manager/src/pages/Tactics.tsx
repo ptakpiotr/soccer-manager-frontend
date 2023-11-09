@@ -11,7 +11,7 @@ import NoData from "../components/misc/NoData";
 import { MODIFY_TEAM_TACTICS } from "../GraphQL/Mutations/playerMutations";
 import { GET_TACTICS_PLAYERS } from "../GraphQL/Queries/playerQueries";
 import { IGeneralPayload } from "../Types";
-import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
+import { useMessageManager } from "../hooks/useMessageManager";
 
 function Tactics() {
   const {
@@ -29,7 +29,7 @@ function Tactics() {
     }
   );
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const handleSave = async () => {
     const benchPlayers = reserve?.map((r) => r.playerId);

@@ -25,7 +25,7 @@ import AuthorizedArea from "../AuthorizedArea";
 import IsAdminArea from "../IsAdminArea";
 
 import { useUserPreferencesMutation } from "../hooks/useUserPreferencesMutation";
-import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
+import { useMessageManager } from "../hooks/useMessageManager";
 
 function Settings() {
   const { userId } = useContext(UserTokenContext);
@@ -35,7 +35,7 @@ function Settings() {
   const { mode, bottomMenu, navbarColor, setMode, enableBottomMenu } =
     useContext(UserSettingsContext);
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const setModeValue = () => {
     if (setMode) {

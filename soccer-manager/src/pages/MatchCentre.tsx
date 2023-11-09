@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
+import { useMessageManager } from "../hooks/useMessageManager";
 import { guidSchema } from "../Validation";
 import MatchCentreWrapper from "../components/MatchCentre/MatchCentreWrapper";
 
 function MatchCentre() {
   const { id } = useParams();
   const [isValid, setIsValid] = useState<boolean>(false);
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   useEffect(() => {
     if (!guidSchema.isValidSync({ teamId: id })) {

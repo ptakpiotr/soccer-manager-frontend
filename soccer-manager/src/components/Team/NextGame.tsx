@@ -1,21 +1,46 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { GET_MATCH_EXPANDED } from "../../GraphQL/Queries/matchQueries";
+import { useQuery as useGQLQuery } from "@apollo/client";
+import { IMatchExpanded } from "../../Types";
+import Loading from "../misc/Loading";
+import NotFound from "../../pages/NotFound";
+import SoccerLogoDisplay from "../misc/SoccerLogoDisplay";
 
-interface IProps {}
+interface IProps {
+  matchId: string;
+}
 
-function NextGame({}: IProps) {
-  return (
+function NextGame({ matchId }: IProps) {
+  const { data, loading } = useGQLQuery<{
+    matches: IMatchExpanded[];
+  }>(GET_MATCH_EXPANDED, {
+    variables: {
+      matchId,
+    },
+  });
+
+  return loading ? (
+    <Loading />
+  ) : data ? (
     <Grid container>
       <Grid container>
         <Grid item xs={4}>
           <Card>
             <CardContent>
-              <CardMedia
-                image="https://a.espncdn.com/i/teamlogos/soccer/500/19246.png"
-                sx={{
-                  height: "150px",
-                }}
-              />
-              <Typography>My team</Typography>
+              <CardMedia>
+                <SoccerLogoDisplay
+                  logoSetup={{
+                    mainColor: data.matches[0].homeTeam.logo.mainColor,
+                    secondaryColor:
+                      data.matches[0].homeTeam.logo.secondaryColor,
+                    type: data.matches[0].homeTeam.logo.type,
+                    name: data.matches[0].homeTeam.logo.name,
+                    iconId: data.matches[0].homeTeam.logo.iconId,
+                  }}
+                  additionalClasses={["player-soccer-team-logo-2"]}
+                />
+              </CardMedia>
+              <Typography>{data.matches[0].homeTeam.name}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -23,21 +48,27 @@ function NextGame({}: IProps) {
         <Grid item xs={4}>
           <Card>
             <CardContent>
-              <CardMedia
-                image="https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/20300.png&scale=crop&cquality=40&location=origin"
-                sx={{
-                  height: "150px",
-                }}
-              />
-              <Typography>Opponent</Typography>
+              <CardMedia>
+                <SoccerLogoDisplay
+                  logoSetup={{
+                    mainColor: data.matches[0].awayTeam.logo.mainColor,
+                    secondaryColor:
+                      data.matches[0].awayTeam.logo.secondaryColor,
+                    type: data.matches[0].awayTeam.logo.type,
+                    name: data.matches[0].awayTeam.logo.name,
+                    iconId: data.matches[0].awayTeam.logo.iconId,
+                  }}
+                  additionalClasses={["player-soccer-team-logo-2"]}
+                />
+              </CardMedia>
+              <Typography>{data.matches[0].awayTeam.name}</Typography>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
-      <Grid container justifyContent={"center"}>
-        <Typography>25.12.2190</Typography>
-      </Grid>
     </Grid>
+  ) : (
+    <NotFound />
   );
 }
 

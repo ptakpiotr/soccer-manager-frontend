@@ -8,7 +8,7 @@ import {
   MANAGE_ACADEMY_PLAYERS,
 } from "../../GraphQL/Queries/academyQueries";
 import { useMutation as useGQLMutation } from "@apollo/client";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 interface IProps {
   players: IPlayerSquadInfo[];
@@ -19,10 +19,12 @@ function AcademyView({ players }: IProps) {
     players.filter((p) => p.isInAcademy === true).map((p) => p.playerId)
   );
   const [academyDemoteList, setAcademyDemoteList] = useState<string[]>(
-    players.filter((p) => !p.isInAcademy).map((p) => p.playerId)
+    players
+      .filter((p) => !p.isInAcademy && !p.squadPosition)
+      .map((p) => p.playerId)
   );
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const [mutate, { data, error }] = useGQLMutation<{
     managePlayerAcademy: IGeneralPayload;
@@ -124,7 +126,7 @@ function AcademyView({ players }: IProps) {
           }}
         >
           {players
-            .filter((p) => !p.isInAcademy)
+            .filter((p) => !p.isInAcademy && !p.squadPosition)
             .map((p) => (
               <AcademyViewPlayer
                 playerInfo={p}

@@ -75,3 +75,20 @@ export const guidSchema = object({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i
   ),
 });
+
+//shared schema
+const teamAttributeSchema = object().shape({
+  mainColor: string().required(),
+  secondaryColor: string().required(),
+});
+
+export const soccerShirtSchema = teamAttributeSchema.shape({
+  type: string().required(),
+  isSecond: boolean(),
+});
+
+export const soccerLogoSchema = teamAttributeSchema.shape({
+  name: string().required(),
+  type: string().required(),
+  iconId: string().required(),
+});

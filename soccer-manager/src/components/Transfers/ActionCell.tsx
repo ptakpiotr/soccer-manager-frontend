@@ -7,7 +7,7 @@ import { useMutation as useGQLMutation } from "@apollo/client";
 import { BUY_PLAYER } from "../../GraphQL/Mutations/playerMutations";
 import { GET_PLAYERS_FOR_TRANSFERS } from "../../GraphQL/Queries/playerQueries";
 import { IGeneralPayload } from "../../Types";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 interface IProps {
   readonly playerId: string;
 }
@@ -25,7 +25,7 @@ function ActionCell({ playerId }: IProps) {
 
   const navigate = useNavigate();
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const openInNew = () => {
     navigate(`/player/${playerId}`);

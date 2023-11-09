@@ -4,17 +4,15 @@ import { ISoccerShirt, SoccerShirtType } from "../../Types";
 import KitDesignerPanel from "./KitDesignerPanel";
 import { SelectChangeEvent } from "@mui/material";
 import SoccerKitDisplay from "./SoccerKitDisplay";
+import { defaultKitSetup } from "../../Globals";
 
-const defaultKitSetup = {
-  mainColor: "#0000FF",
-  secondaryColor: "#FF0000",
-  type: SoccerShirtType.STRIPES_SIMPLE,
-};
+interface IProps {
+  kitSetup: ISoccerShirt;
+  setKitSetup: React.Dispatch<React.SetStateAction<ISoccerShirt>>;
+}
 
 //inspired with: https://codepen.io/richhastings/pen/LbZrxo
-function SoccerKitDesinger() {
-  const [kitSetup, setKitSetup] = useState<ISoccerShirt>(defaultKitSetup);
-
+function SoccerKitDesinger({ kitSetup, setKitSetup }: IProps) {
   const handleMainColorChange = (e: ChangeEvent<HTMLInputElement>) => {
     setKitSetup((prev) => ({
       ...prev,
@@ -36,9 +34,7 @@ function SoccerKitDesinger() {
     }));
   };
 
-  const handleAccept = () => {
-    //TODO: implement this
-  };
+  const handleAccept = () => {};
 
   const handleRestore = () => {
     setKitSetup({ ...defaultKitSetup });

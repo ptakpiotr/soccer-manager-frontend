@@ -13,6 +13,7 @@ export const GET_ACADEMY_PLAYERS = gql`
         isBenched
         playerNumber
         isInAcademy
+        squadPosition
       }
     }
   }

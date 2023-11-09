@@ -12,7 +12,7 @@ import {
 import { guidSchema } from "../Validation";
 import InvalidData from "../components/misc/InvalidData";
 import NotExists from "../components/misc/NotExists";
-import { useErrorMessageManager } from "../hooks/useErrorMessageManager";
+import { useMessageManager } from "../hooks/useMessageManager";
 
 function TeamInfo() {
   const { id } = useParams();
@@ -20,7 +20,7 @@ function TeamInfo() {
   const [shirts, setShirts] = useState<ISoccerShirt[] | undefined>();
   const [teamInfo, setTeamInfo] = useState<ITeamInfoData | undefined>();
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const [getShirts] = useLazyGQLQuery<ITeamShirts>(GET_SHIRTS, {
     variables: {

@@ -8,7 +8,7 @@ import {
 import { useContext } from "react";
 import { UserTokenContext } from "../../context";
 import { IUserAdminInfo } from "../../Types";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 const getUsersUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/getUsers`;
 const deleteUserUrl = import.meta.env.VITE_AUTH_BACKEND_URL;
@@ -18,7 +18,7 @@ const unBlockUserUrl = `${import.meta.env.VITE_AUTH_BACKEND_URL}/unlockUser`;
 function AdminPanel() {
   const { token } = useContext(UserTokenContext);
   const queryClient = useQueryClient();
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const { data } = useReactQuery({
     queryKey: ["adminpanel-users"],

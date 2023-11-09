@@ -27,7 +27,6 @@ interface IProps {
   handleShirtTypeChange: (e: SelectChangeEvent<SoccerShirtType>) => void;
   handleNameChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChosenIconIdChange: (e: string) => void;
-  handleAccept: () => void;
   handleRestore: () => void;
 }
 
@@ -35,7 +34,6 @@ function LogoDesignerPanel({
   logoSetup,
   handleMainColorChange,
   handleSecondaryColorChange,
-  handleAccept,
   handleRestore,
   handleShirtTypeChange,
   handleNameChange,
@@ -100,9 +98,6 @@ function LogoDesignerPanel({
         />
       </Grid>
       <Grid container columnGap={"1rem"} justifyContent={"center"}>
-        <Button variant="contained" color="success" onClick={handleAccept}>
-          Accept
-        </Button>
         <Button variant="contained" color="error" onClick={handleRestore}>
           Restore
         </Button>

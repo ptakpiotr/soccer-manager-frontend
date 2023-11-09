@@ -12,7 +12,7 @@ import { IAcademySettings } from "../../Types";
 import { MdTrackChanges } from "react-icons/md";
 import { UserTokenContext } from "../../context";
 import { useAcademyFacilityMutation } from "../../hooks/useAcademyFacilityMutation";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 interface IProps {
   academy?: IAcademySettings;
@@ -31,7 +31,7 @@ function AcademyFacility({ academy }: IProps) {
 
   const { mutate, data, error } = useAcademyFacilityMutation(academy);
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const handleChanges = async () => {
     await mutate({

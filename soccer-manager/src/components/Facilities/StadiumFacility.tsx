@@ -12,7 +12,7 @@ import { useState, useContext } from "react";
 import { IStadiumSettings } from "../../Types";
 import { useStadiumMutation } from "../../hooks/useStadiumMutation";
 import { UserTokenContext } from "../../context";
-import { useErrorMessageManager } from "../../hooks/useErrorMessageManager";
+import { useMessageManager } from "../../hooks/useMessageManager";
 
 interface IProps {
   stadium?: IStadiumSettings;
@@ -33,7 +33,7 @@ function StadiumFacility({ stadium }: IProps) {
 
   const { mutate, data, error } = useStadiumMutation(stadium);
 
-  const notify = useErrorMessageManager();
+  const notify = useMessageManager();
 
   const handleChanges = async () => {
     // let vars: typeof exists extends true
