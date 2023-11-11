@@ -16,7 +16,9 @@ function AppSelectField<T>(props: IProps<T>) {
           <AppSelect {...props} />
         </FormControl>
       ) : (
-        <Typography variant="subtitle1">{props.label} : {notEditableValue}</Typography>
+        <Typography variant="subtitle1">
+          {props.label} : {notEditableValue}
+        </Typography>
       )}
     </FormControl>
   );

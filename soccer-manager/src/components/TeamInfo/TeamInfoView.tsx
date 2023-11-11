@@ -37,7 +37,7 @@ function TeamInfoView({ shirts, teamInfo }: IProps) {
                 secondaryColor: teamInfo.logo.secondaryColor,
                 type: teamInfo.logo.type,
                 name: teamInfo.name,
-                iconId: teamInfo.logo.type,
+                iconId: teamInfo.logo.iconId,
               }}
               additionalClasses={["player-soccer-team-logo"]}
             />

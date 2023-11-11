@@ -35,7 +35,7 @@ function TableView({ leagueId, miniTable }: IProps) {
 
   const notify = useMessageManager();
 
-  const [getLeagueTable, _] = useLazyGQLQuery<{ league: ITableTeamInfo[] }>(
+  const [getLeagueTable] = useLazyGQLQuery<{ league: ITableTeamInfo[] }>(
     GET_LEAGUE_TABLE,
     {
       variables: {
@@ -125,7 +125,15 @@ function TableView({ leagueId, miniTable }: IProps) {
                     display: "flex",
                   }}
                 >
-                  <Typography flex={1}>{t.team.name}</Typography>
+                  <Typography
+                    flex={1}
+                    sx={{
+                      color: "white",
+                      mixBlendMode: "difference",
+                    }}
+                  >
+                    {t.team.name}
+                  </Typography>
                   <span
                     className="table-open-new"
                     onClick={() => {

@@ -74,6 +74,7 @@ export const GET_TACTICS_PLAYERS = gql`
         positionType
         playerName
         playerRating
+        squadRating
         image
         isBenched
         injuredTill

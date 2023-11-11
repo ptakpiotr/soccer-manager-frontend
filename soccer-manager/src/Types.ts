@@ -129,6 +129,7 @@ export interface ITacticsPlayerViewProps {
 export interface IPlayerSquadInfo extends ITacticsPlayerViewProps {
   squadPosition?: number;
   playerNumber: number;
+  squadRating?: number;
   isInAcademy?: boolean;
   team?: {
     formation?: string;
@@ -143,6 +144,13 @@ export interface IMatchCalendarInfo {
   type: MatchType;
   homeScore?: number;
   awayScore?: number;
+  homeTeam: {
+    logo: Omit<ISoccerLogo, "name">;
+  };
+  awayTeam: {
+    name: string;
+    logo: Omit<ISoccerLogo, "name">;
+  };
 }
 
 export interface ITrainingCalendarInfo {
@@ -313,6 +321,11 @@ export interface IMatchExpanded {
   };
 }
 
+export interface ITeamPickerData {
+  value: string;
+  desc: string;
+}
+
 export enum PositionType {
   GOALKEEPER = "GOALKEEPER",
   DEFENDER = "DEFENDER",
@@ -327,18 +340,18 @@ export enum ViewVariant {
 }
 
 export enum EventType {
-  NONE,
-  MATCH,
-  TRAINING,
+  NONE = "NONE",
+  MATCH = "MATCH",
+  TRAINING = "TRAINING",
 }
 
 export enum TrainingType {
-  DEFAULT,
-  GOALKEEPER,
-  DEFENDER,
-  MIDFIELDER,
-  FORWARD,
-  REST,
+  DEFAULT = "DEFAULT",
+  GOALKEEPER = "GOALKEEPER",
+  DEFENDER = "DEFENDER",
+  MIDFIELDER = "MIDFIELDER",
+  FORWARD = "FORWARD",
+  REST = "REST",
 }
 
 export enum GameResultType {
@@ -348,9 +361,9 @@ export enum GameResultType {
 }
 
 export enum GroundType {
-  NEUTRAL,
-  HOME,
-  AWAY,
+  NEUTRAL = "NEUTRAL",
+  HOME = "HOME",
+  AWAY = "AWAY",
 }
 
 export enum Months {

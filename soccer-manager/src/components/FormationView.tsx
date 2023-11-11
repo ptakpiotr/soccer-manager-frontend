@@ -36,7 +36,7 @@ function FormationView({ playersInFormation, positionType }: IProps) {
                   horizontal: "left",
                 }}
               >
-                <DroppablePlayerView {...p} />
+                <DroppablePlayerView {...p} squadPositionType={positionType} />
               </Badge>
             </Badge>
           </Grid>

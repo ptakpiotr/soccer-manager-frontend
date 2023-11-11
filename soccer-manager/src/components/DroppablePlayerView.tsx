@@ -1,10 +1,14 @@
 import { useDrag, useDrop } from "react-dnd";
 import FormationPlayerView from "./FormationPlayerView";
-import { IPlayerSquadInfo } from "../Types";
+import { IPlayerSquadInfo, PositionType } from "../Types";
 import useSwapPlayers from "../hooks/useSwapPlayers";
 
-function DroppablePlayerView(props: IPlayerSquadInfo) {
-  const swapPlayers = useSwapPlayers();
+interface IProps extends IPlayerSquadInfo {
+  squadPositionType: PositionType;
+}
+
+function DroppablePlayerView(props: IProps) {
+  const swapPlayers = useSwapPlayers(props.squadPositionType);
 
   const [_, dragRef] = useDrag({
     type: "player",

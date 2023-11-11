@@ -22,22 +22,19 @@ interface IProps {
   setCalendarEventDetails?: React.Dispatch<
     React.SetStateAction<Partial<CalendarEvent>>
   >;
-  availableTrainingEntities?: Record<TrainingType, number>;
+  addEvent: () => Promise<void>;
 }
 
 //Mapping inspired here: https://stackoverflow.com/questions/41308123/map-typescript-enum
 const trainingTypes = (Object.keys(TrainingType) as Array<keyof TrainingType>)
-  .map((k) => {
-    const numK = Number(k);
-    if (numK || numK === 0) {
-      return {
-        value: numK,
-        desc: TrainingType[numK],
-      };
-    }
+  .map((k: keyof TrainingType) => {
+    return {
+      value: k,
+      desc: k,
+    };
   })
   .filter((k) => k) as {
-  value: number;
+  value: string;
   desc: string;
 }[];
 
@@ -46,14 +43,14 @@ function TrainingModal({
   setOpen,
   calendarEventDetails,
   setCalendarEventDetails,
-  availableTrainingEntities,
+  addEvent,
 }: IProps) {
   const [trainingCalendarInfo, setTrainingCalendarInfo] =
     useState<ITrainingCalendarInfo>(
-      calendarEventDetails.eventDetails as ITrainingCalendarInfo
+      calendarEventDetails.training as ITrainingCalendarInfo
     );
 
-  const handleTrainingTypeChange = (e: SelectChangeEvent<number>) => {
+  const handleTrainingTypeChange = (e: SelectChangeEvent<string>) => {
     setTrainingCalendarInfo((prev) => {
       let newEventDetails = {
         ...prev,
@@ -64,18 +61,20 @@ function TrainingModal({
     });
   };
 
-  const handleAddSecondStep = () => {
+  const handleAddSecondStep = async () => {
     if (setCalendarEventDetails) {
       setCalendarEventDetails((prev) => {
         let newEventDetails = {
           ...prev,
         };
 
-        newEventDetails.eventDetails = trainingCalendarInfo;
+        newEventDetails.training = trainingCalendarInfo;
 
         return newEventDetails;
       });
     }
+
+    await addEvent();
 
     setOpen([false, false]);
   };
@@ -97,18 +96,6 @@ function TrainingModal({
           isNotEditable={calendarEventDetails.notEditable}
           notEditableValue={TrainingType[trainingCalendarInfo?.trainingType]}
         />
-        <FormControl>
-          {availableTrainingEntities && (
-            <Typography>
-              Available entities:{" "}
-              {
-                availableTrainingEntities[
-                  trainingCalendarInfo?.trainingType ?? TrainingType.DEFAULT
-                ]
-              }
-            </Typography>
-          )}
-        </FormControl>
         {!calendarEventDetails.notEditable ? (
           <Button
             endIcon={<MdEventBusy />}

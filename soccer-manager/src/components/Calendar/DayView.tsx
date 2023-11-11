@@ -1,13 +1,16 @@
 import { Card, Grid, ButtonBase, CardContent } from "@mui/material";
 import { useMemo } from "react";
-import { CalendarEvent } from "../../Types";
+import { CalendarEvent, EventType } from "../../Types";
 import MatchEventView from "./MatchEventView";
+import NoCalendarData from "../misc/NoCalendarData";
+import TrainingEventView from "./TrainingEventView";
 
 interface IProps {
+  day: number;
   event?: CalendarEvent;
 }
-//TODO: match simulation & calendar future events
-function DayView({ event }: IProps) {
+
+function DayView({ day, event }: IProps) {
   const isOutdated = useMemo(() => {
     const today = new Date();
 
@@ -18,9 +21,12 @@ function DayView({ event }: IProps) {
     return event?.notEditable;
   }, [event?.day]);
 
+  //TODO: repair editing of events
+  const editEvent = async () => {};
+
   return (
     <Grid item>
-      <ButtonBase>
+      <ButtonBase disabled={!event}>
         <Card
           sx={{
             width: "200px",
@@ -30,7 +36,15 @@ function DayView({ event }: IProps) {
           variant="outlined"
         >
           <CardContent>
-            {event ? <MatchEventView eventData={event} /> : <>NO DATA</>}
+            {event ? (
+              event.eventType === EventType.MATCH ? (
+                <MatchEventView eventData={event} editEvent={editEvent} />
+              ) : (
+                <TrainingEventView eventData={event} editEvent={editEvent} />
+              )
+            ) : (
+              <NoCalendarData day={day} />
+            )}
           </CardContent>
         </Card>
       </ButtonBase>

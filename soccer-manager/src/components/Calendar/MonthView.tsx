@@ -22,7 +22,7 @@ function MonthView({ calendar, year, month }: IProps) {
       {Enumerable.range(1, daysInMonth)
         .toArray()
         .map((d) => (
-          <DayView key={d} event={calendar.find((c) => c.day === d)} />
+          <DayView key={d} day={d} event={calendar.find((c) => c.day === d)} />
         ))}
     </Grid>
   );

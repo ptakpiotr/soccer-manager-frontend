@@ -1,20 +1,18 @@
 import { BiSolidTrafficCone } from "react-icons/bi";
-import {
-  CalendarEvent,
-  ITrainingCalendarInfo,
-  TrainingType,
-} from "../../Types";
+import { CalendarEvent, TrainingType } from "../../Types";
 import Globals from "../../Globals";
 import { Grid } from "@mui/material";
 import { useState } from "react";
 import TrainingModal from "./TrainingModal";
+import NoData from "../misc/NoData";
 
 interface IProps {
   eventData: CalendarEvent;
+  editEvent: () => Promise<void>;
 }
 
-function TrainingEventView({ eventData }: IProps) {
-  const { eventDetails, day } = eventData;
+function TrainingEventView({ eventData, editEvent }: IProps) {
+  const { training, day } = eventData;
 
   const [isModalOpen, setModalOpen] = useState<[boolean, boolean]>([
     false,
@@ -25,30 +23,33 @@ function TrainingEventView({ eventData }: IProps) {
     setModalOpen([false, true]);
   };
 
-  return (
+  return training ? (
     <>
       <Grid container flexDirection={"row"} onClick={handleEventInfoClick}>
         <Grid container>
-          <Grid item flex={1}>
-            {TrainingType[(eventDetails as ITrainingCalendarInfo).trainingType]}
+          <Grid item flex={1} className="calendar-day">
+            {day}
           </Grid>
           <Grid item>
             <BiSolidTrafficCone
               color={Globals.functions.mapTrainingTypeToColor(
-                (eventDetails as ITrainingCalendarInfo).trainingType
+                training.trainingType
               )}
               size={"3rem"}
             />
           </Grid>
         </Grid>
-        <Grid container>{day}</Grid>
+        <Grid container>{TrainingType[training.trainingType]}</Grid>
       </Grid>
       <TrainingModal
         isOpen={isModalOpen[1]}
         setOpen={setModalOpen}
+        addEvent={editEvent}
         calendarEventDetails={eventData}
       />
     </>
+  ) : (
+    <NoData />
   );
 }
 

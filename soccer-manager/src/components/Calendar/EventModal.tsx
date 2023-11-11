@@ -24,17 +24,14 @@ interface IProps {
 
 //Mapping inspired here: https://stackoverflow.com/questions/41308123/map-typescript-enum
 const events = (Object.keys(EventType) as Array<keyof EventType>)
-  .map((k) => {
-    const numK = Number(k);
-    if (numK || numK === 0) {
-      return {
-        value: numK,
-        desc: EventType[numK],
-      };
-    }
+  .map((k: keyof EventType) => {
+    return {
+      value: k,
+      desc: k,
+    };
   })
   .filter((k) => k) as {
-  value: number;
+  value: string;
   desc: string;
 }[];
 
@@ -54,9 +51,19 @@ function EventModal({
       day ?? currentDate.getDay()
     )
   );
-  const [isValid, setIsValid] = useState<boolean>(true);
 
-  const handleEventTypeChange = (e: SelectChangeEvent<number>) => {
+  const handleDescriptionChange = (val: string) => {
+    setCalendarEventDetails((prev) => {
+      let newEventDetails = {
+        ...prev,
+      };
+
+      newEventDetails.description = val;
+      return newEventDetails;
+    });
+  };
+
+  const handleEventTypeChange = (e: SelectChangeEvent<string>) => {
     setCalendarEventDetails((prev) => {
       let newEventDetails = {
         ...prev,
@@ -68,21 +75,23 @@ function EventModal({
   };
 
   const handleAddFirstStep = () => {
-    let isEventValid = true;
-    //TODO: validate event term!
-    let isEventDateAvailable = Math.floor(Math.random() * 10) % 2 == 0;
+    const dateToStore = eventDate
+      .toISOString()
+      .split("T")[0]
+      .split("-")
+      .map((d) => parseInt(d));
 
-    isEventValid = [isEventDateAvailable].some((v) => v === false);
+    setCalendarEventDetails((prev) => ({
+      ...prev,
+      day: dateToStore[2],
+      month: dateToStore[1],
+      year: dateToStore[0],
+    }));
 
-    setIsValid(isEventValid);
-
-    if (isEventValid) {
-      setOpen([false, true]);
-    }
+    setOpen([false, true]);
   };
 
   const handleClearDateClick = () => {
-    setIsValid(true);
     setEventDate(
       new Date(
         year ?? currentDate.getFullYear(),
@@ -113,6 +122,9 @@ function EventModal({
               id="event-desc"
               value={calendarEventDetails.description}
               disabled={calendarEventDetails.notEditable}
+              onChange={(e) => {
+                handleDescriptionChange(e.target.value);
+              }}
             />
           </FormControl>
           <FormControl>
@@ -126,7 +138,7 @@ function EventModal({
               disabled={calendarEventDetails.notEditable}
             />
             <FormHelperText>
-              When unavailable - event not possible to add
+              Events only possible to add in the season
             </FormHelperText>
             <Button
               color="secondary"
@@ -153,7 +165,11 @@ function EventModal({
               endIcon={<MdEvent />}
               variant="contained"
               onClick={handleAddFirstStep}
-              disabled={!isValid}
+              disabled={
+                !calendarEventDetails.description ||
+                !calendarEventDetails.eventType ||
+                calendarEventDetails.eventType === EventType.NONE
+              }
             >
               Add
             </Button>

@@ -1,13 +1,19 @@
 import { Button, Dialog, Grid, SelectChangeEvent } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   CalendarEvent,
   GroundType,
   IMatchCalendarInfo,
+  ITeamPickerData,
   MatchType,
 } from "../../Types";
 import { MdEventBusy } from "react-icons/md";
+import { useQuery as useGQLQuery } from "@apollo/client";
 import AppSelectField from "../AppSelectField";
+import { GET_AVAILABLE_TEAMS } from "../../GraphQL/Queries/calendarQueries";
+import { UserTokenContext } from "../../context";
+import Loading from "../misc/Loading";
+import NoData from "../misc/NoData";
 
 interface IProps {
   calendarEventDetails: Partial<CalendarEvent>;
@@ -16,62 +22,62 @@ interface IProps {
   setCalendarEventDetails?: React.Dispatch<
     React.SetStateAction<Partial<CalendarEvent>>
   >;
+  addEvent: () => Promise<void>;
 }
 
 //Mapping inspired here: https://stackoverflow.com/questions/41308123/map-typescript-enum
 const groundTypes = (Object.keys(GroundType) as Array<keyof GroundType>)
-  .map((k) => {
-    const numK = Number(k);
-    if (numK || numK === 0) {
-      return {
-        value: numK,
-        desc: GroundType[numK],
-      };
-    }
+  .map((k: keyof GroundType) => {
+    return {
+      value: k,
+      desc: k,
+    };
   })
   .filter((k) => k) as {
-  value: number;
+  value: string;
   desc: string;
 }[];
 
 const matchTypes = (Object.keys(MatchType) as Array<keyof MatchType>)
-  .map((k) => {
-    const numK = Number(k);
-    if (numK || numK === 0) {
-      return {
-        value: numK,
-        desc: MatchType[numK],
-      };
-    }
+  .map((k: keyof MatchType) => {
+    return {
+      value: k,
+      desc: k,
+    };
   })
   .filter((k) => k) as {
-  value: number;
+  value: string;
   desc: string;
 }[];
-
-const teamList = [
-  {
-    value: 1,
-    desc: "TEAM A",
-  },
-  {
-    value: 2,
-    desc: "TEAM B",
-  },
-];
 
 function MatchModal({
   isOpen,
   setOpen,
   calendarEventDetails,
   setCalendarEventDetails,
+  addEvent,
 }: IProps) {
   const [matchCalendarInfo, setMatchCalendarInfo] =
     useState<IMatchCalendarInfo>(
-      calendarEventDetails.eventDetails as IMatchCalendarInfo
+      calendarEventDetails.match as IMatchCalendarInfo
     );
+  const { teamId } = useContext(UserTokenContext);
 
-  const handleGroundTypeChange = (e: SelectChangeEvent<number>) => {
+  const { data, loading } = useGQLQuery<{
+    availableTeams: ITeamPickerData[];
+  }>(GET_AVAILABLE_TEAMS, {
+    variables: {
+      input: {
+        teamId,
+        year: calendarEventDetails.year,
+        month: calendarEventDetails.month,
+        day: calendarEventDetails.day,
+      },
+    },
+    pollInterval: 3600 * 10,
+  });
+
+  const handleGroundTypeChange = (e: SelectChangeEvent<string>) => {
     setMatchCalendarInfo((prev) => {
       let newEventDetails = {
         ...prev,
@@ -82,18 +88,18 @@ function MatchModal({
     });
   };
 
-  const handleRivalTeamChange = (e: SelectChangeEvent<number>) => {
+  const handleRivalTeamChange = (e: SelectChangeEvent<string>) => {
     setMatchCalendarInfo((prev) => {
       let newEventDetails = {
         ...prev,
       };
 
-      newEventDetails.rivalTeamId = e.target.value as number;
+      newEventDetails.awayTeamId = e.target.value as string;
       return newEventDetails;
     });
   };
 
-  const handleMatchTypeChange = (e: SelectChangeEvent<number>) => {
+  const handleMatchTypeChange = (e: SelectChangeEvent<string>) => {
     setMatchCalendarInfo((prev) => {
       let newEventDetails = {
         ...prev,
@@ -104,18 +110,20 @@ function MatchModal({
     });
   };
 
-  const handleAddSecondStep = () => {
+  const handleAddSecondStep = async () => {
     if (setCalendarEventDetails) {
       setCalendarEventDetails((prev) => {
         let newEventDetails = {
           ...prev,
         };
 
-        newEventDetails.eventDetails = matchCalendarInfo;
+        newEventDetails.match = matchCalendarInfo;
 
         return newEventDetails;
       });
     }
+
+    await addEvent();
 
     setOpen([false, false]);
   };
@@ -128,15 +136,21 @@ function MatchModal({
       }}
     >
       <Grid container padding={"3rem"} flexDirection={"column"} rowGap={"1rem"}>
-        <AppSelectField
-          elementName="rival-team"
-          label="Rival team"
-          value={matchCalendarInfo?.rivalTeamId ?? 1}
-          elements={teamList}
-          handleChange={handleRivalTeamChange}
-          isNotEditable={calendarEventDetails.notEditable}
-          notEditableValue={teamList[matchCalendarInfo?.rivalTeamId ?? 1].desc}
-        />
+        {loading ? (
+          <Loading />
+        ) : data ? (
+          <AppSelectField
+            elementName="rival-team"
+            label="Rival team"
+            value={matchCalendarInfo?.awayTeamId ?? ""}
+            elements={data.availableTeams}
+            handleChange={handleRivalTeamChange}
+            isNotEditable={calendarEventDetails.notEditable}
+            notEditableValue={calendarEventDetails.match?.awayTeam.name ?? ""}
+          />
+        ) : (
+          <NoData />
+        )}
         <AppSelectField
           elementName="ground-type"
           label="Ground type"
@@ -152,7 +166,7 @@ function MatchModal({
           value={matchCalendarInfo?.type ?? MatchType.FRIENDLY}
           elements={matchTypes}
           handleChange={handleMatchTypeChange}
-          isNotEditable={calendarEventDetails.notEditable}
+          isNotEditable={true}
           notEditableValue={MatchType[matchCalendarInfo?.type]}
         />
         {!calendarEventDetails.notEditable ? (

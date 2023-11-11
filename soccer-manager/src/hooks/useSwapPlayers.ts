@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { TacticsContext } from "../context";
-import { IPlayerSquadInfo } from "../Types";
+import { IPlayerSquadInfo, PositionType } from "../Types";
 
-function useSwapPlayers() {
+function useSwapPlayers(positionType?: PositionType) {
   const { reserve, squad, setSquad, setReserve } = useContext(TacticsContext);
 
   return function (p1: IPlayerSquadInfo, p2: IPlayerSquadInfo) {
@@ -21,7 +21,6 @@ function useSwapPlayers() {
             const playerFromSquadCopy = { ...playerFromSquad };
 
             playerFromSquadCopy.isBenched = true;
-            playerFromSquadCopy.isInSquad = false;
             playerFromSquadCopy.squadPosition = undefined;
 
             r[reservePlayerIndex!] = playerFromSquadCopy;
@@ -33,9 +32,15 @@ function useSwapPlayers() {
             const reservePlayerCopy = { ...reservePlayer };
 
             reservePlayerCopy.isBenched = false;
-            reservePlayerCopy.isInSquad = true;
 
             reservePlayerCopy.squadPosition = playerFromSquad.squadPosition;
+
+            if (positionType) {
+              reservePlayerCopy.squadRating =
+                positionType === reservePlayerCopy.positionType
+                  ? reservePlayerCopy.playerRating
+                  : 1;
+            }
 
             s[playerFromSquadIndex!] = reservePlayerCopy;
 

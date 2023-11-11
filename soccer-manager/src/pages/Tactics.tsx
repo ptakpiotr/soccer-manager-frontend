@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Button, Grid } from "@mui/material";
 import { useMutation as useGQLMutation } from "@apollo/client";
 import AppPaper from "../components/AppPaper";
@@ -20,6 +20,7 @@ function Tactics() {
     formation: tactics,
     setFormation: setTactics,
   } = useContext(TacticsContext);
+
   const { teamId } = useContext(UserTokenContext);
 
   const [mutate] = useGQLMutation<{ modifyTeamTactics: IGeneralPayload }>(
@@ -33,9 +34,11 @@ function Tactics() {
 
   const handleSave = async () => {
     const benchPlayers = reserve?.map((r) => r.playerId);
+
     const squadPlayers = squad?.map((s) => ({
       id: s.playerId,
       squadPosition: s.squadPosition,
+      squadRating: s.squadRating,
     }));
 
     const { data, errors } = await mutate({

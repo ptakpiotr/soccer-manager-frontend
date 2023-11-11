@@ -6,11 +6,13 @@ import { Months } from "../../Types";
 interface IProps {
   month: Months;
   setMonth: React.Dispatch<React.SetStateAction<Months>>;
+  setNewYear: (oldMonth: Months, newMonth: Months) => void;
 }
 
-function PrevMonthButton({ month, setMonth }: IProps) {
+function PrevMonthButton({ month, setMonth, setNewYear }: IProps) {
   const setPrevMonth = () => {
     if (month === Months.JANUARY) {
+      setNewYear(Months.JANUARY, Months.DECEMBER);
       setMonth(Months.DECEMBER);
     } else {
       setMonth((prev) => prev - 1);

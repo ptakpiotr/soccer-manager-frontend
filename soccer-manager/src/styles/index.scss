@@ -69,6 +69,11 @@ main {
   background-repeat: no-repeat;
 }
 
+.table-open-new {
+  color: white;
+  mix-blend-mode: difference;
+}
+
 .table-open-new:hover {
   cursor: pointer;
 }
@@ -76,6 +81,12 @@ main {
 .formation-players-container:not(:first-of-type) {
   border-bottom: 1px dashed yellowgreen;
   margin-bottom: 0.5rem;
+}
+
+.calendar-day {
+  font-weight: bolder;
+  font-size: 1.5rem;
+  letter-spacing: 0.25rem;
 }
 
 .register-page-container {

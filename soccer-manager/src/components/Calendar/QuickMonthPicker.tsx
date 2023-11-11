@@ -7,13 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { MdCalendarMonth, MdSearch } from "react-icons/md";
+import { MdCalendarMonth, MdClose } from "react-icons/md";
 import AppSelect from "../AppSelect";
 import { Months } from "../../Types";
 
-interface IProps{
-    month: Months;
-    setMonth:React.Dispatch<React.SetStateAction<Months>>;
+interface IProps {
+  month: Months;
+  setMonth: React.Dispatch<React.SetStateAction<Months>>;
 }
 
 //Mapping inspired here: https://stackoverflow.com/questions/41308123/map-typescript-enum
@@ -32,14 +32,14 @@ const months = (Object.keys(Months) as Array<keyof Months>)
   desc: string;
 }[];
 
-function QuickMonthPicker({month, setMonth} : IProps) {
+function QuickMonthPicker({ month, setMonth }: IProps) {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   const handleMonthTypeChange = (e: SelectChangeEvent<number>) => {
     setMonth(e.target.value as number as Months);
   };
 
-  const handleSearch = () => {
+  const handleClose = () => {
     setOpen(false);
   };
 
@@ -73,11 +73,12 @@ function QuickMonthPicker({month, setMonth} : IProps) {
             />
           </FormControl>
           <Button
-            endIcon={<MdSearch />}
+            endIcon={<MdClose />}
             variant="contained"
-            onClick={handleSearch}
+            color="error"
+            onClick={handleClose}
           >
-            Search
+            Close
           </Button>
         </Grid>
       </Dialog>

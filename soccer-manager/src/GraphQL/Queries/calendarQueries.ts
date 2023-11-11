@@ -6,11 +6,7 @@ export const GET_CALENDAR = gql`
       teamId: $teamId
       year: $year
       month: $month
-      where: {
-        match: {
-          or: [{ homeTeamId: { eq: $teamId } }, { awayTeamId: { eq: $teamId } }]
-        }
-      }
+      where: { eventType: { neq: NONE } }
     ) {
       id
       trainingId
@@ -32,7 +28,34 @@ export const GET_CALENDAR = gql`
         ground
         homeScore
         awayScore
+        type
+        homeTeam {
+          logo {
+            mainColor
+            secondaryColor
+            iconId
+            type
+          }
+        }
+        awayTeam {
+          name
+          logo {
+            mainColor
+            secondaryColor
+            iconId
+            type
+          }
+        }
       }
+    }
+  }
+`;
+
+export const GET_AVAILABLE_TEAMS = gql`
+  query GetAvailableTeams($input: AvailableTeamsInput!) {
+    availableTeams(input: $input) {
+      value: id
+      desc: name
     }
   }
 `;
