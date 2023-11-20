@@ -13,6 +13,7 @@ import { IconType } from "react-icons";
 import Globals from "./Globals";
 import React from "react";
 
+//utility types
 type MapPropertyToFilter<T> = {
   -readonly [Property in keyof T]: {
     from?: T[Property];
@@ -20,6 +21,14 @@ type MapPropertyToFilter<T> = {
   };
 };
 
+type GetSetterProperties<T> = {
+  [P in keyof T as T[P] extends (value: any) => void ? P : never]: T[P];
+};
+
+export type NavbarColors =
+  (typeof Globals.availableColors)[keyof typeof Globals.availableColors];
+
+//general types
 export interface IUserSettings {
   mode: PaletteMode;
   bottomMenu: boolean;
@@ -30,10 +39,6 @@ export interface IUserSettings {
   setNavbarColor: React.Dispatch<React.SetStateAction<NavbarColors>>;
   setSettingsExist: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-type GetSetterProperties<T> = {
-  [P in keyof T as T[P] extends (value: any) => void ? P : never]: T[P];
-};
 
 export type IUserSettingsSetters = GetSetterProperties<IUserSettings>;
 
@@ -252,19 +257,6 @@ export interface IUserToken {
   setUserId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export enum TransferFilterType {
-  NUMERIC,
-  MONEY,
-}
-
-export enum SoccerShirtType {
-  PLAIN = "PLAIN",
-  STRIPES_SIMPLE = "STRIPES_SIMPLE",
-  STRIPES_45 = "STRIPES_45",
-  STRIPES_180 = "STRIPES_180",
-  CIRCLE = "CIRCLE",
-}
-
 export type SoccerLogoType = SoccerShirtType;
 
 export interface IconImage {
@@ -326,6 +318,20 @@ export interface ITeamPickerData {
   desc: string;
 }
 
+//enums
+export enum TransferFilterType {
+  NUMERIC,
+  MONEY,
+}
+
+export enum SoccerShirtType {
+  PLAIN = "PLAIN",
+  STRIPES_SIMPLE = "STRIPES_SIMPLE",
+  STRIPES_45 = "STRIPES_45",
+  STRIPES_180 = "STRIPES_180",
+  CIRCLE = "CIRCLE",
+}
+
 export enum PositionType {
   GOALKEEPER = "GOALKEEPER",
   DEFENDER = "DEFENDER",
@@ -355,9 +361,9 @@ export enum TrainingType {
 }
 
 export enum GameResultType {
-  WIN,
-  DRAW,
-  LOST,
+  WIN = "WIN",
+  DRAW = "DRAW",
+  LOST = "LOST",
 }
 
 export enum GroundType {
@@ -386,6 +392,7 @@ export enum MatchType {
   FRIENDLY = "FRIENDLY",
 }
 
+//validation types
 export type PlayerRating = InferType<typeof playerRatingSchema>;
 export type CalendarEvent = InferType<typeof eventSchema>;
 export type RegisterType = InferType<typeof registerSchema>;
@@ -395,6 +402,3 @@ export type PlayerTransferType = Readonly<
 >;
 export type ChangePasswordType = InferType<typeof changePasswordSchema>;
 export type ResetPasswordType = InferType<typeof resetPasswordSchema>;
-
-export type NavbarColors =
-  (typeof Globals.availableColors)[keyof typeof Globals.availableColors];

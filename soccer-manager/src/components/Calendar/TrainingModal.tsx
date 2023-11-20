@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dialog,
-  FormControl,
-  Grid,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { Button, Dialog, Grid, SelectChangeEvent } from "@mui/material";
 import React, { useState } from "react";
 import {
   CalendarEvent,
@@ -18,6 +11,7 @@ import AppSelectField from "../AppSelectField";
 interface IProps {
   calendarEventDetails: Partial<CalendarEvent>;
   isOpen: boolean;
+  isEdit: boolean;
   setOpen: React.Dispatch<React.SetStateAction<[boolean, boolean]>>;
   setCalendarEventDetails?: React.Dispatch<
     React.SetStateAction<Partial<CalendarEvent>>
@@ -40,6 +34,7 @@ const trainingTypes = (Object.keys(TrainingType) as Array<keyof TrainingType>)
 
 function TrainingModal({
   isOpen,
+  isEdit,
   setOpen,
   calendarEventDetails,
   setCalendarEventDetails,
@@ -100,9 +95,10 @@ function TrainingModal({
           <Button
             endIcon={<MdEventBusy />}
             variant="contained"
+            color={isEdit ? "secondary" : "success"}
             onClick={handleAddSecondStep}
           >
-            Add
+            {isEdit ? "Edit" : "Add"}
           </Button>
         ) : (
           <></>

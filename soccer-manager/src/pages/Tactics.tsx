@@ -38,7 +38,6 @@ function Tactics() {
     const squadPlayers = squad?.map((s) => ({
       id: s.playerId,
       squadPosition: s.squadPosition,
-      squadRating: s.squadRating,
     }));
 
     const { data, errors } = await mutate({

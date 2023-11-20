@@ -21,7 +21,7 @@ export const MANAGE_PLAYER_TRANSFER_STATUS = gql`
 export const MODIFY_TEAM_TACTICS = gql`
   mutation ModifyTeamTactics(
     $teamId: UUID!
-    $benchPlayers: [UUID!]!
+    $benchPlayers: [String!]!
     $squadPlayers: [PlayerTacticsPositionModelInput!]!
     $formation: String!
   ) {

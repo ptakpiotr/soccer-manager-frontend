@@ -146,7 +146,7 @@ function MatchModal({
             elements={data.availableTeams}
             handleChange={handleRivalTeamChange}
             isNotEditable={calendarEventDetails.notEditable}
-            notEditableValue={calendarEventDetails.match?.awayTeam.name ?? ""}
+            notEditableValue={calendarEventDetails.match?.awayTeam?.name ?? ""}
           />
         ) : (
           <NoData />

@@ -39,12 +39,13 @@ function TrainingEventView({ eventData, editEvent }: IProps) {
             />
           </Grid>
         </Grid>
-        <Grid container>{TrainingType[training.trainingType]}</Grid>
+        <Grid container>{training.trainingType}</Grid>
       </Grid>
       <TrainingModal
         isOpen={isModalOpen[1]}
         setOpen={setModalOpen}
         addEvent={editEvent}
+        isEdit={true}
         calendarEventDetails={eventData}
       />
     </>

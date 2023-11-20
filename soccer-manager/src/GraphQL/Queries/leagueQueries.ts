@@ -8,7 +8,7 @@ export const GET_LEAGUE_ID = gql`
 
 export const GET_LEAGUE_TABLE = gql`
   query GetLeagueTable($leagueId: UUID!) {
-    league(leagueId: $leagueId) {
+    league(leagueId: $leagueId, order: { points: DESC, wins: DESC }) {
       id
       points
       wins

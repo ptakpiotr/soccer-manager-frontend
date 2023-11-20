@@ -14,7 +14,7 @@ import { useMessageManager } from "../../hooks/useMessageManager";
 
 function CalendarView() {
   const [chosenMonth, setChosenMonth] = useState<Months>(
-    new Date().getUTCMonth()
+    new Date().getUTCMonth() + 1
   );
   const [chosenYear, setChosenYear] = useState<number>(
     new Date().getUTCFullYear()
@@ -72,7 +72,11 @@ function CalendarView() {
       </Grid>
       <Grid item>
         {!loading && data ? (
-          <MonthView calendar={data.calendar} month={11} year={2023} />
+          <MonthView
+            calendar={data.calendar}
+            month={chosenMonth + 1}
+            year={chosenYear}
+          />
         ) : (
           <Loading />
         )}

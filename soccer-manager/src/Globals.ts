@@ -57,6 +57,22 @@ export default {
           return "#F04A00";
       }
     },
+    mapTrainingTypeToNumericalValue(trainingType?: TrainingType) {
+      switch (trainingType) {
+        case TrainingType.GOALKEEPER:
+          return 0;
+        case TrainingType.DEFENDER:
+          return 1;
+        case TrainingType.MIDFIELDER:
+          return 2;
+        case TrainingType.FORWARD:
+          return 3;
+        case TrainingType.DEFAULT:
+          return 4;
+        case TrainingType.REST:
+          return 5;
+      }
+    },
     mapPositionTypeToShortName(positionType: PositionType) {
       switch (positionType) {
         case PositionType.GOALKEEPER:

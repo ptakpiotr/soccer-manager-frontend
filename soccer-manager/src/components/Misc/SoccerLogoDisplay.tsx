@@ -47,7 +47,6 @@ function SoccerLogoDisplay({ logoSetup, additionalClasses }: IProps) {
           ...getColorsPattern(),
         }}
       >
-        <div className="soccer-logo-name">{logoSetup.name}</div>
         <div className="soccer-logo-icon">
           {chosenLogo ? (
             chosenLogo({
@@ -58,6 +57,7 @@ function SoccerLogoDisplay({ logoSetup, additionalClasses }: IProps) {
             <></>
           )}
         </div>
+        <div className="soccer-logo-name">{logoSetup.name}</div>
       </div>
     </div>
   );

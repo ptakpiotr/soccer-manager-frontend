@@ -8,3 +8,12 @@ export const ADD_EVENT = gql`
     }
   }
 `;
+
+export const EDIT_EVENT = gql`
+  mutation EditEvent($id: UUID!, $input: EditCalendarEventInput!) {
+    editCalendarEvent(id: $id, input: $input) {
+      teamId
+      errorMessage
+    }
+  }
+`;

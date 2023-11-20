@@ -11,6 +11,7 @@ import { ADD_EVENT } from "../../GraphQL/Mutations/calendarMutation";
 import { eventSchema } from "../../Validation";
 import { UserTokenContext } from "../../context";
 import { GET_CALENDAR } from "../../GraphQL/Queries/calendarQueries";
+import Globals from "../../Globals";
 
 function AddNewEvent() {
   const { teamId } = useContext(UserTokenContext);
@@ -47,7 +48,9 @@ function AddNewEvent() {
             month: eventData.month,
             rivalTeamId: eventData.match?.awayTeamId,
             teamId,
-            trainingType: eventData.training?.trainingType,
+            trainingType: Globals.functions.mapTrainingTypeToNumericalValue(
+              eventData.training?.trainingType
+            ),
             year: eventData.year,
           },
         },
@@ -85,6 +88,7 @@ function AddNewEvent() {
               isOpen={isModalOpen[1]}
               setOpen={setModalOpen}
               addEvent={addEvent}
+              isEdit={false}
               calendarEventDetails={calendarEvent}
               setCalendarEventDetails={setCalendarEvent}
             />

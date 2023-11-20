@@ -23,6 +23,14 @@ export const eventSchema = object({
   description: string(),
 });
 
+export const editEventSchema = object({
+  id: string(),
+  eventType: mixed<EventType>().required(),
+  match: mixed<IMatchCalendarInfo>().nullable(),
+  training: mixed<ITrainingCalendarInfo>().nullable(),
+  description: string(),
+});
+
 export const registerSchema = object({
   email: string()
     .email("Must be valid email")

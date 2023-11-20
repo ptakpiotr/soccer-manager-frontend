@@ -39,7 +39,8 @@ function MatchEventView({ eventData, editEvent }: IProps) {
           </Grid>
         </Grid>
         <Grid container>
-          {matchInfo.homeScore && matchInfo.awayScore ? (
+          {(matchInfo.homeScore || matchInfo.homeScore === 0) &&
+          (matchInfo.awayScore || matchInfo.awayScore === 0) ? (
             <Scoreboard
               homeScore={matchInfo.homeScore}
               awayScore={matchInfo.awayScore}

@@ -37,7 +37,7 @@ function Scoreboard({ isMyTeamHome, homeScore, awayScore }: IProps) {
       <Grid flex={4} item>
         <Paper
           sx={{
-            padding: "1rem",
+            padding: "0.5rem",
             color: resultColors[0],
           }}
         >
@@ -48,7 +48,7 @@ function Scoreboard({ isMyTeamHome, homeScore, awayScore }: IProps) {
       <Grid flex={4} item>
         <Paper
           sx={{
-            padding: "1rem",
+            padding: "0.5rem",
             color: resultColors[1],
           }}
         >

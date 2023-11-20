@@ -1,9 +1,15 @@
 import { Card, Grid, ButtonBase, CardContent } from "@mui/material";
 import { useMemo } from "react";
-import { CalendarEvent, EventType } from "../../Types";
+import { useMutation as useGQLMutation } from "@apollo/client";
+import { CalendarEvent, EventType, IGeneralPayload } from "../../Types";
 import MatchEventView from "./MatchEventView";
 import NoCalendarData from "../misc/NoCalendarData";
 import TrainingEventView from "./TrainingEventView";
+import { EDIT_EVENT } from "../../GraphQL/Mutations/calendarMutation";
+import { GET_CALENDAR } from "../../GraphQL/Queries/calendarQueries";
+import { useMessageManager } from "../../hooks/useMessageManager";
+import { editEventSchema } from "../../Validation";
+import Globals from "../../Globals";
 
 interface IProps {
   day: number;
@@ -21,8 +27,46 @@ function DayView({ day, event }: IProps) {
     return event?.notEditable;
   }, [event?.day]);
 
-  //TODO: repair editing of events
-  const editEvent = async () => {};
+  const notify = useMessageManager();
+
+  const [mutate] = useGQLMutation<{ editCalendarEvent: IGeneralPayload }>(
+    EDIT_EVENT,
+    {
+      refetchQueries: [GET_CALENDAR],
+    }
+  );
+
+  const editEvent = async () => {
+    try {
+      const eventData = await editEventSchema.validate(event);
+
+      const { data, errors } = await mutate({
+        variables: {
+          id: event?.id!,
+          input: {
+            description: eventData.description,
+            eventType: eventData.eventType,
+            ground: eventData.match?.ground,
+            rivalTeamId: eventData.match?.awayTeamId,
+            trainingType: Globals.functions.mapTrainingTypeToNumericalValue(
+              eventData.training?.trainingType
+            ),
+          },
+        },
+      });
+
+      if (errors) {
+        notify(errors.join(","));
+      } else if (data) {
+        if (data.editCalendarEvent.errorMessage) {
+          notify(data.editCalendarEvent.errorMessage);
+        }
+        notify("Succesfully edited an event", "success");
+      }
+    } catch (ex) {
+      notify("Invalid event data");
+    }
+  };
 
   return (
     <Grid item>

@@ -10,7 +10,7 @@ interface IProps {
 }
 
 function MonthView({ calendar, year, month }: IProps) {
-  const daysInMonth = new Date(year, month, 0).getDate();
+  const daysInMonth = new Date(year, month - 1, 0).getDate();
 
   return (
     <Grid

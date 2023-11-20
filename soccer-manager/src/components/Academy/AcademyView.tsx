@@ -1,4 +1,4 @@
-import { Button, Grid, List } from "@mui/material";
+import { Button, Grid, List, Typography } from "@mui/material";
 import { useState } from "react";
 import AcademyViewPlayer from "./AcademyViewPlayer";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
@@ -9,6 +9,7 @@ import {
 } from "../../GraphQL/Queries/academyQueries";
 import { useMutation as useGQLMutation } from "@apollo/client";
 import { useMessageManager } from "../../hooks/useMessageManager";
+import Enumerable from "linq";
 
 interface IProps {
   players: IPlayerSquadInfo[];
@@ -34,32 +35,34 @@ function AcademyView({ players }: IProps) {
 
   const updateAcademyPromoteList = (playerId: string) => {
     if (academyPromoteList.includes(playerId)) {
+      setAcademyPromoteList((prev) => [...prev, playerId]);
+    } else {
       setAcademyPromoteList((prev) => {
         let updated = [...prev];
 
         return updated.filter((p) => p !== playerId);
       });
-    } else {
-      setAcademyPromoteList((prev) => [...prev, playerId]);
     }
   };
 
   const updateAcademyDemoteList = (playerId: string) => {
     if (academyDemoteList.includes(playerId)) {
+      setAcademyDemoteList((prev) => [...prev, playerId]);
+    } else {
       setAcademyDemoteList((prev) => {
         let updated = [...prev];
 
         return updated.filter((p) => p !== playerId);
       });
-    } else {
-      setAcademyDemoteList((prev) => [...prev, playerId]);
     }
   };
 
   const handlePromoteClick = async () => {
     await mutate({
       variables: {
-        ids: academyPromoteList,
+        ids: Enumerable.from(players.map((p) => p.playerId))
+          .except(academyPromoteList)
+          .toArray(),
         isInAcademy: false,
       },
     });
@@ -76,7 +79,9 @@ function AcademyView({ players }: IProps) {
   const handleDemoteClick = async () => {
     await mutate({
       variables: {
-        ids: academyDemoteList,
+        ids: Enumerable.from(players.map((p) => p.playerId))
+          .except(academyDemoteList)
+          .toArray(),
         isInAcademy: true,
       },
     });
@@ -99,6 +104,7 @@ function AcademyView({ players }: IProps) {
             height: "70vh",
           }}
         >
+          <Typography variant="h6">Players in academy</Typography>
           {players
             .filter((p) => p.isInAcademy === true)
             .map((p) => (
@@ -125,6 +131,7 @@ function AcademyView({ players }: IProps) {
             height: "70vh",
           }}
         >
+          <Typography variant="h6">Players in the squad</Typography>
           {players
             .filter((p) => !p.isInAcademy && !p.squadPosition)
             .map((p) => (

@@ -26,7 +26,7 @@ function PlayerAdditionalInfo({
               horizontal: "right",
             }}
           >
-            {injuredTill?.toLocaleDateString()}
+            {new Date(injuredTill)?.toLocaleDateString()}
           </Badge>
         ) : (
           "false"

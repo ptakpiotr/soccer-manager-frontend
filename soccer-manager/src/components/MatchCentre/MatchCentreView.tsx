@@ -14,7 +14,7 @@ function MatchCentreView({
 }: Props) {
   return (
     <>
-      {homeScore && awayScore ? (
+      {(homeScore || homeScore === 0) && (awayScore || awayScore === 0) ? (
         <Grid container justifyContent={"center"}>
           <Grid item>
             <Scoreboard
