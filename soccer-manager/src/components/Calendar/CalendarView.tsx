@@ -4,7 +4,7 @@ import PrevMonthButton from "./PrevMonthButton";
 import NextMonthButton from "./NextMonthButton";
 import AddNewEvent from "./AddNewEvent";
 import QuickMonthPicker from "./QuickMonthPicker";
-import { CalendarEvent, ITableTeamInfo, Months } from "../../Types";
+import { CalendarEvent, Months } from "../../Types";
 import { useContext, useEffect, useState } from "react";
 import { useQuery as useGQLQuery } from "@apollo/client";
 import { GET_CALENDAR } from "../../GraphQL/Queries/calendarQueries";

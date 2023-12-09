@@ -92,6 +92,7 @@ export interface IPlayerInfo extends IPlayerAdditionalInfo {
   marketValue: number;
   isOnSale: boolean;
   contractTo: string;
+  squadPosition: number;
 }
 
 export interface IPlayerTableInfo {

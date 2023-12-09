@@ -20,11 +20,12 @@ function FinancePerformance({ teamProfits, teamSpendings }: IProps) {
       });
     }
 
-    return res;
+    return res.map((r) => r.diff);
   }, [teamProfits]);
   const labels: string[] = teamProfits.teamProfits.map(
     (t) => `Season: ${t.season}`
   );
+
   //responsive charts: https://www.chartjs.org/docs/latest/configuration/responsive.html
   return (
     <Chart
@@ -32,6 +33,11 @@ function FinancePerformance({ teamProfits, teamSpendings }: IProps) {
       options={{
         borderColor: "#228b22",
         responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false,
+          },
+        },
       }}
       style={{
         maxWidth: "fit-content",

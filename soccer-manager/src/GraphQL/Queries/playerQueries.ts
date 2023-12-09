@@ -39,6 +39,7 @@ export const GET_PLAYER = gql`
         marketValue
         playerName
         contractTo
+        squadPosition
         age
         teamHistory {
           id

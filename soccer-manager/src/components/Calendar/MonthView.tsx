@@ -11,6 +11,7 @@ interface IProps {
 
 function MonthView({ calendar, year, month }: IProps) {
   const daysInMonth = new Date(year, month - 1, 0).getDate();
+  const todaysDay = new Date().getDate();
 
   return (
     <Grid
@@ -22,7 +23,12 @@ function MonthView({ calendar, year, month }: IProps) {
       {Enumerable.range(1, daysInMonth)
         .toArray()
         .map((d) => (
-          <DayView key={d} day={d} event={calendar.find((c) => c.day === d)} />
+          <DayView
+            key={d}
+            day={d}
+            event={calendar.find((c) => c.day === d)}
+            isCurrent={d === todaysDay}
+          />
         ))}
     </Grid>
   );

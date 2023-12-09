@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserTokenContext } from "../../context";
 import { useMutation as useGQLMutation } from "@apollo/client";
 import { BUY_PLAYER } from "../../GraphQL/Mutations/playerMutations";
-import { GET_PLAYERS_FOR_TRANSFERS } from "../../GraphQL/Queries/playerQueries";
+import { GET_PLAYERS_FOR_TRANSFERS, GET_TACTICS_PLAYERS } from "../../GraphQL/Queries/playerQueries";
 import { IGeneralPayload } from "../../Types";
 import { useMessageManager } from "../../hooks/useMessageManager";
 interface IProps {
@@ -15,7 +15,7 @@ interface IProps {
 function ActionCell({ playerId }: IProps) {
   const { teamId } = useContext(UserTokenContext);
   const [mutate] = useGQLMutation<{ buyPlayer: IGeneralPayload }>(BUY_PLAYER, {
-    refetchQueries: [GET_PLAYERS_FOR_TRANSFERS],
+    refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_TACTICS_PLAYERS],
   });
 
   const [buyingSure, setBuyingSure] = useState<[boolean, boolean]>([

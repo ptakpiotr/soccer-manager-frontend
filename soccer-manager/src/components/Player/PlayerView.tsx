@@ -16,6 +16,7 @@ import {
 import {
   GET_PLAYER,
   GET_PLAYERS_FOR_TRANSFERS,
+  GET_TACTICS_PLAYERS,
 } from "../../GraphQL/Queries/playerQueries";
 import "./player_view.scss";
 import { useMessageManager } from "../../hooks/useMessageManager";
@@ -44,12 +45,17 @@ function PlayerView({
   wage,
   isOnSale,
   contractTo,
+  squadPosition,
 }: Props) {
   const { teamId } = useContext(UserTokenContext);
   const [mutateBuy] = useGQLMutation<{
     buyPlayer: IGeneralPayload;
   }>(BUY_PLAYER, {
-    refetchQueries: [GET_PLAYERS_FOR_TRANSFERS, GET_PLAYER],
+    refetchQueries: [
+      GET_PLAYERS_FOR_TRANSFERS,
+      GET_PLAYER,
+      GET_TACTICS_PLAYERS,
+    ],
   });
   const [mutateManage] = useGQLMutation<{
     managePlayerTransferStatus: IGeneralPayload;
@@ -143,7 +149,7 @@ function PlayerView({
           />
         </Grid>
         <Grid item>
-          {teamId === currentTeamData.teamId ? (
+          {teamId === currentTeamData.teamId && !squadPosition ? (
             !isOnSale ? (
               <Button
                 variant="contained"

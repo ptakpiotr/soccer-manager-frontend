@@ -9,32 +9,26 @@ import {
 } from "../../GraphQL/Queries/academyQueries";
 import { useMutation as useGQLMutation } from "@apollo/client";
 import { useMessageManager } from "../../hooks/useMessageManager";
-import Enumerable from "linq";
+import { GET_TACTICS_PLAYERS } from "../../GraphQL/Queries/playerQueries";
 
 interface IProps {
   players: IPlayerSquadInfo[];
 }
 
 function AcademyView({ players }: IProps) {
-  const [academyPromoteList, setAcademyPromoteList] = useState<string[]>(
-    players.filter((p) => p.isInAcademy === true).map((p) => p.playerId)
-  );
-  const [academyDemoteList, setAcademyDemoteList] = useState<string[]>(
-    players
-      .filter((p) => !p.isInAcademy && !p.squadPosition)
-      .map((p) => p.playerId)
-  );
+  const [academyPromoteList, setAcademyPromoteList] = useState<string[]>([]);
+  const [academyDemoteList, setAcademyDemoteList] = useState<string[]>([]);
 
   const notify = useMessageManager();
 
   const [mutate, { data, error }] = useGQLMutation<{
     managePlayerAcademy: IGeneralPayload;
   }>(MANAGE_ACADEMY_PLAYERS, {
-    refetchQueries: [GET_ACADEMY_PLAYERS],
+    refetchQueries: [GET_ACADEMY_PLAYERS, GET_TACTICS_PLAYERS],
   });
 
   const updateAcademyPromoteList = (playerId: string) => {
-    if (academyPromoteList.includes(playerId)) {
+    if (!academyPromoteList.includes(playerId)) {
       setAcademyPromoteList((prev) => [...prev, playerId]);
     } else {
       setAcademyPromoteList((prev) => {
@@ -46,7 +40,7 @@ function AcademyView({ players }: IProps) {
   };
 
   const updateAcademyDemoteList = (playerId: string) => {
-    if (academyDemoteList.includes(playerId)) {
+    if (!academyDemoteList.includes(playerId)) {
       setAcademyDemoteList((prev) => [...prev, playerId]);
     } else {
       setAcademyDemoteList((prev) => {
@@ -60,10 +54,8 @@ function AcademyView({ players }: IProps) {
   const handlePromoteClick = async () => {
     await mutate({
       variables: {
-        ids: Enumerable.from(players.map((p) => p.playerId))
-          .except(academyPromoteList)
-          .toArray(),
-        isInAcademy: false,
+        ids: academyPromoteList,
+        isInAcademy: true,
       },
     });
 
@@ -79,10 +71,8 @@ function AcademyView({ players }: IProps) {
   const handleDemoteClick = async () => {
     await mutate({
       variables: {
-        ids: Enumerable.from(players.map((p) => p.playerId))
-          .except(academyDemoteList)
-          .toArray(),
-        isInAcademy: true,
+        ids: academyDemoteList,
+        isInAcademy: false,
       },
     });
 

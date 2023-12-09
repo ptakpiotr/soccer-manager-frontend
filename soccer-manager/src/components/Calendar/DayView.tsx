@@ -14,9 +14,10 @@ import Globals from "../../Globals";
 interface IProps {
   day: number;
   event?: CalendarEvent;
+  isCurrent: boolean;
 }
 
-function DayView({ day, event }: IProps) {
+function DayView({ day, event, isCurrent }: IProps) {
   const isOutdated = useMemo(() => {
     const today = new Date();
 
@@ -76,6 +77,12 @@ function DayView({ day, event }: IProps) {
             width: "200px",
             height: "200px",
             borderColor: isOutdated ? "darkslategray" : "",
+            ...(isCurrent
+              ? {
+                  borderRightColor: "tomato",
+                  borderRightWidth: "0.25rem",
+                }
+              : {}),
           }}
           variant="outlined"
         >
