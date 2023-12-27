@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ISoccerLogo, ISoccerShirt, SoccerShirtType } from "../Types";
+import { ISoccerLogo, ISoccerShirt } from "../Types";
 import RegisterView from "../components/Account/RegisterView";
 import SoccerKitDesinger from "../components/misc/SoccerKitDesinger";
 import SoccerLogoDesigner from "../components/misc/SoccerLogoDesigner";

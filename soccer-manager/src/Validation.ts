@@ -4,7 +4,6 @@ import {
   IMatchCalendarInfo,
   IShortTeamInfo,
   ITrainingCalendarInfo,
-  PlayerRating,
 } from "./Types";
 
 export const playerRatingSchema = object({

@@ -1,5 +1,5 @@
 import { BiSolidTrafficCone } from "react-icons/bi";
-import { CalendarEvent, TrainingType } from "../../Types";
+import { CalendarEvent } from "../../Types";
 import Globals from "../../Globals";
 import { Grid } from "@mui/material";
 import { useState } from "react";

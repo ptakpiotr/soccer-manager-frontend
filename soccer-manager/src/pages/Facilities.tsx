@@ -5,7 +5,6 @@ import { useQuery as useGQLQuery } from "@apollo/client";
 import { UserTokenContext } from "../context";
 import { IFacilitySettings } from "../Types";
 import Loading from "../components/misc/Loading";
-import NoData from "../components/misc/NoData";
 
 function Facilities() {
   const { userId } = useContext(UserTokenContext);

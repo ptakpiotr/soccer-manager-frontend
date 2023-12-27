@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IPlayerSquadInfo, ISquadFormationShape, PositionType } from "../Types";
 import { Grid } from "@mui/material";
 import FormationView from "./FormationView";
-import { TacticsContext } from "../context";
 
 interface IProps {
   squad: IPlayerSquadInfo[];

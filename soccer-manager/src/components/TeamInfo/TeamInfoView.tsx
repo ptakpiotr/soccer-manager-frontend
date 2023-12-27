@@ -1,10 +1,5 @@
 import SoccerLogoDisplay from "../misc/SoccerLogoDisplay";
-import {
-  ISoccerShirt,
-  ITeamInfoData,
-  ITeamShirts,
-  SoccerShirtType,
-} from "../../Types";
+import { ISoccerShirt, ITeamInfoData } from "../../Types";
 import { Grid, Typography } from "@mui/material";
 import SoccerKitDisplay from "../misc/SoccerKitDisplay";
 import FlexiblePaper from "../misc/FlexiblePaper";

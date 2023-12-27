@@ -12,6 +12,7 @@ interface IProps {
 function MonthView({ calendar, year, month }: IProps) {
   const daysInMonth = new Date(year, month - 1, 0).getDate();
   const todaysDay = new Date().getDate();
+  const todaysMonth = parseInt(new Date().toISOString().split("-")[1]) + 1;
 
   return (
     <Grid
@@ -27,7 +28,7 @@ function MonthView({ calendar, year, month }: IProps) {
             key={d}
             day={d}
             event={calendar.find((c) => c.day === d)}
-            isCurrent={d === todaysDay}
+            isCurrent={d === todaysDay && month === todaysMonth}
           />
         ))}
     </Grid>

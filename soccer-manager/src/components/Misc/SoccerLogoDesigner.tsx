@@ -47,8 +47,6 @@ function SoccerLogoDesigner({ logoSetup, setLogoSetup }: IProps) {
     }));
   };
 
-  const handleAccept = () => {};
-
   const handleRestore = () => {
     setLogoSetup({ ...defaultLogoSetup });
   };
@@ -62,7 +60,6 @@ function SoccerLogoDesigner({ logoSetup, setLogoSetup }: IProps) {
         handleMainColorChange={handleMainColorChange}
         handleSecondaryColorChange={handleSecondaryColorChange}
         handleShirtTypeChange={handleShirtTypeChange}
-        handleAccept={handleAccept}
         handleRestore={handleRestore}
         handleNameChange={handleNameChange}
         handleChosenIconIdChange={handleChosenIconIdChange}

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import "./soccer_kit_designer.scss";
 import { ISoccerShirt, SoccerShirtType } from "../../Types";
 import KitDesignerPanel from "./KitDesignerPanel";
@@ -34,8 +34,6 @@ function SoccerKitDesinger({ kitSetup, setKitSetup }: IProps) {
     }));
   };
 
-  const handleAccept = () => {};
-
   const handleRestore = () => {
     setKitSetup({ ...defaultKitSetup });
   };
@@ -50,7 +48,6 @@ function SoccerKitDesinger({ kitSetup, setKitSetup }: IProps) {
             handleMainColorChange={handleMainColorChange}
             handleSecondaryColorChange={handleSecondaryColorChange}
             handleShirtTypeChange={handleShirtTypeChange}
-            handleAccept={handleAccept}
             handleRestore={handleRestore}
           />
         }

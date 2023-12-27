@@ -27,7 +27,7 @@ const client = new QueryClient({
 export const gqlClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: "https://localhost:7047/graphql/",
+    uri: import.meta.env.VITE_GQL_URL,
   }),
 });
 

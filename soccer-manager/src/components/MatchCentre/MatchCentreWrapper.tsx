@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery as useGQLQuery } from "@apollo/client";
 import MatchCentreView from "./MatchCentreView";
 import { IMatchCalendarInfo } from "../../Types";
