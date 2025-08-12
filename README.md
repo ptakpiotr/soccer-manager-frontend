@@ -1,6 +1,6 @@
 # Projekt inżynierski - manager piłkarski
 
-This project is the part of the solution for engineering thesis. The backend side is located here: [Soccer manager backend](https://github.com/piopta/soccer-manager-backend)
+This project is the part of the solution for engineering thesis. The backend side is located here: [Soccer manager backend](https://github.com/ptakpiotr/soccer-manager-backend)
 
 ## Contents
 
